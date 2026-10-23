@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aboo Perfumes — ИИ-модуль «Парфюмерный Сомелье»</title>
+  <meta name="description" content="Интеллектуальный парфюмерный сомелье на FastAPI и LLM: персональный ольфакторный анализ, короткое интервью и ранжированный ТОП-10 реальных ароматов.">
+  
+  <!-- Google Fonts: Playfair Display & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,700;1,400&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+  <div class="ambient-glow"></div>
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="container header-content">
+      <a href="/" class="logo-wrapper" id="brand-logo-link">
+        <div class="logo-icon">✦</div>
+        <div class="brand-text">
+          <h1>Aboo Perfumes</h1>
+          <p>Haute Parfumerie & Sommelier AI</p>
+        </div>
+      </a>
+
+      <div class="header-badges">
+        <div class="status-badge" id="system-status-badge">
+          <span class="status-dot"></span>
+          <span>90+ ароматов в каталоге</span>
+        </div>
+        <a href="/docs" target="_blank" class="api-link-btn" id="api-docs-btn">
+          <span>Swagger API</span> ↗
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="container">
+    <!-- Hero Banner -->
+    <section class="hero-section">
+      <div class="hero-subtitle-pill">Ольфакторный интеллект нового поколения</div>
+      <h2 class="hero-title">Твой персональный <span>Парфюмерный Сомелье</span></h2>
+      <p class="hero-description">
+        Назови любимый аромат, ответь на 3 точечных вопроса сомелье и получи персональный ТОП-10 реальных ароматов со строгой гарантией подлинности и экспертным обоснованием.
+      </p>
+    </section>
+
+    <!-- Stepper Navigation -->
+    <nav class="stepper-nav" aria-label="Этапы подбора">
+      <div class="step-item active" id="step-nav-1">
+        <span class="step-number">1</span>
+        <span>Любимый аромат</span>
+      </div>
+      <div class="step-divider"></div>
+      <div class="step-item" id="step-nav-2">
+        <span class="step-number">2</span>
+        <span>Интервью сомелье</span>
+      </div>
+      <div class="step-divider"></div>
+      <div class="step-item" id="step-nav-3">
+        <span class="step-number">3</span>
+        <span>Твой ТОП-10</span>
+      </div>
+    </nav>
+
+    <!-- STEP 1: Perfume Input & Passport -->
+    <section class="glass-panel fade-in" id="step-1-container">
+      <h3 style="font-family: var(--font-serif); font-size: 20px; margin-bottom: 8px;">Какой парфюм покорил твое сердце?</h3>
+      <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 20px;">
+        Введи название твоего прошлого фаворита (например, <em>Tom Ford Lost Cherry</em>, <em>Baccarat Rouge 540</em> или <em>Aventus</em>)
+      </p>
+
+      <div class="search-input-wrapper">
+        <span class="search-icon">🔍</span>
+        <input 
+          type="text" 
+          id="perfume-search-input" 
+          class="search-input" 
+          placeholder="Название или бренд парфюма..." 
+          autocomplete="off"
+        />
+        <button type="button" id="start-sommelier-btn" class="start-btn">
+          Подобрать ✦
+        </button>
+        <div id="autocomplete-dropdown" class="autocomplete-dropdown"></div>
+      </div>
+
+      <!-- Quick Picks -->
+      <div class="quick-picks-label">Популярные ароматы для быстрого теста:</div>
+      <div class="quick-picks-list">
+        <button type="button" class="quick-pick-chip" data-perfume="Tom Ford Lost Cherry">🍒 Tom Ford Lost Cherry</button>
+        <button type="button" class="quick-pick-chip" data-perfume="Baccarat Rouge 540">💎 MFK Baccarat Rouge 540</button>
+        <button type="button" class="quick-pick-chip" data-perfume="Marc-Antoine Barrois Ganymede">🪐 Marc-Antoine Barrois Ganymede</button>
+        <button type="button" class="quick-pick-chip" data-perfume="Kilian Angels' Share">🥃 Kilian Angels' Share</button>
+        <button type="button" class="quick-pick-chip" data-perfume="Creed Aventus">👑 Creed Aventus</button>
+        <button type="button" class="quick-pick-chip" data-perfume="Essential Parfums Bois Impérial">🌲 Bois Impérial</button>
+        <button type="button" class="quick-pick-chip" data-perfume="Byredo Bal d'Afrique">☀️ Byredo Bal d'Afrique</button>
+        <button type="button" class="quick-pick-chip" data-perfume="Ex Nihilo Fleur Narcotique">🌸 Fleur Narcotique</button>
+      </div>
+
+      <!-- Perfume Passport (Olfactory Card) -->
+      <div id="perfume-passport" class="perfume-passport">
+        <div class="passport-header">
+          <div>
+            <div id="passport-brand" class="passport-brand">Tom Ford</div>
+            <div id="passport-title" class="passport-title">Lost Cherry</div>
+          </div>
+          <div id="passport-family" class="passport-badge">Восточные гурманские</div>
+        </div>
+        <div id="passport-character" class="passport-character">
+          «Чувственный, гурманский, пьянящий вишнево-миндальный эликсир со смолистым благородным шлейфом»
+        </div>
+        <div class="pyramid-grid">
+          <div class="pyramid-col">
+            <div class="pyramid-label">Верхние ноты</div>
+            <div id="passport-top" class="notes-chips"></div>
+          </div>
+          <div class="pyramid-col">
+            <div class="pyramid-label">Ноты сердца</div>
+            <div id="passport-heart" class="notes-chips"></div>
+          </div>
+          <div class="pyramid-col">
+            <div class="pyramid-label">Базовые ноты</div>
+            <div id="passport-base" class="notes-chips"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STEP 2: Sommelier Interview (3 Questions) -->
+    <section class="glass-panel" id="step-2-container" style="display: none;">
+      <div class="sommelier-intro">
+        <div class="sommelier-avatar">🎩</div>
+        <div class="sommelier-speech">
+          <h3>Ольфакторный вердикт сомелье</h3>
+          <p id="sommelier-intro-text">Анализируем ваш аромат...</p>
+        </div>
+      </div>
+
+      <div class="questions-container" id="questions-list">
+        <!-- 3 questions will be dynamically rendered here -->
+      </div>
+
+      <button type="button" id="submit-answers-btn" class="submit-answers-btn" disabled>
+        Сформировать мой ТОП-10 ароматов ✦
+      </button>
+    </section>
+
+    <!-- STEP 3: Top-10 Recommendations -->
+    <section class="glass-panel" id="step-3-container" style="display: none;">
+      <div class="results-header">
+        <h3 style="font-family: var(--font-serif); font-size: 26px; margin-bottom: 8px;">
+          Твой персональный <span>ТОП-10</span>
+        </h3>
+        <div class="results-note-quote" id="sommelier-note-quote">
+          Опираясь на твой вкус, я составил выверенную подборку от идеального попадания до смелых открытий.
+        </div>
+      </div>
+
+      <div class="actions-toolbar">
+        <div class="filter-tabs">
+          <button type="button" class="filter-tab active" data-filter="all">Все (10)</button>
+          <button type="button" class="filter-tab" data-filter="hits">Точные попадания (1-3)</button>
+          <button type="button" class="filter-tab" data-filter="variations">Вариации (4-7)</button>
+          <button type="button" class="filter-tab" data-filter="bold">Смелые ниши (8-10)</button>
+        </div>
+
+        <div style="display: flex; gap: 10px;">
+          <button type="button" id="copy-btn" class="btn-secondary">
+            📋 Скопировать список
+          </button>
+          <button type="button" id="restart-btn" class="btn-secondary">
+            🔄 Новый подбор
+          </button>
+        </div>
+      </div>
+
+      <div class="recommendations-grid" id="recommendations-grid">
+        <!-- 10 recommendation cards rendered here -->
+      </div>
+    </section>
+  </main>
+
+  <!-- Loading Spinner Overlay -->
+  <div class="loading-overlay" id="loading-overlay">
+    <div class="spinner"></div>
+    <div class="loading-text">Парфюмерный Сомелье думает...</div>
+    <div class="loading-subtext" id="loading-subtext">Анализируем ольфакторную пирамиду</div>
+  </div>
+
+  <script src="/static/js/app.js"></script>
+</body>
+</html>
