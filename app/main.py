@@ -46,11 +46,19 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Static files path
+# Static files path with no-cache support for instantaneous updates
 BASE_DIR = Path(__file__).resolve().parent
 STATIC_DIR = BASE_DIR / "static"
+
+class NoCacheStaticFiles(StaticFiles):
+    async def get_response(self, path: str, scope):
+        response = await super().get_response(path, scope)
+        response.headers["Cache-Control"] = "no-cache, must-revalidate"
+        response.headers["Pragma"] = "no-cache"
+        return response
+
 if STATIC_DIR.exists():
-    app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
+    app.mount("/static", NoCacheStaticFiles(directory=str(STATIC_DIR)), name="static")
 
 
 @app.api_route("/", methods=["GET", "HEAD"], include_in_schema=False)
