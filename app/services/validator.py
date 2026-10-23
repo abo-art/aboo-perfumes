@@ -77,10 +77,14 @@ class RecommendationValidator:
                     )
 
                 real_notes = perfume.notes or perfume.all_notes[:4]
-                image_url = perfume.image_url or self.catalog.get_by_id(perfume.id).image_url if self.catalog.get_by_id(perfume.id) else ""
-                if not image_url:
-                    from app.services.image_service import get_perfume_image_url
-                    image_url = get_perfume_image_url(perfume.id, perfume.brand, perfume.name)
+                image_url = perfume.image_url or (self.catalog.get_by_id(perfume.id).image_url if self.catalog.get_by_id(perfume.id) else "")
+                from app.services.image_service import get_perfume_image_url
+                if not image_url or image_url.startswith("/api/"):
+                    resolved_img = get_perfume_image_url(perfume.id, perfume.brand, perfume.name)
+                    if resolved_img.startswith("http"):
+                        image_url = resolved_img
+                    elif not image_url:
+                        image_url = resolved_img
 
                 verified_items.append(RecommendationItem(
                     rank=len(verified_items) + 1,
@@ -141,9 +145,13 @@ class RecommendationValidator:
                 )
 
                 cand_img = cand.image_url
-                if not cand_img:
-                    from app.services.image_service import get_perfume_image_url
-                    cand_img = get_perfume_image_url(cand.id, cand.brand, cand.name)
+                from app.services.image_service import get_perfume_image_url
+                if not cand_img or cand_img.startswith("/api/"):
+                    resolved_img = get_perfume_image_url(cand.id, cand.brand, cand.name)
+                    if resolved_img.startswith("http"):
+                        cand_img = resolved_img
+                    elif not cand_img:
+                        cand_img = resolved_img
 
                 verified_items.append(RecommendationItem(
                     rank=rank,
@@ -229,9 +237,13 @@ class RecommendationValidator:
 
                 real_notes = perfume.notes or perfume.all_notes[:4]
                 image_url = perfume.image_url or (self.catalog.get_by_id(perfume.id).image_url if self.catalog.get_by_id(perfume.id) else "")
-                if not image_url:
-                    from app.services.image_service import get_perfume_image_url
-                    image_url = get_perfume_image_url(perfume.id, perfume.brand, perfume.name)
+                from app.services.image_service import get_perfume_image_url
+                if not image_url or image_url.startswith("/api/"):
+                    resolved_img = get_perfume_image_url(perfume.id, perfume.brand, perfume.name)
+                    if resolved_img.startswith("http"):
+                        image_url = resolved_img
+                    elif not image_url:
+                        image_url = resolved_img
 
                 verified_items.append(RecommendationItem(
                     rank=len(verified_items) + 1,
@@ -314,9 +326,13 @@ class RecommendationValidator:
                 )
 
                 cand_img = cand.image_url
-                if not cand_img:
-                    from app.services.image_service import get_perfume_image_url
-                    cand_img = get_perfume_image_url(cand.id, cand.brand, cand.name)
+                from app.services.image_service import get_perfume_image_url
+                if not cand_img or cand_img.startswith("/api/"):
+                    resolved_img = get_perfume_image_url(cand.id, cand.brand, cand.name)
+                    if resolved_img.startswith("http"):
+                        cand_img = resolved_img
+                    elif not cand_img:
+                        cand_img = resolved_img
 
                 verified_items.append(RecommendationItem(
                     rank=rank,

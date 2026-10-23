@@ -37,9 +37,31 @@ PERFUME_BOTTLE_IMAGES: Dict[str, str] = {
     # Maison Margiela Replica
     "replica-jazz-club": "https://images.unsplash.com/photo-1563178406-4cdc2923acbc?auto=format&fit=crop&w=700&q=80",
 
-    # BDK Parfums
+# BDK Parfums
     "bdk-gris-charnel": "https://images.unsplash.com/photo-1615397349754-cfa2066a298e?auto=format&fit=crop&w=700&q=80",
 }
+
+# Dynamically load all 100% verified authentic photos from perfumes_catalog.json
+import json
+from pathlib import Path
+
+_CATALOG_FILE = Path(__file__).resolve().parent.parent / "data" / "perfumes_catalog.json"
+if _CATALOG_FILE.exists():
+    try:
+        with open(_CATALOG_FILE, "r", encoding="utf-8") as _f:
+            _catalog_items = json.load(_f)
+            for _p in _catalog_items:
+                _pid = _p.get("id")
+                _img = _p.get("image_url")
+                if _pid and _img and _img.startswith("http"):
+                    PERFUME_BOTTLE_IMAGES[_pid] = _img
+                    # Also register brand-name slug
+                    _b = _p.get("brand", "").lower().replace(" ", "-")
+                    _n = _p.get("name", "").lower().replace(" ", "-")
+                    if _b and _n:
+                        PERFUME_BOTTLE_IMAGES[f"{_b}-{_n}"] = _img
+    except Exception:
+        pass
 
 # Deep Space theme palettes mapped by perfume olfactory family (Pure Black #000000 based)
 FAMILY_PALETTES = {
@@ -267,6 +289,11 @@ def get_perfume_image_url(
     """
     if perfume_id in PERFUME_BOTTLE_IMAGES:
         return PERFUME_BOTTLE_IMAGES[perfume_id]
+
+    if brand and name:
+        slug = f"{brand}-{name}".lower().replace(" ", "-").replace("'", "").replace("’", "")
+        if slug in PERFUME_BOTTLE_IMAGES:
+            return PERFUME_BOTTLE_IMAGES[slug]
 
     # Dedicated dynamic flacon badge endpoint with unique slug
     return f"/api/perfumes/{perfume_id}/badge.svg"

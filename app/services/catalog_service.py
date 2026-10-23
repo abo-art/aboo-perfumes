@@ -45,8 +45,10 @@ class CatalogService:
         self.families.clear()
 
         for item in db_perfumes:
-            if not item.get("image_url"):
-                item["image_url"] = get_perfume_image_url(item["id"], item.get("brand", ""), item.get("name", ""))
+            if not item.get("image_url") or item.get("image_url", "").startswith("/api/"):
+                img_resolved = get_perfume_image_url(item["id"], item.get("brand", ""), item.get("name", ""))
+                if img_resolved.startswith("http") or not item.get("image_url"):
+                    item["image_url"] = img_resolved
             fam = item.get("family", "Нишевые аккорды")
             if not item.get("all_notes"):
                 item["all_notes"] = item.get("notes", []) or item.get("top_notes", []) or [fam]

@@ -32,8 +32,10 @@ def seed_database():
         name = item["name"]
 
         # Ensure valid, unique image_url for each perfume
-        image_url = get_perfume_image_url(p_id, brand, name, item.get("family", ""))
-        item["image_url"] = image_url
+        existing_img = item.get("image_url", "")
+        if not existing_img or existing_img.startswith("/api/"):
+            image_url = get_perfume_image_url(p_id, brand, name, item.get("family", ""))
+            item["image_url"] = image_url
 
         # Ensure description/mood
         description = item.get("description") or item.get("character") or f"Изысканный аромат от {brand}."
