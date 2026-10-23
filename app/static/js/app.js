@@ -40,13 +40,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Show/Hide Loading Overlay
   function showLoading(text, subtext = "") {
-    document.querySelector(".loading-text").textContent = text;
-    loadingSubtext.textContent = subtext;
-    loadingOverlay.style.display = "flex";
+    const textEl = document.querySelector(".loading-text");
+    if (textEl) textEl.textContent = text;
+    if (loadingSubtext) loadingSubtext.textContent = subtext;
+    if (loadingOverlay) loadingOverlay.style.display = "flex";
   }
 
   function hideLoading() {
-    loadingOverlay.style.display = "none";
+    if (loadingOverlay) loadingOverlay.style.display = "none";
   }
 
   // Update Stepper Navigation
@@ -177,20 +178,37 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Render Perfume Passport Card
   function renderPassport(p) {
-    document.getElementById("passport-brand").textContent = p.brand;
-    document.getElementById("passport-name").textContent = p.name;
-    document.getElementById("passport-family").textContent = p.family + (p.subfamily ? ` • ${p.subfamily}` : "");
-    document.getElementById("passport-character").textContent = `«${p.character}»`;
+    if (!p) return;
+
+    const brandEl = document.getElementById("passport-brand");
+    if (brandEl) brandEl.textContent = p.brand || "";
+
+    const nameEl = document.getElementById("passport-name") || document.getElementById("passport-title");
+    if (nameEl) nameEl.textContent = p.name || "";
+
+    const familyEl = document.getElementById("passport-family");
+    if (familyEl) familyEl.textContent = (p.family || "") + (p.subfamily ? ` • ${p.subfamily}` : "");
+
+    const charEl = document.getElementById("passport-character");
+    if (charEl) charEl.textContent = p.character ? `«${p.character}»` : "";
 
     const topEl = document.getElementById("passport-top");
     const heartEl = document.getElementById("passport-heart");
     const baseEl = document.getElementById("passport-base");
 
-    topEl.innerHTML = p.top_notes.map(n => `<span class="note-chip">${n}</span>`).join("");
-    heartEl.innerHTML = p.heart_notes.map(n => `<span class="note-chip">${n}</span>`).join("");
-    baseEl.innerHTML = p.base_notes.map(n => `<span class="note-chip">${n}</span>`).join("");
+    if (topEl && p.top_notes) {
+      topEl.innerHTML = p.top_notes.map(n => `<span class="note-chip">${n}</span>`).join("");
+    }
+    if (heartEl && p.heart_notes) {
+      heartEl.innerHTML = p.heart_notes.map(n => `<span class="note-chip">${n}</span>`).join("");
+    }
+    if (baseEl && p.base_notes) {
+      baseEl.innerHTML = p.base_notes.map(n => `<span class="note-chip">${n}</span>`).join("");
+    }
 
-    passportCard.style.display = "block";
+    if (passportCard) {
+      passportCard.style.display = "block";
+    }
   }
 
   // Render 3 Interview Questions
@@ -293,7 +311,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const data = await resp.json();
       currentRecommendations = data.recommendations;
-      sommelierNoteEl.textContent = data.sommelier_note || "Вот твой персональный ТОП-10:";
+      if (sommelierNoteEl) {
+        sommelierNoteEl.textContent = data.sommelier_note || "Вот твой персональный ТОП-10:";
+      }
 
       renderRecommendations(currentRecommendations);
       setStep(3);
