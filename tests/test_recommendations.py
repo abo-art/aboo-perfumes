@@ -39,6 +39,7 @@ async def test_full_sommelier_flow_top10():
         assert item.name != ""
         assert item.family != ""
         assert len(item.notes) >= 2
+        assert item.image_url != "" and item.image_url.startswith("http")
         assert len(item.reason) >= 15
         assert item.id in all_catalog_ids, f"Hallucinated item detected: {item.brand} {item.name}"
 

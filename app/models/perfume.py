@@ -18,6 +18,9 @@ class Perfume(BaseModel):
     heart_notes: List[str] = Field(default_factory=list)
     base_notes: List[str] = Field(default_factory=list)
     all_notes: List[str] = Field(default_factory=list)
+    notes: List[str] = Field(default_factory=list, description="Массив ключевых нот: верх, сердце, база")
+    image_url: str = Field(default="", description="Ссылка на качественное изображение флакона")
+    description: str = Field(default="", description="Краткое описание характера / mood")
     character: str = ""
     accords: List[str] = Field(default_factory=list)
     season: List[str] = Field(default_factory=list)

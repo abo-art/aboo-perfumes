@@ -50,13 +50,15 @@ def test_sommelier_full_flow_via_api():
     assert rec_data["status"] == "success"
     assert len(rec_data["recommendations"]) == 10
 
-    # Strict JSON structure test according to ТЗ (requirement #5)
+    # Strict JSON structure test according to ТЗ (requirement #5 + image_url)
     first_item = rec_data["recommendations"][0]
     assert "rank" in first_item
     assert "brand" in first_item
     assert "name" in first_item
     assert "family" in first_item
     assert "notes" in first_item
+    assert "image_url" in first_item
+    assert first_item["image_url"].startswith("http")
     assert "reason" in first_item
     assert isinstance(first_item["notes"], list)
     assert first_item["rank"] == 1

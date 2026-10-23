@@ -61,17 +61,22 @@ class RecommendationValidator:
                 if not reason or len(reason) < 10:
                     reason = f"Превосходно перекликается с нотами {perfume.name}: {', '.join(perfume.all_notes[:3])}."
 
-                # Ensure notes are real notes from the verified database
-                real_notes = perfume.all_notes[:4]
+                real_notes = perfume.notes or perfume.all_notes[:4]
+                image_url = perfume.image_url or self.catalog.get_by_id(perfume.id).image_url if self.catalog.get_by_id(perfume.id) else ""
+                if not image_url:
+                    from app.services.image_service import get_perfume_image_url
+                    image_url = get_perfume_image_url(perfume.id, perfume.brand, perfume.name)
 
                 verified_items.append(RecommendationItem(
                     rank=len(verified_items) + 1,
                     brand=perfume.brand,
                     name=perfume.name,
                     family=perfume.family,
-                    notes=real_notes,
+                    notes=real_notes[:4],
+                    image_url=image_url,
                     reason=reason,
                     id=perfume.id,
+                    description=perfume.description or perfume.character,
                     character=perfume.character,
                     accords=perfume.accords[:4],
                     sillage=perfume.sillage,
@@ -112,14 +117,21 @@ class RecommendationValidator:
                 else:
                     reason = f"Смелая нишевая альтернатива от {cand.brand}: необычное раскрытие ноты {cand.all_notes[0]} для расширения вкуса."
 
+                cand_img = cand.image_url
+                if not cand_img:
+                    from app.services.image_service import get_perfume_image_url
+                    cand_img = get_perfume_image_url(cand.id, cand.brand, cand.name)
+
                 verified_items.append(RecommendationItem(
                     rank=rank,
                     brand=cand.brand,
                     name=cand.name,
                     family=cand.family,
-                    notes=cand.all_notes[:4],
+                    notes=(cand.notes or cand.all_notes)[:4],
+                    image_url=cand_img,
                     reason=reason,
                     id=cand.id,
+                    description=cand.description or cand.character,
                     character=cand.character,
                     accords=cand.accords[:4],
                     sillage=cand.sillage,

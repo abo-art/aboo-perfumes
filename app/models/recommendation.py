@@ -13,11 +13,13 @@ class RecommendationItem(BaseModel):
     brand: str = Field(..., description="Perfume brand")
     name: str = Field(..., description="Perfume name")
     family: str = Field(..., description="Olfactory family")
-    notes: List[str] = Field(..., description="Key notes")
+    notes: List[str] = Field(..., description="Key notes: top, heart, base")
+    image_url: str = Field(..., description="Ссылка на качественное изображение флакона")
     reason: str = Field(..., description="Sommelier justification: why it fits the user")
     
     # Supplementary verified metadata (enriched from database)
     id: Optional[str] = None
+    description: Optional[str] = None
     character: Optional[str] = None
     accords: Optional[List[str]] = None
     sillage: Optional[str] = None

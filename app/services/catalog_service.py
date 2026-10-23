@@ -23,19 +23,35 @@ class CatalogService:
         self._load_catalog()
 
     def _load_catalog(self) -> None:
-        """Loads catalog JSON and builds search indices."""
-        if not self.json_path.exists():
-            raise FileNotFoundError(f"Perfume catalog not found at {self.json_path}")
+        """Loads catalog from SQLite database (falling back to JSON / seed if needed)."""
+        from app.database import get_all_perfumes, init_db, count_perfumes
+        from app.services.image_service import get_perfume_image_url
 
-        with open(self.json_path, "r", encoding="utf-8") as f:
-            data = json.load(f)
+        init_db()
+        if count_perfumes() == 0 and self.json_path.exists():
+            from app.data.seed_db import seed_database
+            seed_database()
+
+        db_perfumes = get_all_perfumes()
+
+        # Fallback to JSON if database was somehow empty
+        if not db_perfumes and self.json_path.exists():
+            with open(self.json_path, "r", encoding="utf-8") as f:
+                db_perfumes = json.load(f)
 
         self.perfumes.clear()
         self.search_corpus.clear()
         self.brands.clear()
         self.families.clear()
 
-        for item in data:
+        for item in db_perfumes:
+            if not item.get("image_url"):
+                item["image_url"] = get_perfume_image_url(item["id"], item.get("brand", ""), item.get("name", ""))
+            if not item.get("notes"):
+                item["notes"] = item.get("all_notes", [])[:6] or item.get("top_notes", [])
+            if not item.get("description"):
+                item["description"] = item.get("character", "")
+
             perfume = Perfume(**item)
             self.perfumes[perfume.id] = perfume
             self.brands.add(perfume.brand)

@@ -205,6 +205,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (baseEl && p.base_notes) {
       baseEl.innerHTML = p.base_notes.map(n => `<span class="note-chip">${n}</span>`).join("");
     }
+    const bottleImg = document.getElementById("passport-bottle-img");
+    if (bottleImg) {
+      bottleImg.src = p.image_url || "/static/images/bottle-placeholder.svg";
+      bottleImg.alt = `${p.brand} ${p.name}`;
+    }
 
     if (passportCard) {
       passportCard.style.display = "block";
@@ -346,6 +351,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
       card.innerHTML = `
         <div class="card-rank ${rankClass}">#${item.rank}</div>
+        <div class="card-bottle-frame" id="bottle-frame-${item.rank}">
+          <img 
+            src="${item.image_url || '/static/images/bottle-placeholder.svg'}" 
+            alt="${escapeHtml(item.brand)} ${escapeHtml(item.name)}" 
+            class="card-bottle-img" 
+            onerror="handleBottleError(this, '${escapeHtml(item.brand)}', '${escapeHtml(item.name)}')" 
+            loading="lazy" 
+          />
+        </div>
         <div class="card-body">
           <div class="card-top-row">
             <div>
@@ -370,6 +384,35 @@ document.addEventListener("DOMContentLoaded", () => {
       resultsGrid.appendChild(card);
     });
   }
+
+  // Escape HTML helper
+  function escapeHtml(str) {
+    if (!str) return "";
+    return String(str)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+  // Global Bottle Error Handlers (Glassmorphism Dark-Glass Fallback)
+  window.handleBottleError = function(imgEl, brand, name) {
+    const frame = imgEl.parentElement;
+    if (!frame) return;
+    const monogram = (brand || "✦").trim().slice(0, 2).toUpperCase();
+    frame.innerHTML = `
+      <div class="bottle-fallback-card">
+        <div class="bottle-fallback-monogram">${monogram}</div>
+        <div class="bottle-fallback-brand">${escapeHtml(brand)}</div>
+        <div class="bottle-fallback-caption">✦ Flacon</div>
+      </div>
+    `;
+  };
+
+  window.handlePassportImageError = function(imgEl) {
+    imgEl.src = "/static/images/bottle-placeholder.svg";
+  };
 
   // Filter Tabs
   filterTabs.forEach((tab) => {

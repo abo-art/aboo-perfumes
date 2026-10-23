@@ -261,12 +261,16 @@ class LLMService:
             else:
                 reason = f"Смелая нишевая альтернатива: яркий аккорд {item.all_notes[0]} и нестандартная база {', '.join(item.base_notes[:2])} для эффектного нового образа."
 
+            from app.services.image_service import get_perfume_image_url
+            img = item.image_url or get_perfume_image_url(item.id, item.brand, item.name)
+
             recommendations.append({
                 "rank": i,
                 "brand": item.brand,
                 "name": item.name,
                 "family": item.family,
-                "notes": item.all_notes[:4],
+                "notes": (item.notes or item.all_notes)[:4],
+                "image_url": img,
                 "reason": reason
             })
 

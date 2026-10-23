@@ -12,7 +12,7 @@ CATALOG = [
         "id": "tom-ford-lost-cherry",
         "brand": "Tom Ford",
         "name": "Lost Cherry",
-        "aliases": ["lost cherry", "лост черри", "черри том форд", "том форд черри"],
+        "aliases": ["lost cherry", "лост черри", "черри том форд", "том форд черри", "том форд вишня", "вишня том форд", "вишня"],
         "gender": "Унисекс",
         "family": "Восточные гурманские",
         "subfamily": "Фруктово-ликёрные",

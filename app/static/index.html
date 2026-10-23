@@ -105,28 +105,35 @@
 
       <!-- Perfume Passport (Olfactory Card) -->
       <div id="perfume-passport" class="perfume-passport">
-        <div class="passport-header">
-          <div>
-            <div id="passport-brand" class="passport-brand">Tom Ford</div>
-            <div id="passport-name" class="passport-title">Lost Cherry</div>
+        <div class="passport-content-row">
+          <div class="passport-bottle-col" id="passport-bottle-frame">
+            <img id="passport-bottle-img" src="/static/images/bottle-placeholder.svg" alt="Флакон" class="passport-bottle-img" onerror="handlePassportImageError(this)" />
           </div>
-          <div id="passport-family" class="passport-badge">Восточные гурманские</div>
-        </div>
-        <div id="passport-character" class="passport-character">
-          «Чувственный, гурманский, пьянящий вишнево-миндальный эликсир со смолистым благородным шлейфом»
-        </div>
-        <div class="pyramid-grid">
-          <div class="pyramid-col">
-            <div class="pyramid-label">Верхние ноты</div>
-            <div id="passport-top" class="notes-chips"></div>
-          </div>
-          <div class="pyramid-col">
-            <div class="pyramid-label">Ноты сердца</div>
-            <div id="passport-heart" class="notes-chips"></div>
-          </div>
-          <div class="pyramid-col">
-            <div class="pyramid-label">Базовые ноты</div>
-            <div id="passport-base" class="notes-chips"></div>
+          <div class="passport-info-col">
+            <div class="passport-header">
+              <div>
+                <div id="passport-brand" class="passport-brand">Tom Ford</div>
+                <div id="passport-name" class="passport-title">Lost Cherry</div>
+              </div>
+              <div id="passport-family" class="passport-badge">Восточные гурманские</div>
+            </div>
+            <div id="passport-character" class="passport-character">
+              «Чувственный, гурманский, пьянящий вишнево-миндальный эликсир со смолистым благородным шлейфом»
+            </div>
+            <div class="pyramid-grid">
+              <div class="pyramid-col">
+                <div class="pyramid-label">Верхние ноты</div>
+                <div id="passport-top" class="notes-chips"></div>
+              </div>
+              <div class="pyramid-col">
+                <div class="pyramid-label">Ноты сердца</div>
+                <div id="passport-heart" class="notes-chips"></div>
+              </div>
+              <div class="pyramid-col">
+                <div class="pyramid-label">Базовые ноты</div>
+                <div id="passport-base" class="notes-chips"></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

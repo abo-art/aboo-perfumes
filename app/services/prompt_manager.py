@@ -111,6 +111,7 @@ def build_recommendations_prompt(
       "name": "Название парфюма",
       "family": "Семейство",
       "notes": ["нота 1", "нота 2", "нота 3"],
+      "image_url": "https://example.com/images/perfume.jpg",
       "reason": "Обоснование, почему это подходит пользователю с учетом ответов"
     }}
   ]

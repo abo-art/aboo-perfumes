@@ -851,6 +851,124 @@ body {
   color: #ffffff;
 }
 
+/* Perfume Bottle Visualization Frame */
+.card-bottle-frame {
+  width: 105px;
+  height: 135px;
+  border-radius: var(--radius-md);
+  background: radial-gradient(circle at 50% 35%, rgba(255, 255, 255, 0.05) 0%, rgba(12, 15, 22, 0.9) 100%);
+  border: 1px solid var(--glass-border);
+  box-shadow: inset 0 0 15px rgba(212, 175, 55, 0.06), 0 8px 20px rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: 8px;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(8px);
+  transition: var(--transition-smooth);
+}
+
+.perfume-card:hover .card-bottle-frame {
+  border-color: var(--gold-primary);
+  box-shadow: inset 0 0 20px rgba(212, 175, 55, 0.18), 0 12px 28px rgba(0, 0, 0, 0.7);
+}
+
+.card-bottle-img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.65));
+  transition: transform 0.35s ease;
+}
+
+.perfume-card:hover .card-bottle-img {
+  transform: scale(1.08);
+}
+
+/* Glassmorphism Dark-Glass Fallback if Image Fails to Load */
+.bottle-fallback-card {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: linear-gradient(135deg, rgba(28, 34, 46, 0.85) 0%, rgba(10, 12, 18, 0.95) 100%);
+  border: 1px dashed rgba(212, 175, 55, 0.35);
+  border-radius: var(--radius-sm);
+  padding: 6px;
+}
+
+.bottle-fallback-monogram {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--gold-gradient-soft);
+  border: 1px solid var(--gold-primary);
+  color: var(--gold-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: 15px;
+  margin-bottom: 6px;
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+}
+
+.bottle-fallback-brand {
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--gold-light);
+  font-weight: 600;
+  max-width: 88px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bottle-fallback-caption {
+  font-size: 9px;
+  color: var(--text-dim);
+  margin-top: 3px;
+}
+
+/* Passport Card layout with bottle */
+.passport-content-row {
+  display: flex;
+  gap: 22px;
+  align-items: center;
+}
+
+.passport-bottle-col {
+  width: 120px;
+  height: 160px;
+  border-radius: var(--radius-md);
+  background: radial-gradient(circle at 50% 35%, rgba(212, 175, 55, 0.12) 0%, rgba(10, 12, 16, 0.95) 100%);
+  border: 1px solid var(--gold-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  flex-shrink: 0;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+}
+
+.passport-bottle-img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.7));
+}
+
+.passport-info-col {
+  flex-grow: 1;
+}
+
 .card-body {
   flex-grow: 1;
 }
