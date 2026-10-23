@@ -251,10 +251,10 @@ class CatalogService:
                 if ext_matches:
                     best_ext = ext_matches[0]
                     # If high confidence local match exists, enrich with curated Russian metadata
-                    if local_perf and local_score >= 80.0:
+                    if local_perf and local_score >= 70.0:
                         if not best_ext.image_url and local_perf.image_url:
                             best_ext.image_url = local_perf.image_url
-                        if local_perf.character and len(local_perf.character) > len(best_ext.character or ""):
+                        if local_perf.character:
                             best_ext.character = local_perf.character
                         if local_perf.family:
                             best_ext.family = local_perf.family

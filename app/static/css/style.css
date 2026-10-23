@@ -1471,376 +1471,7 @@ body {
    Responsive Adaptations
    ========================================================================== */
 
-@media (max-width: 768px) {
-  .container {
-    padding: 0 12px;
-  }
-
-  .site-header {
-    padding: 14px 0 10px;
-  }
-  
-  .brand-title {
-    font-size: 16px;
-  }
-  
-  .brand-sub {
-    font-size: 6.5px;
-  }
-
-  .character-trigger-btn {
-    padding: 6px 12px;
-    font-size: 10px;
-  }
-  
-  .hero-section {
-    padding: 16px 0 10px;
-  }
-
-  .hero-title {
-    font-size: 20px;
-    line-height: 1.25;
-  }
-
-  .hero-description {
-    font-size: 12.5px;
-    line-height: 1.4;
-  }
-
-  .stepper-nav {
-    gap: 4px;
-    margin-bottom: 18px;
-  }
-
-  .step-item {
-    padding: 5px 8px;
-    font-size: 8.5px;
-    letter-spacing: 0.08em;
-    gap: 5px;
-  }
-
-  .step-item .step-number {
-    width: 17px;
-    height: 17px;
-    font-size: 9px;
-  }
-
-  .step-divider {
-    width: 8px;
-  }
-
-  .glass-panel {
-    padding: 16px 12px;
-    border-radius: 16px;
-    margin-bottom: 20px;
-  }
-
-  .step1-search-intro {
-    margin-bottom: 12px;
-  }
-
-  .step1-title {
-    font-size: 15px;
-    line-height: 1.3;
-  }
-
-  .step1-sub {
-    font-size: 12px;
-    margin-bottom: 10px;
-  }
-  
-  .search-input-wrapper {
-    flex-direction: column;
-    gap: 8px;
-    margin-bottom: 14px;
-  }
-
-  .search-input {
-    padding: 13px 14px 13px 42px;
-    font-size: 14px;
-  }
-  
-  .start-btn {
-    width: 100%;
-    height: 48px;
-    font-size: 11px;
-    letter-spacing: 0.16em;
-  }
-
-  .quick-picks-label {
-    font-size: 10.5px;
-    margin-bottom: 6px;
-  }
-
-  .quick-picks-list {
-    gap: 5px;
-    margin-bottom: 14px;
-  }
-
-  .quick-pick-chip {
-    font-size: 10.5px;
-    padding: 5px 9px;
-  }
-  
-  /* Perfume Passport Mobile Excellence */
-  .perfume-passport {
-    padding: 14px 12px;
-    margin-top: 14px;
-    border-radius: 14px;
-  }
-
-  .passport-content-row {
-    flex-direction: column !important;
-    align-items: center !important;
-    text-align: center !important;
-    gap: 12px !important;
-  }
-
-  .passport-bottle-col {
-    width: 130px !important;
-    height: 170px !important;
-    margin: 0 auto 8px !important;
-    border-radius: 16px !important;
-    padding: 10px !important;
-  }
-
-  .passport-info-col {
-    width: 100% !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    text-align: center !important;
-  }
-
-  .passport-header {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    text-align: center !important;
-    gap: 4px !important;
-    margin-bottom: 8px !important;
-    width: 100% !important;
-  }
-
-  .passport-brand {
-    font-family: var(--font-sub);
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.22em;
-    color: var(--text-silver);
-    text-transform: uppercase;
-    text-align: center;
-  }
-
-  .passport-title {
-    font-family: var(--font-sans) !important;
-    font-size: 18px !important;
-    font-weight: 800 !important;
-    letter-spacing: 0.03em !important;
-    line-height: 1.25 !important;
-    color: #ffffff !important;
-    text-transform: uppercase !important;
-    text-align: center !important;
-    margin: 2px 0 4px !important;
-    word-break: break-word !important;
-  }
-
-  .passport-badge {
-    display: inline-block !important;
-    font-size: 9px !important;
-    padding: 3px 10px !important;
-    border-radius: 999px !important;
-    margin-top: 2px !important;
-  }
-
-  .passport-character {
-    font-size: 12px !important;
-    line-height: 1.45 !important;
-    color: #d0d0d0 !important;
-    margin-bottom: 12px !important;
-    text-align: center !important;
-    padding: 0 4px !important;
-  }
-
-  /* Compact 3-Column Pyramid Row instead of vertical stacking */
-  .pyramid-grid {
-    display: grid !important;
-    grid-template-columns: repeat(3, 1fr) !important;
-    gap: 5px !important;
-    width: 100% !important;
-  }
-
-  .pyramid-col {
-    background: rgba(255, 255, 255, 0.03) !important;
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
-    border-radius: 8px !important;
-    padding: 6px 3px !important;
-    text-align: center !important;
-  }
-
-  .pyramid-label {
-    font-size: 7.5px !important;
-    font-weight: 700 !important;
-    letter-spacing: 0.08em !important;
-    color: var(--text-muted) !important;
-    margin-bottom: 4px !important;
-    text-transform: uppercase !important;
-    white-space: nowrap !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
-  }
-
-  .notes-chips {
-    display: flex !important;
-    flex-wrap: wrap !important;
-    justify-content: center !important;
-    gap: 3px !important;
-  }
-
-  .note-chip {
-    font-size: 9px !important;
-    padding: 2px 4px !important;
-    border-radius: 4px !important;
-    background: rgba(255, 255, 255, 0.08) !important;
-    color: #ffffff !important;
-    line-height: 1.2 !important;
-    text-align: center !important;
-  }
-
-  .passport-action-dock {
-    margin-top: 12px !important;
-    width: 100% !important;
-  }
-
-  .passport-continue-btn {
-    width: 100% !important;
-    height: 46px !important;
-    font-size: 11px !important;
-    letter-spacing: 0.14em !important;
-    padding: 0 12px !important;
-  }
-
-  /* Step 2 Interview Mobile */
-  .sommelier-intro {
-    flex-direction: column;
-    text-align: center;
-    padding: 12px 10px;
-    gap: 8px;
-    margin-bottom: 14px;
-  }
-
-  .sommelier-speech h3 {
-    font-size: 11.5px;
-  }
-
-  .sommelier-speech p {
-    font-size: 12.5px;
-  }
-
-  .question-block {
-    padding: 12px 10px;
-    margin-bottom: 12px;
-    border-radius: 12px;
-  }
-
-  .question-header {
-    gap: 8px;
-    margin-bottom: 10px;
-  }
-
-  .question-title {
-    font-size: 13px;
-    line-height: 1.35;
-  }
-
-  .options-grid {
-    grid-template-columns: 1fr !important;
-    gap: 6px !important;
-  }
-
-  .option-btn {
-    padding: 10px 10px;
-    font-size: 12px;
-  }
-
-  .submit-answers-btn {
-    height: 48px;
-    font-size: 11px;
-    margin-top: 16px;
-  }
-
-  /* Step 3 Recommendations Mobile */
-  .cot-block {
-    padding: 12px 10px;
-    margin-bottom: 14px;
-  }
-
-  .sommelier-note-card {
-    padding: 12px 10px;
-    margin-bottom: 16px;
-  }
-
-  .actions-toolbar {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 10px;
-    margin-bottom: 14px;
-  }
-
-  .filter-tabs {
-    justify-content: center;
-    gap: 4px;
-  }
-
-  .filter-tab {
-    font-size: 8.5px;
-    padding: 5px 8px;
-  }
-  
-  .toolbar-buttons {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  .toolbar-buttons .btn-secondary {
-    width: 100%;
-    text-align: center;
-    height: 42px;
-  }
-
-  .recommendations-grid {
-    display: grid !important;
-    grid-template-columns: 1fr !important;
-    gap: 14px !important;
-  }
-
-  .rec-card {
-    border-radius: 14px;
-  }
-
-  .rec-card-bottle {
-    height: 180px;
-    padding: 12px;
-  }
-
-  .rec-card-info {
-    padding: 12px;
-  }
-
-  .rec-name {
-    font-family: var(--font-sans);
-    font-size: 15px;
-    font-weight: 700;
-  }
-
-  .rec-reason {
-    font-size: 12px;
-    padding: 7px 9px;
-    line-height: 1.45;
-  }
-}
+/* Responsive Adaptations: defined at end of file for proper CSS cascade */
 
 /* ==========================================================================
    Step 0: Category Selector (Мужской / Женский / Унисекс)
@@ -4141,19 +3772,759 @@ body {
   box-shadow: 0 0 14px rgba(255, 255, 255, 0.6);
 }
 
-@media (max-width: 600px) {
-  .floating-aboo-container {
-    bottom: 16px;
-    left: 16px;
+/* ==========================================================================
+   MASTER MOBILE RESPONSIVE SYSTEM (iPhone & Mobile Excellence)
+   High-End Luxury Aesthetics: Apple, Byredo, Tom Ford, Kilian
+   Guaranteed Cascade Priority at End of Stylesheet
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  /* 1. Global Viewport & Container Spacing */
+  body {
+    overflow-x: hidden;
   }
+
+  .container {
+    padding: 0 16px 80px !important;
+    max-width: 100% !important;
+  }
+
+  /* 2. Floating Header */
+  .site-header {
+    padding: 12px 0 !important;
+    position: sticky !important;
+    top: 0 !important;
+    background: rgba(0, 0, 0, 0.88) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    z-index: 100 !important;
+  }
+
+  .header-content {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+  }
+
+  .brand-logo-block {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+  }
+
+  .brand-star-mark {
+    width: 28px !important;
+    height: 28px !important;
+  }
+
+  .brand-title {
+    font-family: var(--font-brand) !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.12em !important;
+    color: #ffffff !important;
+  }
+
+  .brand-sub {
+    font-size: 6.5px !important;
+    letter-spacing: 0.28em !important;
+  }
+
+  .character-trigger-btn {
+    padding: 6px 12px !important;
+    font-size: 9.5px !important;
+    border-radius: 999px !important;
+  }
+
+  /* 3. Hero Section: Clean, Minimalist, Luxury */
+  .hero-section {
+    padding: 24px 0 16px !important;
+    text-align: center !important;
+  }
+
+  .hero-brand-tag {
+    display: inline-block !important;
+    font-size: 8.5px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.25em !important;
+    padding: 4px 12px !important;
+    border-radius: 999px !important;
+    background: rgba(255, 255, 255, 0.06) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    color: #a0a0a0 !important;
+    margin-bottom: 12px !important;
+  }
+
+  .hero-title {
+    font-family: var(--font-brand) !important;
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.08em !important;
+    color: #ffffff !important;
+    line-height: 1.3 !important;
+    margin-bottom: 8px !important;
+  }
+
+  .hero-description {
+    font-size: 12px !important;
+    line-height: 1.5 !important;
+    color: #8e8e93 !important;
+    max-width: 320px !important;
+    margin: 0 auto !important;
+  }
+
+  /* 4. Stepper Navigation: Minimalist Segmented Indicator */
+  .stepper-nav {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 6px !important;
+    margin: 0 0 28px !important;
+  }
+
+  .step-item {
+    padding: 6px 10px !important;
+    font-size: 9px !important;
+    letter-spacing: 0.08em !important;
+    gap: 6px !important;
+    border-radius: 999px !important;
+    background: rgba(255, 255, 255, 0.03) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  }
+
+  .step-item .step-number {
+    width: 17px !important;
+    height: 17px !important;
+    font-size: 9px !important;
+  }
+
+  .step-divider {
+    width: 10px !important;
+    height: 1px !important;
+    background: rgba(255, 255, 255, 0.15) !important;
+  }
+
+  /* 5. Clean Outer Panel: No Nested Box Clutter */
+  .glass-panel {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    margin-bottom: 0 !important;
+  }
+
+  .glass-panel::after {
+    display: none !important;
+  }
+
+  /* 6. Step 1: Category Selector (Separate Floating Card with High Contrast) */
+  .step1-category-wrap {
+    background: rgba(18, 18, 22, 0.85) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    border-radius: 20px !important;
+    padding: 18px 14px !important;
+    margin-bottom: 26px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6) !important;
+  }
+
+  .step1-category-label {
+    font-family: var(--font-brand) !important;
+    font-size: 9.5px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.18em !important;
+    color: #8e8e93 !important;
+    margin-bottom: 12px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    text-transform: uppercase !important;
+  }
+
+  .category-chips-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 8px !important;
+  }
+
+  .category-chip {
+    padding: 12px 6px !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    border-radius: 12px !important;
+    background: rgba(255, 255, 255, 0.04) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    cursor: pointer !important;
+    transition: all 0.25s ease !important;
+  }
+
+  .category-chip:active,
+  .category-chip.active {
+    background: #ffffff !important;
+    border-color: #ffffff !important;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.4) !important;
+  }
+
+  .category-chip.active .chip-gender-icon,
+  .category-chip.active .chip-gender-label {
+    color: #000000 !important;
+  }
+
+  .chip-gender-icon {
+    font-size: 18px !important;
+    margin-bottom: 3px !important;
+    color: #ffffff;
+  }
+
+  .chip-gender-label {
+    font-family: var(--font-brand) !important;
+    font-size: 10px !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.1em !important;
+    margin-bottom: 0 !important;
+    color: #ffffff;
+  }
+
+  .chip-gender-sub {
+    display: none !important;
+  }
+
+  /* 7. Step 1: Search & Quick Picks Clean Architecture */
+  .step1-search-intro {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 8px !important;
+    margin-bottom: 16px !important;
+    box-shadow: none !important;
+    text-align: center !important;
+  }
+
+  .step1-title {
+    font-family: var(--font-brand) !important;
+    font-size: 16px !important;
+    font-weight: 800 !important;
+    line-height: 1.35 !important;
+    color: #ffffff !important;
+    margin-bottom: 8px !important;
+    text-align: center !important;
+  }
+
+  .step1-sub {
+    font-size: 12px !important;
+    line-height: 1.5 !important;
+    color: #8e8e93 !important;
+    margin-bottom: 0 !important;
+    text-align: center !important;
+  }
+
+  .search-input-wrapper {
+    background: rgba(18, 18, 22, 0.85) !important;
+    border: 1px solid rgba(255, 255, 255, 0.14) !important;
+    border-radius: 20px !important;
+    padding: 16px !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+    margin-bottom: 24px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6) !important;
+    position: relative !important;
+  }
+
+  .search-input {
+    width: 100% !important;
+    height: 52px !important;
+    padding: 0 16px 0 46px !important;
+    font-size: 14.5px !important;
+    border-radius: 14px !important;
+    background: #000000 !important;
+    border: 1.5px solid rgba(255, 255, 255, 0.18) !important;
+    color: #ffffff !important;
+    box-sizing: border-box !important;
+  }
+
+  .search-icon {
+    left: 30px !important;
+    top: 32px !important;
+  }
+
+  .start-btn {
+    width: 100% !important;
+    height: 50px !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-family: var(--font-sans) !important;
+    font-size: 12px !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.18em !important;
+    border-radius: 14px !important;
+    border: none !important;
+    box-shadow: 0 4px 20px rgba(255, 255, 255, 0.25) !important;
+  }
+
+  .quick-picks-label {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    font-family: var(--font-brand) !important;
+    font-size: 9.5px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.16em !important;
+    color: #8e8e93 !important;
+    text-transform: uppercase !important;
+    margin-bottom: 12px !important;
+    text-align: center !important;
+  }
+
+  .quick-picks-list {
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    margin-bottom: 32px !important;
+  }
+
+  .quick-pick-chip {
+    font-size: 11.5px !important;
+    font-weight: 500 !important;
+    padding: 9px 14px !important;
+    border-radius: 999px !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.14) !important;
+    color: #e0e0e5 !important;
+  }
+
+  /* 8. Perfume Passport (Haute Couture Luxury Olfactory Card) */
+  .perfume-passport {
+    background: linear-gradient(180deg, rgba(22, 22, 28, 0.98) 0%, rgba(12, 12, 16, 0.99) 100%) !important;
+    border: 1.5px solid rgba(255, 255, 255, 0.18) !important;
+    border-radius: 24px !important;
+    padding: 28px 18px 24px !important;
+    margin-top: 0 !important;
+    margin-bottom: 32px !important;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9), 0 0 35px rgba(255, 255, 255, 0.08) !important;
+  }
+
+  .passport-content-row {
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    gap: 16px !important;
+  }
+
+  /* Bottle on Pure White Luxury Podium */
+  .passport-bottle-col {
+    width: 160px !important;
+    height: 200px !important;
+    background: #ffffff !important;
+    border: 1.5px solid rgba(255, 255, 255, 0.6) !important;
+    border-radius: 22px !important;
+    padding: 16px !important;
+    margin: 0 auto 12px !important;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.75), 0 0 25px rgba(255, 255, 255, 0.2) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .passport-bottle-img {
+    max-width: 100% !important;
+    max-height: 100% !important;
+    object-fit: contain !important;
+    filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.25)) !important;
+  }
+
+  .passport-info-col {
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+
+  .passport-header {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    gap: 8px !important;
+    margin-bottom: 14px !important;
+    width: 100% !important;
+  }
+
+  .passport-brand {
+    font-family: var(--font-sans) !important;
+    font-size: 11.5px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.25em !important;
+    color: #8e8e93 !important;
+    text-transform: uppercase !important;
+  }
+
+  .passport-title {
+    font-family: var(--font-sans) !important;
+    font-size: 21px !important;
+    font-weight: 900 !important;
+    letter-spacing: 0.03em !important;
+    line-height: 1.25 !important;
+    color: #ffffff !important;
+    text-transform: uppercase !important;
+    margin: 0 !important;
+    word-break: break-word !important;
+  }
+
+  .passport-badge {
+    display: inline-flex !important;
+    font-family: var(--font-sans) !important;
+    font-size: 9.5px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.16em !important;
+    text-transform: uppercase !important;
+    color: #ffffff !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+    border: 1px solid rgba(255, 255, 255, 0.22) !important;
+    padding: 5px 14px !important;
+    border-radius: 999px !important;
+  }
+
+  .passport-character {
+    font-family: var(--font-sans) !important;
+    font-size: 13px !important;
+    font-style: italic !important;
+    line-height: 1.6 !important;
+    color: #e5e5ea !important;
+    padding: 14px 16px !important;
+    background: rgba(255, 255, 255, 0.04) !important;
+    border-left: 3px solid #ffffff !important;
+    border-radius: 10px !important;
+    margin-bottom: 22px !important;
+    text-align: left !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Spacious Olfactory Pyramid Rows */
+  .pyramid-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+    width: 100% !important;
+    margin-bottom: 22px !important;
+  }
+
+  .pyramid-col {
+    background: rgba(255, 255, 255, 0.03) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 12px !important;
+    padding: 12px 14px !important;
+    text-align: left !important;
+    box-sizing: border-box !important;
+  }
+
+  .pyramid-label {
+    font-family: var(--font-sans) !important;
+    font-size: 9px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.18em !important;
+    color: #8e8e93 !important;
+    text-transform: uppercase !important;
+    margin-bottom: 8px !important;
+  }
+
+  .notes-chips {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+  }
+
+  .note-chip {
+    font-family: var(--font-sans) !important;
+    font-size: 11.5px !important;
+    font-weight: 500 !important;
+    padding: 5px 12px !important;
+    border-radius: 8px !important;
+    background: rgba(255, 255, 255, 0.07) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    color: #ffffff !important;
+    line-height: 1.3 !important;
+  }
+
+  /* Continue Button: High Contrast Luminous Starlight */
+  .passport-action-dock {
+    margin-top: 6px !important;
+    width: 100% !important;
+  }
+
+  .passport-continue-btn {
+    width: 100% !important;
+    height: 54px !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-family: var(--font-sans) !important;
+    font-size: 12px !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.18em !important;
+    text-transform: uppercase !important;
+    border-radius: 14px !important;
+    border: none !important;
+    box-shadow: 0 4px 25px rgba(255, 255, 255, 0.3) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+  }
+
+  /* 9. Step 2 Interview */
+  .sommelier-intro {
+    background: rgba(18, 18, 22, 0.85) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    border-radius: 20px !important;
+    padding: 20px 16px !important;
+    margin-bottom: 24px !important;
+    text-align: center !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 12px !important;
+  }
+
+  .sommelier-speech h3 {
+    font-size: 13.5px !important;
+  }
+
+  .sommelier-speech p {
+    font-size: 13px !important;
+    line-height: 1.5 !important;
+  }
+
+  .quiz-progress-wrap {
+    background: rgba(18, 18, 22, 0.85) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    border-radius: 14px !important;
+    padding: 14px 16px !important;
+    margin-bottom: 24px !important;
+  }
+
+  .question-block {
+    background: rgba(18, 18, 22, 0.85) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    border-radius: 20px !important;
+    padding: 22px 18px !important;
+    margin-bottom: 24px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6) !important;
+  }
+
+  .question-header {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    gap: 10px !important;
+    margin-bottom: 14px !important;
+  }
+
+  .question-badge {
+    font-size: 10px !important;
+    font-weight: 800 !important;
+    padding: 4px 12px !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+    border-radius: 999px !important;
+  }
+
+  .question-title {
+    font-size: 14.5px !important;
+    font-weight: 700 !important;
+    line-height: 1.4 !important;
+    color: #ffffff !important;
+    margin-bottom: 16px !important;
+  }
+
+  .options-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+  }
+
+  .option-btn {
+    padding: 14px 16px !important;
+    font-size: 13.5px !important;
+    line-height: 1.4 !important;
+    border-radius: 12px !important;
+    background: rgba(255, 255, 255, 0.03) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: #e5e5ea !important;
+  }
+
+  .submit-answers-btn {
+    height: 56px !important;
+    font-size: 12px !important;
+    font-weight: 800 !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+    border: none !important;
+    border-radius: 14px !important;
+    box-shadow: 0 4px 25px rgba(255, 255, 255, 0.3) !important;
+    margin-top: 24px !important;
+    width: 100% !important;
+  }
+
+  /* 10. Step 3 Recommendations */
+  .cot-block {
+    background: rgba(18, 18, 22, 0.85) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    border-radius: 20px !important;
+    padding: 20px 16px !important;
+    margin-bottom: 24px !important;
+  }
+
+  .sommelier-note-card {
+    background: rgba(18, 18, 22, 0.85) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    border-radius: 20px !important;
+    padding: 20px 16px !important;
+    margin-bottom: 28px !important;
+  }
+
+  .actions-toolbar {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 16px !important;
+    margin-bottom: 24px !important;
+  }
+
+  .filter-tabs {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 6px !important;
+  }
+
+  .filter-tab {
+    padding: 8px 14px !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    border-radius: 999px !important;
+  }
+
+  .toolbar-buttons {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+    width: 100% !important;
+  }
+
+  .toolbar-buttons .btn-secondary {
+    width: 100% !important;
+    height: 48px !important;
+    border-radius: 12px !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .recommendations-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 24px !important;
+    width: 100% !important;
+  }
+
+  .rec-card {
+    border-radius: 22px !important;
+    background: rgba(16, 16, 20, 0.95) !important;
+    border: 1px solid rgba(255, 255, 255, 0.14) !important;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8) !important;
+    overflow: hidden !important;
+  }
+
+  .rec-card-bottle {
+    height: 210px !important;
+    background: #ffffff !important;
+    padding: 16px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .rec-card-bottle img {
+    max-height: 100% !important;
+    max-width: 100% !important;
+    object-fit: contain !important;
+    filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.25)) !important;
+  }
+
+  .rec-card-info {
+    padding: 20px 18px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+  }
+
+  .rec-name {
+    font-family: var(--font-sans) !important;
+    font-size: 19px !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
+    line-height: 1.25 !important;
+  }
+
+  .rec-brand {
+    font-size: 12px !important;
+    color: #8e8e93 !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+  }
+
+  .rec-notes {
+    font-size: 12.5px !important;
+    color: #b0b0b8 !important;
+    line-height: 1.4 !important;
+  }
+
+  .rec-reason {
+    font-size: 13px !important;
+    line-height: 1.55 !important;
+    color: #e5e5ea !important;
+    padding: 12px 14px !important;
+    background: rgba(255, 255, 255, 0.04) !important;
+    border-left: 3px solid #ffffff !important;
+    border-radius: 8px !important;
+    margin-top: 6px !important;
+  }
+
+  /* 11. Modal adjustments */
+  .modal-content-grid {
+    grid-template-columns: 1fr !important;
+    text-align: center !important;
+  }
+
+  .poster-frame {
+    max-width: 220px !important;
+    margin: 0 auto !important;
+  }
+
+  /* 12. Floating Aboo AI Trigger */
+  .floating-aboo-container {
+    bottom: 20px !important;
+    left: 20px !important;
+  }
+
   .floating-chat-window {
-    bottom: 84px;
-    left: 12px;
-    right: 12px;
-    width: auto;
-    max-width: none;
+    bottom: 90px !important;
+    left: 14px !important;
+    right: 14px !important;
+    width: auto !important;
+    max-width: none !important;
   }
 }
+
 
 
 

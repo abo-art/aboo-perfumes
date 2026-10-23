@@ -196,31 +196,36 @@ document.addEventListener("DOMContentLoaded", () => {
   function formatCharacterRu(text) {
     if (!text) return "";
     let clean = text;
-    const replacements = {
-      "woody": "древесные",
-      "warm-spicy": "теплые пряные",
-      "warm spicy": "теплые пряные",
-      "sweet": "сладкие",
-      "vanilla": "ванильные",
-      "amber": "амбровые",
-      "fruity": "фруктовые",
-      "cinnamon": "коричные",
-      "leather": "кожаные",
-      "powdery": "пудровые",
-      "fresh-spicy": "свежие пряные",
-      "aromatic": "ароматические",
-      "citrus": "цитрусовые",
-      "floral": "цветочные",
-      "musky": "мускусные",
-      "cognac": "коньяк",
-      "tonka bean": "бобы тонка",
-      "oak": "дуб",
-      "candied almond": "засахаренный миндаль",
-      "praline": "пралине",
-      "sandalwood": "сандал"
-    };
-    for (const [k, v] of Object.entries(replacements)) {
-      const reg = new RegExp(`\\b${k}\\b`, "gi");
+    const replacements = [
+      ["warm-spicy", "теплые пряные"],
+      ["warm spicy", "теплые пряные"],
+      ["fresh-spicy", "свежие пряные"],
+      ["fresh spicy", "свежие пряные"],
+      ["white-floral", "белоцветочные"],
+      ["white floral", "белоцветочные"],
+      ["candied almond", "засахаренный миндаль"],
+      ["bitter almond", "горький миндаль"],
+      ["tonka bean", "бобы тонка"],
+      ["woody", "древесные"],
+      ["sweet", "сладкие"],
+      ["vanilla", "ванильные"],
+      ["amber", "амбровые"],
+      ["fruity", "фруктовые"],
+      ["cinnamon", "коричные"],
+      ["leather", "кожаные"],
+      ["powdery", "пудровые"],
+      ["aromatic", "ароматические"],
+      ["citrus", "цитрусовые"],
+      ["floral", "цветочные"],
+      ["musky", "мускусные"],
+      ["cognac", "коньяк"],
+      ["oak", "дуб"],
+      ["praline", "пралине"],
+      ["sandalwood", "сандал"],
+      ["hedione", "гедион"]
+    ];
+    for (const [k, v] of replacements) {
+      const reg = new RegExp(k.replace(/[.*+?^${}()|[\\]\\\\]/g, "\\$&"), "gi");
       clean = clean.replace(reg, v);
     }
     return clean;
