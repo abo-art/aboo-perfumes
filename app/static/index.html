@@ -21,7 +21,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
   
-  <link rel="stylesheet" href="/static/css/style.css?v=2.2.1">
+  <link rel="stylesheet" href="/static/css/style.css?v=2.3.0">
 </head>
 <body>
   <!-- Deep Space Subtle Ambient Starlight -->
@@ -67,18 +67,14 @@
   <!-- Main Content Container -->
   <main class="container">
     <!-- View Mode Switcher -->
-    <div class="view-mode-bar">
-      <div class="view-mode-tabs" role="tablist">
-        <button type="button" class="view-tab active" id="tab-chat-mode" role="tab" aria-selected="true">
-          <span class="tab-star">✦</span> ИНТЕРАКТИВНЫЙ ЧАТ «ABOO AI»
-        </button>
-        <button type="button" class="view-tab" id="tab-classic-mode" role="tab" aria-selected="false">
-          <span>ПОШАГОВЫЙ МАСТЕР</span>
-        </button>
+    <!-- Single Mode Bar -->
+    <div class="view-mode-bar single-mode">
+      <div class="active-mode-label">
+        <span class="tab-star">✦</span> ИНТЕРАКТИВНЫЙ ИИ-СОМЕЛЬЕ «ABOO AI»
       </div>
       <div class="view-mode-actions">
-        <button type="button" class="btn-reset-chat" id="btn-reset-all" title="Начать заново">
-          <span class="reset-icon">↺</span> <span class="reset-text">СБРОС</span>
+        <button type="button" class="btn-reset-chat" id="btn-reset-all" title="Начать диалог заново">
+          <span class="reset-icon">↺</span> <span class="reset-text">НОВЫЙ ДИАЛОГ</span>
         </button>
       </div>
     </div>
@@ -248,201 +244,7 @@
       </div>
     </section>
 
-    <!-- ==================================================== -->
-    <!-- SECONDARY VIEW: Classic Stepper Flow (Backwards Comp)-->
-    <!-- ==================================================== -->
-    <div id="classic-stepper-section" style="display: none;">
-      <!-- Hero Banner -->
-      <section class="hero-section">
-        <div class="hero-subtitle-pill">
-          <span class="hero-pill-star">✦</span> ОЛЬФАКТОРНЫЙ ИНТЕЛЛЕКТ • DEEP SPACE LUXURY
-        </div>
-        <h2 class="hero-title">Пошаговый подбор <span class="highlight-title">ABOO PERFUMES</span></h2>
-        <p class="hero-description">
-          Классический интерфейс для быстрого табличного тестирования каталога и валидации формул.
-        </p>
-      </section>
 
-      <!-- Stepper Navigation -->
-      <nav class="stepper-nav" aria-label="Этапы подбора">
-        <div class="step-item active" id="step-nav-1">
-          <span class="step-number">1</span>
-          <span>Категория и аромат</span>
-        </div>
-        <div class="step-divider"></div>
-        <div class="step-item" id="step-nav-2">
-          <span class="step-number">2</span>
-          <span>Интервью (5 вопросов)</span>
-        </div>
-        <div class="step-divider"></div>
-        <div class="step-item" id="step-nav-3">
-          <span class="step-number">3</span>
-          <span>ТОП-10 & Chain-of-Thought</span>
-        </div>
-      </nav>
-
-      <!-- STEP 1: Category Selection & Perfume Input -->
-      <section class="glass-panel" id="step-1-container">
-        <!-- Step 0: Category Selector -->
-        <div class="category-select-wrapper">
-          <div class="category-header">
-            <span class="category-star">✦</span>
-            <span class="category-title">ШАГ 0: ВЫБЕРИТЕ КАТЕГОРИЮ АРОМАТА</span>
-          </div>
-          <div class="category-chips-grid" id="category-selector" role="radiogroup" aria-label="Категория аромата">
-            <button type="button" class="category-chip" data-category="Мужской" role="radio" aria-checked="false">
-              <span class="cat-mark">✦</span>
-              <span class="cat-label">МУЖСКОЙ</span>
-              <span class="cat-desc">Статусный и харизматичный</span>
-            </button>
-            <button type="button" class="category-chip" data-category="Женский" role="radio" aria-checked="false">
-              <span class="cat-mark">✦</span>
-              <span class="cat-label">ЖЕНСКИЙ</span>
-              <span class="cat-desc">Чувственный и притягательный</span>
-            </button>
-            <button type="button" class="category-chip active" data-category="Унисекс" role="radio" aria-checked="true">
-              <span class="cat-mark">✦</span>
-              <span class="cat-label">УНИСЕКС</span>
-              <span class="cat-desc">Универсальный нишевый код</span>
-            </button>
-          </div>
-        </div>
-
-        <div class="panel-header-line">
-          <span class="panel-header-star">✦</span>
-          <h3 class="panel-heading">Какой парфюм покорил твое сердце?</h3>
-        </div>
-        <p class="panel-subtext">
-          Введи название твоего любимого парфюма (например, <em>Tom Ford Lost Cherry</em>, <em>Baccarat Rouge 540</em> или <em>Aventus</em>)
-        </p>
-
-        <form id="perfume-search-form" class="search-input-wrapper" action="#" method="POST" onsubmit="return false;">
-          <span class="search-icon">🔍</span>
-          <input 
-            type="text" 
-            id="perfume-search-input" 
-            class="search-input" 
-            placeholder="Название или бренд парфюма..." 
-            autocomplete="off"
-            aria-label="Название любимого парфюма"
-          />
-          <button type="submit" id="start-sommelier-btn" class="start-btn" aria-label="Подобрать аромат">
-            ПОДОБРАТЬ ✦
-          </button>
-          <div id="autocomplete-dropdown" class="autocomplete-dropdown"></div>
-        </form>
-
-        <!-- Quick Picks -->
-        <div class="quick-picks-label">Популярные ароматы для быстрого теста:</div>
-        <div class="quick-picks-list" id="quick-picks-list">
-          <!-- Dynamically populated -->
-        </div>
-
-        <!-- Perfume Passport (Olfactory Card) -->
-        <div id="perfume-passport" class="perfume-passport">
-          <div class="passport-content-row">
-            <div class="passport-bottle-col" id="passport-bottle-frame">
-              <img id="passport-bottle-img" src="/static/images/pwa-icon.svg" alt="Флакон" class="passport-bottle-img" />
-            </div>
-            <div class="passport-info-col">
-              <div class="passport-header">
-                <div>
-                  <div id="passport-brand" class="passport-brand">Tom Ford</div>
-                  <div id="passport-name" class="passport-title">Lost Cherry</div>
-                </div>
-                <div id="passport-family" class="passport-badge">Восточные гурманские</div>
-              </div>
-              <div id="passport-character" class="passport-character">
-                «Чувственный, гурманский, пьянящий вишнево-миндальный эликсир со смолистым благородным шлейфом»
-              </div>
-              <div class="pyramid-grid">
-                <div class="pyramid-col">
-                  <div class="pyramid-label">Верхние ноты</div>
-                  <div id="passport-top" class="notes-chips"></div>
-                </div>
-                <div class="pyramid-col">
-                  <div class="pyramid-label">Ноты сердца</div>
-                  <div id="passport-heart" class="notes-chips"></div>
-                </div>
-                <div class="pyramid-col">
-                  <div class="pyramid-label">Базовые ноты</div>
-                  <div id="passport-base" class="notes-chips"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- STEP 2: Sommelier Interview (Strictly 5 Questions) -->
-      <section class="glass-panel" id="step-2-container" style="display: none;">
-        <div class="sommelier-intro">
-          <div class="sommelier-avatar-star">✦</div>
-          <div class="sommelier-speech">
-            <h3>Ольфакторный вердикт сомелье ABOO</h3>
-            <p id="sommelier-intro-text">Анализируем ваш аромат...</p>
-          </div>
-        </div>
-
-        <!-- Quiz Progress Bar -->
-        <div class="quiz-progress-wrap">
-          <div class="quiz-progress-info">
-            <span id="quiz-progress-label">Вопрос 1 из 5</span>
-            <span id="quiz-progress-percent">0%</span>
-          </div>
-          <div class="quiz-progress-track">
-            <div class="quiz-progress-bar" id="quiz-progress-bar" style="width: 0%;"></div>
-          </div>
-        </div>
-
-        <div class="questions-container" id="questions-list"></div>
-
-        <button type="button" id="submit-answers-btn" class="submit-answers-btn" disabled>
-          АКТИВИРОВАТЬ РЕЖИМ CHAIN-OF-THOUGHT И СФОРМИРОВАТЬ ТОП-10 ✦
-        </button>
-      </section>
-
-      <!-- STEP 3: Top-10 Recommendations & Chain-of-Thought -->
-      <section class="glass-panel" id="step-3-container" style="display: none;">
-        <div class="results-header">
-          <div class="results-brand-seal">
-            <span class="seal-star">✦</span>
-            <span class="seal-text">ABOO PERFUMES EXCLUSIVE SELECTION</span>
-          </div>
-          <h3 class="results-main-title">
-            Твой персональный <span class="highlight-title">ТОП-10</span>
-          </h3>
-          <div class="results-note-quote" id="sommelier-note-quote">
-            Опираясь на твой вкус, я составил выверенную подборку от идеального попадания до смелых открытий.
-          </div>
-        </div>
-
-        <div class="chain-of-thought-panel" id="cot-panel">
-          <div class="cot-header">
-            <div class="cot-badge">
-              <span class="cot-star">✦</span> РЕЖИМ CHAIN-OF-THOUGHT • ЭКСПЕРТИЗА СОМЕЛЬЕ ABOO
-            </div>
-            <h4 class="cot-title">Ольфакторная цепочка рассуждений и обоснование подбора</h4>
-          </div>
-          <div class="cot-body" id="cot-body"></div>
-        </div>
-
-        <div class="actions-toolbar">
-          <div class="filter-tabs">
-            <button type="button" class="filter-tab active" data-filter="all">Все (10)</button>
-            <button type="button" class="filter-tab" data-filter="hits">Точные попадания (1-3)</button>
-            <button type="button" class="filter-tab" data-filter="variations">Вариации (4-7)</button>
-            <button type="button" class="filter-tab" data-filter="bold">Смелая ниша (8-10)</button>
-          </div>
-          <div class="toolbar-buttons">
-            <button type="button" id="copy-btn" class="btn-secondary">📋 Скопировать список</button>
-            <button type="button" id="restart-btn" class="btn-secondary">🔄 Новый подбор</button>
-          </div>
-        </div>
-
-        <div class="recommendations-grid" id="recommendations-grid"></div>
-      </section>
-    </div>
   </main>
 
   <!-- ==================================================== -->
@@ -504,6 +306,6 @@
     </div>
   </div>
 
-  <script src="/static/js/app.js?v=2.2.1"></script>
+  <script src="/static/js/app.js?v=2.3.0"></script>
 </body>
 </html>

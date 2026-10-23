@@ -1830,39 +1830,23 @@ body {
   flex-wrap: wrap;
 }
 
-.view-mode-tabs {
+.view-mode-bar.single-mode {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 24px 0 20px;
+}
+
+.active-mode-label {
   display: inline-flex;
   align-items: center;
-  background: rgba(18, 18, 22, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  padding: 4px;
-  gap: 4px;
-  backdrop-filter: blur(16px);
-}
-
-.view-tab {
-  background: transparent;
-  border: none;
-  color: var(--text-muted);
+  gap: 8px;
   font-family: var(--font-brand);
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.14em;
-  padding: 8px 18px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: var(--transition-smooth);
-}
-
-.view-tab:hover {
+  letter-spacing: 0.18em;
   color: #ffffff;
-}
-
-.view-tab.active {
-  background: rgba(255, 255, 255, 0.12);
-  color: #ffffff;
-  box-shadow: 0 0 16px rgba(255, 255, 255, 0.08);
+  text-transform: uppercase;
 }
 
 .tab-star {
@@ -3148,6 +3132,143 @@ body {
   .chat-category-chips {
     grid-template-columns: 1fr;
   }
+}
+
+/* Luxury Recommendations Grid & Cards */
+.recommendations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 22px;
+  margin-top: 24px;
+}
+
+.rec-card {
+  display: flex;
+  flex-direction: column;
+  background: rgba(14, 14, 18, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 18px;
+  overflow: hidden;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.rec-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 255, 255, 0.35);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.9), 0 0 20px rgba(255, 255, 255, 0.12);
+}
+
+.rec-card-bottle {
+  width: 100%;
+  height: 220px;
+  background: #000000;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  overflow: hidden;
+}
+
+.rec-card-bottle img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.8));
+  transition: transform 0.4s ease;
+}
+
+.rec-card:hover .rec-card-bottle img {
+  transform: scale(1.05);
+}
+
+.rec-card-info {
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.rec-rank-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.rec-rank-num {
+  font-family: var(--font-brand);
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.rec-badge {
+  font-family: var(--font-brand);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  padding: 4px 10px;
+  border-radius: 999px;
+  text-transform: uppercase;
+}
+
+.rec-badge.hit {
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: #ffffff;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
+}
+
+.rec-badge.variation {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: #dcdcdc;
+}
+
+.rec-badge.niche {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #b0b0b0;
+}
+
+.rec-name {
+  font-family: var(--font-brand);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #ffffff;
+  line-height: 1.3;
+}
+
+.rec-brand {
+  font-family: var(--font-sub);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: var(--text-silver);
+  text-transform: uppercase;
+}
+
+.rec-notes {
+  font-size: 12px;
+  color: #989898;
+  line-height: 1.4;
+  margin-top: 2px;
+}
+
+.rec-reason {
+  font-size: 13px;
+  color: #e2e2e2;
+  line-height: 1.55;
+  margin-top: 8px;
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.035);
+  border-left: 2px solid #ffffff;
+  border-radius: 4px;
 }
 
 
