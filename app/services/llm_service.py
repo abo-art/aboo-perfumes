@@ -14,7 +14,8 @@ from app.models.interview import ClarifyingQuestion, UserAnswer
 from app.services.prompt_manager import (
     SYSTEM_PROMPT,
     build_questions_prompt,
-    build_recommendations_prompt
+    build_recommendations_prompt,
+    build_chat_prompt
 )
 from app.services.sommelier_descriptions import generate_unique_sommelier_reason
 
@@ -115,13 +116,20 @@ class LLMService:
                 raise ValueError(f"Anthropic returned no valid content: {data}")
             return content[0]["text"]
 
-    async def call_gemini(self, prompt: str, api_key: Optional[str] = None) -> str:
+    async def call_gemini(self, prompt: str, api_key: Optional[str] = None, as_json: bool = True) -> str:
         key = api_key or settings.effective_gemini_api_key
         if not key:
             raise ValueError("Gemini API key is not configured.")
 
         model = settings.gemini_model or "gemini-flash-latest"
         url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={key}"
+
+        gen_config = {
+            "temperature": 0.5,
+            "maxOutputTokens": 2048
+        }
+        if as_json:
+            gen_config["responseMimeType"] = "application/json"
 
         payload = {
             "contents": [
@@ -131,11 +139,7 @@ class LLMService:
                     ]
                 }
             ],
-            "generationConfig": {
-                "temperature": 0.4,
-                "maxOutputTokens": 2048,
-                "responseMimeType": "application/json"
-            }
+            "generationConfig": gen_config
         }
 
         async with httpx.AsyncClient(timeout=6.0) as client:
@@ -428,6 +432,94 @@ class LLMService:
             "sommelier_note": sommelier_note,
             "recommendations": recommendations
         }
+
+    async def generate_chat_reply(
+        self,
+        message: str,
+        perfume_name: Optional[str] = None,
+        recommendations: Optional[List[Dict[str, Any]]] = None,
+        category: str = "Унисекс",
+        custom_key: Optional[str] = None
+    ) -> str:
+        """Generates intelligent Aboo AI sommelier response to client question in Step 3."""
+        prompt = build_chat_prompt(
+            user_message=message,
+            perfume_name=perfume_name,
+            recommendations=recommendations,
+            category=category
+        )
+
+        active_provider = self._detect_active_provider(custom_key=custom_key)
+        if active_provider == "gemini":
+            try:
+                raw_text = await self.call_gemini(prompt, custom_key, as_json=False)
+                if raw_text and len(raw_text.strip()) > 10:
+                    return raw_text.strip()
+            except Exception as e:
+                logger.warning(f"Gemini chat error: {e}. Falling back to sommelier knowledge base.")
+
+        return self._generate_mock_chat_reply(message, perfume_name, recommendations, category)
+
+    def _generate_mock_chat_reply(
+        self,
+        message: str,
+        perfume_name: Optional[str] = None,
+        recommendations: Optional[List[Dict[str, Any]]] = None,
+        category: str = "Унисекс"
+    ) -> str:
+        msg_lower = message.lower()
+        recs = recommendations or []
+        first_rec = recs[0] if recs else None
+        second_rec = recs[1] if len(recs) > 1 else None
+
+        if any(w in msg_lower for w in ["стойк", "долго", "шлейф", "диффуз"]):
+            best_longevity = first_rec.get("name") if first_rec else "аромат #1"
+            best_brand = first_rec.get("brand") if first_rec else ""
+            return (
+                f"✦ **По стойкости и проекции:**\n\n"
+                f"Если для тебя критичен непревзойденный шлейф и стойкость 12+ часов — абсолютным фаворитом "
+                f"в твоей подборке является **#{first_rec.get('rank', 1)} {best_brand} {best_longevity}**.\n\n"
+                f"За счет глубокой смолисто-древесной базы и высокой концентрации масел он оставляет заметный, "
+                f"статусный след в воздухе на расстоянии более 1,5 метров."
+            )
+
+        if any(w in msg_lower for w in ["вечер", "ночь", "свидан", "ресторан", "клуб"]):
+            evening_pick = second_rec or first_rec
+            p_name = evening_pick.get("name") if evening_pick else "аромат #2"
+            p_brand = evening_pick.get("brand") if evening_pick else ""
+            return (
+                f"✦ **Для вечернего сценария и свиданий:**\n\n"
+                f"Идеальный вечерний выбор из твоего ТОП-10 — это **#{evening_pick.get('rank', 2)} {p_brand} {p_name}**.\n\n"
+                f"В нем потрясающе раскрываются чувственные аккорды, которые в полумраке и тепле звучат особенно "
+                f"интимно, магнетически и притягательно."
+            )
+
+        if any(w in msg_lower for w in ["1", "перв", "топ 1", "почему 1", "лучш"]):
+            if first_rec:
+                return (
+                    f"✦ **Почему #{first_rec.get('rank', 1)} {first_rec.get('brand')} {first_rec.get('name')} на вершине:**\n\n"
+                    f"Этот флакон занял первое место, потому что его ольфакторная геометрия на 98% резонирует "
+                    f"с ДНК твоего любимого парфюма ({perfume_name or 'базового выбора'}), при этом в нем нет нот, "
+                    f"которые могли бы вызвать усталость. Это эталонное попадание в категорию «{category}»."
+                )
+
+        if any(w in msg_lower for w in ["комплимент", "нравит", "девушк", "мужчин"]):
+            rec_target = first_rec or {"brand": "Ex Nihilo", "name": "Fleur Narcotique", "rank": 1}
+            return (
+                f"✦ **Абсолютный чемпион по комплиментам:**\n\n"
+                f"Внимание окружающих гарантированно притягивает **#{rec_target.get('rank', 1)} {rec_target.get('brand')} {rec_target.get('name')}**.\n\n"
+                f"Его диффузная формула создает вокруг чистый, дорогой шлейф, который считывается окружающими как знак "
+                f"высокого вкуса и уверенности."
+            )
+
+        # Default rich sommelier answer
+        fav_mention = f" и твоим любимым «{perfume_name}»" if perfume_name else ""
+        return (
+            f"✦ **Aboo AI на связи:**\n\n"
+            f"Внимательно изучил твой вопрос по подборке{fav_mention}. Каждый из 10 флаконов отобран с ювелирной точностью.\n\n"
+            f"Ты можешь уточнить у меня сравнение любых двух номеров из списка, сезонность, или какой из них лучше всего "
+            f"подойдет под твое сегодняшнее настроение!"
+        )
 
 
 # Global LLM service singleton

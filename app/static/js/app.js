@@ -1,16 +1,7 @@
 /**
- * ABOO PERFUMES — Aboo AI Interactive Sommelier Frontend
- * Powered by Google Gemini & Scento API (130,000+ flacons).
- * 
- * Features:
- * 1. Interactive Chat Assistant «Aboo AI» with natural dialog flow;
- * 2. 3 Mascot Animated States:
- *    - isIdle: gentle breathing + soft glowing star on mask;
- *    - isThinking: intense neon pulsation + status message;
- *    - isAnswering: vocal rhythm pulse + smooth message delivery;
- * 3. Step 0 (Category), Step 1 (DNA Input), Step 2 (Strictly 5 questions),
- *    Step 3 (Chain-of-Thought & Ranked TOP-10 with unique reasons & authentic bottle photos);
- * 4. Dual View: Interactive Chat (Primary) & Classic Stepper (Secondary).
+ * ABOO PERFUMES — Aboo AI Perfume Sommelier Frontend
+ * Classic Stepper Flow (Step 1 -> Step 2 -> Step 3)
+ * with Interactive Floating Bottom-Left Aboo AI Chat in Step 3.
  */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -22,779 +13,178 @@ document.addEventListener("DOMContentLoaded", () => {
   let currentPerfume = null;
   let currentQuestions = [];
   let userAnswers = {}; // { question_id: answer_text }
-  let currentQuestionIndex = 0; // 0 to 4 (questions 1 to 5)
   let currentRecommendations = [];
   let currentChainOfThought = null;
-  let chatStep = "category"; // "category" -> "perfume" -> "interview" -> "results"
-  let isAiBusy = false;
+  let isChatOpen = false;
+  let chatInitialized = false;
+  let isChatAiBusy = false;
 
-  // DOM Elements - Mascot Stage & HUD
-  const abooAvatarStage = document.getElementById("aboo-avatar-stage");
-  const abooCharacterStage = document.getElementById("aboo-character-stage");
-  const characterStatusLabel = document.getElementById("character-status-label");
-  const abooStatusText = document.getElementById("aboo-status-text");
-  const chatProgressBar = document.getElementById("chat-progress-bar");
-  const quizStepBubble = document.getElementById("quiz-step-bubble");
-
-  // DOM Elements - Chat Window
-  const chatMessages = document.getElementById("chat-messages");
-  const chatInputForm = document.getElementById("chat-input-form");
-  const chatUserInput = document.getElementById("chat-user-input");
-  const chatCategoryBadge = document.getElementById("chat-category-badge");
-  const chatCategoryText = document.getElementById("chat-category-text");
-  const btnResetAll = document.getElementById("btn-reset-all");
-
-  // DOM Elements - View Switcher
-  const tabChatMode = document.getElementById("tab-chat-mode");
-  const tabClassicMode = document.getElementById("tab-classic-mode");
-  const chatSection = document.getElementById("chat-section");
-  const classicSection = document.getElementById("classic-stepper-section");
-
-  // DOM Elements - Character Modal
-  const openCharModalBtn = document.getElementById("open-character-modal-btn");
-  const closeCharModalBtn = document.getElementById("close-character-modal-btn");
-  const characterModal = document.getElementById("character-modal");
-
-  // DOM Elements - Classic Flow (Secondary View)
-  const categoryChips = document.querySelectorAll(".category-chip");
-  const searchForm = document.getElementById("perfume-search-form");
-  const searchInput = document.getElementById("perfume-search-input");
-  const quickPicksContainer = document.getElementById("quick-picks-list");
-  const autocompleteDropdown = document.getElementById("autocomplete-dropdown");
-  const passportCard = document.getElementById("perfume-passport");
-  const step1 = document.getElementById("step-1-container");
-  const step2 = document.getElementById("step-2-container");
-  const step3 = document.getElementById("step-3-container");
+  // DOM Elements - Stepper Navigation & Steps
   const stepNav1 = document.getElementById("step-nav-1");
   const stepNav2 = document.getElementById("step-nav-2");
   const stepNav3 = document.getElementById("step-nav-3");
+  const step1 = document.getElementById("step-1-container");
+  const step2 = document.getElementById("step-2-container");
+  const step3 = document.getElementById("step-3-container");
+
+  // DOM Elements - Step 1: Category, Search & Passport
+  const categoryChips = document.querySelectorAll("#category-selector-step1 .category-chip");
+  const searchInput = document.getElementById("perfume-search-input");
+  const startSommelierBtn = document.getElementById("start-sommelier-btn");
+  const autocompleteDropdown = document.getElementById("autocomplete-dropdown");
+  const quickPicks = document.querySelectorAll("#quick-picks-list .quick-pick-chip");
+  const passportCard = document.getElementById("perfume-passport");
+  const passportBrand = document.getElementById("passport-brand");
+  const passportName = document.getElementById("passport-name");
+  const passportFamily = document.getElementById("passport-family");
+  const passportCharacter = document.getElementById("passport-character");
+  const passportTop = document.getElementById("passport-top");
+  const passportHeart = document.getElementById("passport-heart");
+  const passportBase = document.getElementById("passport-base");
+  const passportBottleImg = document.getElementById("passport-bottle-img");
+  const confirmPassportBtn = document.getElementById("confirm-passport-btn");
+
+  // DOM Elements - Step 2: 5 Questions
+  const sommelierIntroTitle = document.getElementById("sommelier-intro-title");
+  const sommelierIntroText = document.getElementById("sommelier-intro-text");
   const questionsList = document.getElementById("questions-list");
-  const submitAnswersBtn = document.getElementById("submit-answers-btn");
   const quizProgressBar = document.getElementById("quiz-progress-bar");
   const quizProgressLabel = document.getElementById("quiz-progress-label");
   const quizProgressPercent = document.getElementById("quiz-progress-percent");
+  const submitAnswersBtn = document.getElementById("submit-answers-btn");
+
+  // DOM Elements - Step 3: Recommendations & Chain-of-Thought
   const cotBody = document.getElementById("cot-body");
-  const recommendationsGrid = document.getElementById("recommendations-grid");
   const sommelierNoteEl = document.getElementById("sommelier-note-quote");
+  const filterTabs = document.querySelectorAll(".filter-tab");
+  const recommendationsGrid = document.getElementById("recommendations-grid");
   const copyBtn = document.getElementById("copy-btn");
   const restartBtn = document.getElementById("restart-btn");
-  const filterTabs = document.querySelectorAll(".filter-tab");
+
+  // DOM Elements - Step 3 Floating Bottom-Left Aboo AI Chat
+  const floatingAbooContainer = document.getElementById("floating-aboo-container");
+  const floatingAbooTrigger = document.getElementById("floating-aboo-trigger");
+  const floatingChatWindow = document.getElementById("floating-chat-window");
+  const floatingChatCloseBtn = document.getElementById("floating-chat-close-btn");
+  const floatingQuickChips = document.querySelectorAll(".floating-quick-chip");
+  const floatingChatMessages = document.getElementById("floating-chat-messages");
+  const floatingChatForm = document.getElementById("floating-chat-form");
+  const floatingChatInput = document.getElementById("floating-chat-input");
+
+  // DOM Elements - Modals & Overlays
+  const openCharModalBtn = document.getElementById("open-character-modal-btn");
+  const closeCharModalBtn = document.getElementById("close-character-modal-btn");
+  const characterModal = document.getElementById("character-modal");
   const loadingOverlay = document.getElementById("loading-overlay");
   const loadingSubtext = document.getElementById("loading-subtext");
 
-  // ==========================================
-  // Mascot Animation State Machine
-  // ==========================================
-  /**
-   * Sets the mascot animation state across both the HUD avatar and the Character Stage:
-   * - "idle": gentle breathing + soft glowing mask star
-   * - "thinking": intense white neon pulsation + thinking status
-   * - "answering": vocal pulse rhythm + active speaking state
-   */
-  function setAbooState(state, statusText = null) {
-    // 1. Mini Avatar Stage
-    if (abooAvatarStage) {
-      abooAvatarStage.classList.remove("is-idle", "is-thinking", "is-answering");
-      if (state === "thinking") {
-        abooAvatarStage.classList.add("is-thinking");
-      } else if (state === "answering") {
-        abooAvatarStage.classList.add("is-answering");
-      } else {
-        abooAvatarStage.classList.add("is-idle");
-      }
-    }
+  // Aspect dictionary mapping technical keys to elegant Russian labels
+  const aspectTitles = {
+    lifestyle: "Контекст и стиль жизни",
+    sillage: "Шлейф и интимность",
+    temperature_notes: "Температура и плотность",
+    antipathies: "Ольфакторные табу",
+    boldness: "Ольфакторная смелость"
+  };
 
-    // 2. Large Character Stage (Left Column)
-    if (abooCharacterStage) {
-      abooCharacterStage.classList.remove("is-idle", "is-thinking", "is-answering");
-      if (state === "thinking") {
-        abooCharacterStage.classList.add("is-thinking");
-        if (characterStatusLabel) characterStatusLabel.textContent = "АНАЛИЗ ДНК...";
-      } else if (state === "answering") {
-        abooCharacterStage.classList.add("is-answering");
-        if (characterStatusLabel) characterStatusLabel.textContent = "ОТВЕЧАЕТ...";
-      } else {
-        abooCharacterStage.classList.add("is-idle");
-        if (characterStatusLabel) characterStatusLabel.textContent = "ONLINE • ГОТОВ";
-      }
-    }
+  // ==========================================
+  // Helper Functions
+  // ==========================================
+  function showLoading(subtext = "Анализируем формулу через Gemini и Scento...") {
+    if (loadingSubtext) loadingSubtext.textContent = subtext;
+    if (loadingOverlay) loadingOverlay.classList.add("active");
+  }
 
-    // 3. Status text in HUD
-    if (abooStatusText) {
-      if (state === "thinking") {
-        abooStatusText.textContent = statusText || "Aboo AI анализирует ольфакторный профиль...";
-      } else if (state === "answering") {
-        abooStatusText.textContent = statusText || "Aboo AI отвечает...";
-      } else {
-        abooStatusText.textContent = statusText || "Готов к персональной консультации";
-      }
-    }
+  function hideLoading() {
+    if (loadingOverlay) loadingOverlay.classList.remove("active");
+  }
+
+  function escapeHtml(str) {
+    if (!str) return "";
+    return String(str)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+  function formatMarkdown(text) {
+    if (!text) return "";
+    let formatted = escapeHtml(text);
+    // Bold
+    formatted = formatted.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+    // Newlines
+    formatted = formatted.replace(/\n\n/g, "<br><br>").replace(/\n/g, "<br>");
+    return formatted;
   }
 
   // ==========================================
-  // Chat Messaging Utilities
-  // ==========================================
-  function scrollToBottom() {
-    if (chatMessages) {
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-    }
-  }
-
-  function addUserMessage(text) {
-    const msgDiv = document.createElement("div");
-    msgDiv.className = "chat-msg user";
-    msgDiv.innerHTML = `
-      <div class="chat-user-thumb">✦</div>
-      <div class="chat-bubble">${escapeHtml(text)}</div>
-    `;
-    chatMessages.appendChild(msgDiv);
-    scrollToBottom();
-  }
-
-  function addBotMessage(contentHtml, callback = null, delayMs = 350) {
-    setAbooState("answering");
-
-    setTimeout(() => {
-      const msgDiv = document.createElement("div");
-      msgDiv.className = "chat-msg bot";
-      msgDiv.innerHTML = `
-        <div class="chat-avatar-thumb"></div>
-        <div class="chat-bubble">${contentHtml}</div>
-      `;
-      chatMessages.appendChild(msgDiv);
-      scrollToBottom();
-
-      setTimeout(() => {
-        setAbooState("idle");
-        if (callback) callback();
-      }, 400);
-    }, delayMs);
-  }
-
-  function updateChatProgress(stepNum, totalSteps = 5) {
-    if (!chatProgressBar || !quizStepBubble) return;
-    const pct = Math.round((stepNum / totalSteps) * 100);
-    chatProgressBar.style.width = `${pct}%`;
-    quizStepBubble.textContent = `Интервью ${stepNum} / ${totalSteps}`;
-  }
-
-  function updateCategoryDisplay(cat) {
-    selectedCategory = cat;
-    if (chatCategoryText) chatCategoryText.textContent = cat.toUpperCase();
-    categoryChips.forEach(c => {
-      const match = (c.getAttribute("data-category") === cat);
-      c.classList.toggle("active", match);
-      c.setAttribute("aria-checked", match ? "true" : "false");
-    });
-    updateQuickPicksForCategory(cat);
-  }
-
-  // ==========================================
-  // Conversational Flow Controller
-  // ==========================================
-  function bindCategoryChips() {
-    if (!chatMessages) return;
-    const catBtns = chatMessages.querySelectorAll(".chat-cat-chip");
-    catBtns.forEach(btn => {
-      btn.onclick = () => {
-        const chosenCat = btn.getAttribute("data-cat");
-        catBtns.forEach(b => {
-          b.classList.remove("active-cat", "selected");
-          b.setAttribute("aria-checked", "false");
-        });
-        btn.classList.add("active-cat", "selected");
-        btn.setAttribute("aria-checked", "true");
-        handleCategoryChosen(chosenCat);
-      };
-    });
-  }
-
-  function initAbooChat(forceReset = false) {
-    if (!chatMessages) return;
-    userAnswers = {};
-    currentQuestionIndex = 0;
-    currentSessionId = null;
-    currentPerfume = null;
-    currentQuestions = [];
-    currentRecommendations = [];
-    chatStep = "category";
-    isAiBusy = false;
-    updateChatProgress(0, 5);
-    setAbooState("idle", "Готов к персональной консультации");
-
-    const staticWelcomeTurn = document.getElementById("static-welcome-turn");
-
-    if (!forceReset && staticWelcomeTurn) {
-      // Keep static welcome message visible instantly and bind chips
-      bindCategoryChips();
-      scrollToBottom();
-    } else {
-      chatMessages.innerHTML = "";
-      const welcomeHtml = `
-        <div class="welcome-box">
-          <div class="welcome-badge">
-            <span class="welcome-badge-star">✦</span> ЭКСПЕРТИЗА ABOO PERFUMES
-          </div>
-          <p class="welcome-title-lead">
-            Приветствую. Я — <strong>Aboo AI</strong>, твой персональный парфюмерный сомелье бренда <strong>ABOO PERFUMES</strong>.
-          </p>
-          <p class="welcome-body-text">
-            Я сопоставляю ольфакторную ДНК композиций через <strong>Google Gemini</strong> и базу <strong>Scento API</strong> (более 130 000 флаконов с реальными фото). После короткого экспертного интервью из 5 вопросов я сформирую твой персональный <strong>ТОП-10</strong> с уникальным обоснованием каждого аромата.
-          </p>
-
-          <!-- ОПРОС: ШАГ 0 (МУЖСКОЙ / ЖЕНСКИЙ / УНИСЕКС) -->
-          <div class="chat-category-poll-wrap" id="chat-category-poll-wrap">
-            <div class="poll-prompt-line">
-              <span class="poll-star-glow">✦</span>
-              <span class="poll-heading-text">ШАГ 0: ВЫБЕРИТЕ КАТЕГОРИЮ ДЛЯ ПОДБОРА</span>
-            </div>
-            
-            <div class="chat-category-chips" id="initial-category-selector" role="radiogroup" aria-label="Опрос: Категория аромата">
-              <button type="button" class="chat-cat-chip ${selectedCategory === 'Мужской' ? 'active-cat selected' : ''}" data-cat="Мужской" role="radio" aria-checked="${selectedCategory === 'Мужской'}">
-                <span class="cat-symbol">♂</span>
-                <span class="cat-title">МУЖСКОЙ</span>
-                <span class="cat-sub">Статус, кожа, дерево и фужер</span>
-              </button>
-              <button type="button" class="chat-cat-chip ${selectedCategory === 'Женский' ? 'active-cat selected' : ''}" data-cat="Женский" role="radio" aria-checked="${selectedCategory === 'Женский'}">
-                <span class="cat-symbol">♀</span>
-                <span class="cat-title">ЖЕНСКИЙ</span>
-                <span class="cat-sub">Чувственные цветы и гурманика</span>
-              </button>
-              <button type="button" class="chat-cat-chip ${selectedCategory === 'Унисекс' ? 'active-cat selected' : ''}" data-cat="Унисекс" role="radio" aria-checked="${selectedCategory === 'Унисекс'}">
-                <span class="cat-symbol">⚥</span>
-                <span class="cat-title">УНИСЕКС</span>
-                <span class="cat-sub">Ниша, минералы и современный код</span>
-              </button>
-            </div>
-            <div class="poll-action-hint">
-              <span>Нажмите на нужную категорию выше, чтобы перейти к вводу любимого парфюма.</span>
-            </div>
-          </div>
-        </div>
-      `;
-
-      addBotMessage(welcomeHtml, () => {
-        bindCategoryChips();
-      }, 100);
-    }
-  }
-
-  function handleCategoryChosen(cat) {
-    if (chatStep !== "category") return;
-    updateCategoryDisplay(cat);
-    addUserMessage(`Выбрана категория: ${cat}`);
-    chatStep = "perfume";
-
-    setAbooState("thinking", "Aboo AI фиксирует категорию...");
-
-    const picks = getQuickPickListForCategory(cat);
-    const quickPickTagsHtml = picks.map(p => `
-      <button type="button" class="chat-quick-tag" data-perfume="${p.name}">
-        ${p.icon} ${p.name}
-      </button>
-    `).join("");
-
-    const askPerfumeHtml = `
-      <div>
-        <p style="margin: 0 0 10px 0;">
-          Зафиксировал: категория <strong>«${cat}»</strong>.
-        </p>
-        <p style="margin: 0 0 12px 0;">
-          <strong>Шаг 1:</strong> Назови свой прошлый любимый парфюм, который покорил твое сердце больше всего (или выбери один из эталонов ниже):
-        </p>
-        <div class="chat-quick-picks">
-          ${quickPickTagsHtml}
-        </div>
-      </div>
-    `;
-
-    addBotMessage(askPerfumeHtml, () => {
-      // Attach click events on quick-pick tags
-      const quickTags = chatMessages.querySelectorAll(".chat-quick-tag");
-      quickTags.forEach(tag => {
-        tag.addEventListener("click", () => {
-          const perfumeName = tag.getAttribute("data-perfume");
-          handlePerfumeSubmitted(perfumeName);
-        });
-      });
-      if (chatUserInput) chatUserInput.focus();
-    }, 450);
-  }
-
-  async function handlePerfumeSubmitted(perfumeName) {
-    if (!perfumeName || perfumeName.trim().length < 2 || isAiBusy) return;
-    isAiBusy = true;
-    addUserMessage(perfumeName.trim());
-
-    if (chatUserInput) chatUserInput.value = "";
-    setAbooState("thinking", `Aboo AI анализирует ДНК «${perfumeName}» через Gemini & Scento...`);
-
-    try {
-      const resp = await fetch("/api/sommelier/start", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          perfume_name: perfumeName.trim(),
-          category: selectedCategory
-        })
-      });
-
-      if (!resp.ok) {
-        throw new Error(`Ошибка сервера: ${resp.status}`);
-      }
-
-      const data = await resp.json();
-      currentSessionId = data.session_id;
-      currentPerfume = data.matched_perfume;
-      currentQuestions = data.questions || [];
-      currentQuestionIndex = 0;
-      userAnswers = {};
-
-      const matchedName = `${currentPerfume.brand} ${currentPerfume.name}`;
-      const notesPreview = (currentPerfume.all_notes || currentPerfume.notes || []).slice(0, 4).join(", ");
-      const bottleImg = currentPerfume.image_url || `/api/perfumes/${currentPerfume.id}/badge.svg`;
-
-      const matchFeedbackHtml = `
-        <div>
-          <p style="margin: 0 0 8px 0;">
-            Отличный выбор! Я нашел этот аромат в официальной базе:
-          </p>
-          <div class="chat-passport-card">
-            <div class="chat-passport-bottle">
-              <img src="${bottleImg}" alt="${matchedName}" onerror="this.src='/static/images/pwa-icon.svg'" />
-            </div>
-            <div class="chat-passport-details">
-              <div class="chat-passport-brand">${currentPerfume.brand}</div>
-              <div class="chat-passport-name">${currentPerfume.name}</div>
-              <div class="chat-passport-family">${currentPerfume.family}</div>
-              <div style="font-size: 11.5px; color: #a8a8a8; line-height: 1.4;">
-                ${currentPerfume.character || `Ключевые ноты: ${notesPreview}`}
-              </div>
-            </div>
-          </div>
-          <p style="margin: 12px 0 0 0; color: #e0e0e0;">
-            Анализ ДНК завершен. Чтобы найти преемника без шаблонных клише, я задам тебе <strong>строго 5 точных вопросов</strong>.
-          </p>
-        </div>
-      `;
-
-      addBotMessage(matchFeedbackHtml, () => {
-        chatStep = "interview";
-        isAiBusy = false;
-        deliverCurrentQuestion();
-      }, 500);
-
-    } catch (err) {
-      console.error("Error starting sommelier session:", err);
-      isAiBusy = false;
-      setAbooState("idle");
-      addBotMessage(`
-        <div>
-          <p style="color: #ff8585; margin: 0 0 6px 0;">Не удалось найти данный аромат.</p>
-          <p style="margin: 0;">Попробуй указать бренд и название точнее (например, <em>Tom Ford Lost Cherry</em> или <em>Ganymede</em>).</p>
-        </div>
-      `, null, 200);
-    }
-  }
-
-  function deliverCurrentQuestion() {
-    if (currentQuestionIndex >= currentQuestions.length) {
-      finishInterviewAndGenerateRecommendations();
-      return;
-    }
-
-    const q = currentQuestions[currentQuestionIndex];
-    const qNum = currentQuestionIndex + 1;
-    updateChatProgress(qNum, 5);
-
-    const aspectLabels = {
-      lifestyle: "КОНТЕКСТ И СТИЛЬ ЖИЗНИ",
-      sillage: "ШЛЕЙФ И ИНТИМНОСТЬ",
-      temperature_notes: "ТЕМПЕРАТУРА И ПЛОТНОСТЬ НОТ",
-      antipathies: "ПАРФЮМЕРНЫЕ АНТИПАТИИ (ТАБУ)",
-      boldness: "СТЕПЕНЬ СМЕЛОСТИ"
-    };
-
-    const aspectName = aspectLabels[q.aspect] || "КАЛИБРОВКА ПРЕДПОЧТЕНИЙ";
-    const optionsHtml = (q.options || []).map(opt => `
-      <button type="button" class="chat-option-btn" data-qid="${q.id}" data-answer="${escapeHtml(opt)}">
-        ${escapeHtml(opt)}
-      </button>
-    `).join("");
-
-    const questionHtml = `
-      <div class="chat-interactive-box">
-        <div class="chat-criterion-badge">✦ ВОПРОС ${qNum} ИЗ 5 • ${aspectName}</div>
-        <div class="chat-question-text">${q.question}</div>
-        <div class="chat-options-grid">
-          ${optionsHtml}
-        </div>
-      </div>
-    `;
-
-    addBotMessage(questionHtml, () => {
-      const optBtns = chatMessages.querySelectorAll(`.chat-option-btn[data-qid="${q.id}"]`);
-      optBtns.forEach(btn => {
-        btn.addEventListener("click", () => {
-          const ans = btn.getAttribute("data-answer");
-          handleAnswerSubmitted(q.id, ans);
-        });
-      });
-      if (chatUserInput) chatUserInput.focus();
-    }, 400);
-  }
-
-  function handleAnswerSubmitted(questionId, answerText) {
-    if (!answerText || isAiBusy) return;
-    isAiBusy = true;
-
-    // Highlight chosen button
-    const chosenBtn = chatMessages.querySelector(`.chat-option-btn[data-qid="${questionId}"][data-answer="${CSS.escape(answerText)}"]`);
-    if (chosenBtn) chosenBtn.classList.add("selected");
-
-    addUserMessage(answerText);
-    userAnswers[questionId] = answerText;
-    currentQuestionIndex++;
-
-    setAbooState("thinking", `Aboo AI зафиксировал ответ (${currentQuestionIndex}/5)...`);
-
-    setTimeout(() => {
-      isAiBusy = false;
-      if (currentQuestionIndex < currentQuestions.length) {
-        deliverCurrentQuestion();
-      } else {
-        finishInterviewAndGenerateRecommendations();
-      }
-    }, 450);
-  }
-
-  async function finishInterviewAndGenerateRecommendations() {
-    if (isAiBusy) return;
-    isAiBusy = true;
-
-    updateChatProgress(5, 5);
-    setAbooState("thinking", "Aboo AI активирует режим Chain-of-Thought и опрашивает Scento API...");
-
-    const thinkingMsgHtml = `
-      <div>
-        <p style="margin: 0 0 6px 0;">Все 5 ответов приняты.</p>
-        <p style="margin: 0; color: #a0a0a0;">
-          Активирую режим <strong>Chain-of-Thought</strong>: сопоставляю психотип, фильтрую табу-ноты и отбираю ранжированный ТОП-10 из базы Scento...
-        </p>
-      </div>
-    `;
-    addBotMessage(thinkingMsgHtml, null, 200);
-
-    // Prepare payload
-    const answersPayload = Object.keys(userAnswers).map(qid => ({
-      question_id: parseInt(qid, 10),
-      answer: userAnswers[qid]
-    }));
-
-    try {
-      const resp = await fetch("/api/sommelier/recommend", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          session_id: currentSessionId,
-          category: selectedCategory,
-          answers: answersPayload
-        })
-      });
-
-      if (!resp.ok) {
-        throw new Error(`Ошибка генерации: ${resp.status}`);
-      }
-
-      const recData = await resp.json();
-      currentRecommendations = recData.recommendations || [];
-      currentChainOfThought = recData.chain_of_thought;
-
-      renderChatFinalRecommendations(recData);
-      chatStep = "results";
-      isAiBusy = false;
-      setAbooState("idle", "Консультация завершена • ТОП-10 сформирован");
-
-      // Also sync with classic view
-      syncClassicViewWithResults(recData);
-
-    } catch (err) {
-      console.error("Error generating recommendations:", err);
-      isAiBusy = false;
-      setAbooState("idle");
-      addBotMessage(`
-        <div style="color: #ff8585;">
-          Произошла ошибка при обращении к Gemini или Scento API. Пожалуйста, попробуйте нажать «Сброс» и начать заново.
-        </div>
-      `, null, 300);
-    }
-  }
-
-  function renderChatFinalRecommendations(recData) {
-    const cotText = recData.chain_of_thought || "Анализ психотипа и ольфакторного профиля успешно завершен.";
-    const sommelierNote = recData.sommelier_note || "Опираясь на твой вкус, я составил персональный ТОП-10 реальных ароматов.";
-
-    // Render Chain-of-Thought block
-    const cotHtml = `
-      <div class="chat-cot-card">
-        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
-          <span style="color: #ffffff; filter: drop-shadow(0 0 6px #ffffff);">✦</span>
-          <span style="font-family: var(--font-brand); font-size: 10px; font-weight: 700; letter-spacing: 0.18em; color: #ffffff;">
-            РАССУЖДЕНИЯ ГЛАВНОГО СОМЕЛЬЕ ABOO AI (CHAIN-OF-THOUGHT)
-          </span>
-        </div>
-        <div style="font-size: 13px; color: #d0d0d0; line-height: 1.6; white-space: pre-line;">
-          ${escapeHtml(cotText)}
-        </div>
-      </div>
-    `;
-
-    // Render Cards
-    const recs = recData.recommendations || [];
-    const cardsHtml = recs.map(item => {
-      let badgeClass = "niche";
-      let badgeLabel = "СМЕЛАЯ НИША";
-      if (item.rank <= 3) {
-        badgeClass = "hit";
-        badgeLabel = "ТОЧНОЕ ПОПАДАНИЕ";
-      } else if (item.rank <= 7) {
-        badgeClass = "variation";
-        badgeLabel = "ВАРИАЦИЯ";
-      }
-
-      const img = item.image_url || `/api/perfumes/${item.id || "flacon"}/badge.svg`;
-      const notesStr = Array.isArray(item.notes) ? item.notes.join(", ") : (item.notes || "");
-
-      return `
-        <div class="chat-rec-item" data-rank="${item.rank}">
-          <div class="chat-rec-bottle">
-            <img src="${img}" alt="${item.brand} ${item.name}" onerror="this.src='/static/images/pwa-icon.svg'" />
-          </div>
-          <div class="chat-rec-body">
-            <div class="chat-rec-rank-row">
-              <span class="chat-rank-num">#${item.rank}</span>
-              <span class="chat-rank-badge ${badgeClass}">${badgeLabel}</span>
-            </div>
-            <div class="chat-rec-name">${escapeHtml(item.name)}</div>
-            <div class="chat-rec-brand">${escapeHtml(item.brand)} • ${escapeHtml(item.family)}</div>
-            <div style="font-size: 11.5px; color: #9e9e9e; margin-bottom: 6px;">Ноты: ${escapeHtml(notesStr)}</div>
-            <div class="chat-rec-reason">${escapeHtml(item.reason)}</div>
-          </div>
-        </div>
-      `;
-    }).join("");
-
-    const finalHtml = `
-      <div>
-        <p style="font-size: 15px; font-weight: 600; color: #ffffff; margin: 0 0 8px 0;">
-          Готово! Твой персональный ТОП-10 реальных ароматов:
-        </p>
-        <p style="font-style: italic; color: #b8b8b8; margin: 0 0 14px 0; border-left: 2px solid #ffffff; padding-left: 10px;">
-          ${escapeHtml(sommelierNote)}
-        </p>
-        ${cotHtml}
-        <div class="chat-recommendations-box">
-          ${cardsHtml}
-        </div>
-        <div style="margin-top: 20px; text-align: center;">
-          <button type="button" class="btn-secondary" id="chat-restart-btn" style="padding: 10px 20px;">
-            ↻ Провести новую консультацию
-          </button>
-        </div>
-      </div>
-    `;
-
-    addBotMessage(finalHtml, () => {
-      const rBtn = document.getElementById("chat-restart-btn");
-      if (rBtn) {
-        rBtn.addEventListener("click", () => {
-          initAbooChat();
-        });
-      }
-    }, 600);
-  }
-
-  // Handle Input Bar Submission in Chat
-  if (chatInputForm) {
-    chatInputForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      if (!chatUserInput) return;
-      const text = chatUserInput.value.trim();
-      if (!text || isAiBusy) return;
-
-      if (chatStep === "category") {
-        // Match category word
-        const lower = text.toLowerCase();
-        if (lower.includes("муж")) handleCategoryChosen("Мужской");
-        else if (lower.includes("жен")) handleCategoryChosen("Женский");
-        else handleCategoryChosen("Унисекс");
-      } else if (chatStep === "perfume") {
-        handlePerfumeSubmitted(text);
-      } else if (chatStep === "interview") {
-        const q = currentQuestions[currentQuestionIndex];
-        if (q) handleAnswerSubmitted(q.id, text);
-      } else {
-        // General query or restart
-        addUserMessage(text);
-        addBotMessage("Консультация завершена. Чтобы начать новый подбор, нажми «↻ Новый диалог» вверху.", null, 250);
-      }
-    });
-  }
-
-  // Category Badge Click in Input Dock toggles category
-  if (chatCategoryBadge) {
-    chatCategoryBadge.addEventListener("click", () => {
-      const cats = ["Унисекс", "Мужской", "Женский"];
-      const nextIdx = (cats.indexOf(selectedCategory) + 1) % cats.length;
-      updateCategoryDisplay(cats[nextIdx]);
-    });
-  }
-
-  // Reset All Button
-  if (btnResetAll) {
-    btnResetAll.addEventListener("click", () => {
-      initAbooChat(true);
-    });
-  }
-
-  // ==========================================
-  // Dual View Tab Switching
-  // ==========================================
-  if (tabChatMode && tabClassicMode) {
-    tabChatMode.addEventListener("click", () => {
-      tabChatMode.classList.add("active");
-      tabChatMode.setAttribute("aria-selected", "true");
-      tabClassicMode.classList.remove("active");
-      tabClassicMode.setAttribute("aria-selected", "false");
-      chatSection.style.display = "block";
-      classicSection.style.display = "none";
-    });
-
-    tabClassicMode.addEventListener("click", () => {
-      tabClassicMode.classList.add("active");
-      tabClassicMode.setAttribute("aria-selected", "true");
-      tabChatMode.classList.remove("active");
-      tabChatMode.setAttribute("aria-selected", "false");
-      chatSection.style.display = "none";
-      classicSection.style.display = "block";
-    });
-  }
-
-  // ==========================================
-  // Character Showcase Modal
-  // ==========================================
-  if (openCharModalBtn && characterModal) {
-    openCharModalBtn.addEventListener("click", () => {
-      characterModal.classList.add("active");
-      characterModal.setAttribute("aria-hidden", "false");
-    });
-  }
-
-  if (closeCharModalBtn && characterModal) {
-    closeCharModalBtn.addEventListener("click", () => {
-      characterModal.classList.remove("active");
-      characterModal.setAttribute("aria-hidden", "true");
-    });
-  }
-
-  if (characterModal) {
-    characterModal.addEventListener("click", (e) => {
-      if (e.target === characterModal) {
-        characterModal.classList.remove("active");
-        characterModal.setAttribute("aria-hidden", "true");
-      }
-    });
-  }
-
-  // ==========================================
-  // Quick Picks Data & Helpers
-  // ==========================================
-  function getQuickPickListForCategory(cat) {
-    if (cat === "Мужской") {
-      return [
-        { icon: "👑", name: "Creed Aventus" },
-        { icon: "🪐", name: "Marc-Antoine Barrois Ganymede" },
-        { icon: "🌲", name: "Essential Parfums Bois Impérial" },
-        { icon: "🌊", name: "Chanel Bleu de Chanel" },
-        { icon: "🏛️", name: "Hermes Terre d'Hermes" },
-        { icon: "🥃", name: "Kilian Angels' Share" }
-      ];
-    } else if (cat === "Женский") {
-      return [
-        { icon: "🍒", name: "Tom Ford Lost Cherry" },
-        { icon: "🌸", name: "Ex Nihilo Fleur Narcotique" },
-        { icon: "💎", name: "Baccarat Rouge 540" },
-        { icon: "🌹", name: "Parfums de Marly Delina" },
-        { icon: "☀️", name: "Byredo Bal d'Afrique" },
-        { icon: "🍑", name: "Tom Ford Bitter Peach" }
-      ];
-    } else {
-      return [
-        { icon: "🍒", name: "Tom Ford Lost Cherry" },
-        { icon: "💎", name: "Baccarat Rouge 540" },
-        { icon: "🪐", name: "Marc-Antoine Barrois Ganymede" },
-        { icon: "🥃", name: "Kilian Angels' Share" },
-        { icon: "👑", name: "Creed Aventus" },
-        { icon: "🌸", name: "Ex Nihilo Fleur Narcotique" }
-      ];
-    }
-  }
-
-  function updateQuickPicksForCategory(cat) {
-    if (!quickPicksContainer) return;
-    const picks = getQuickPickListForCategory(cat);
-    quickPicksContainer.innerHTML = picks.map(p => `
-      <button type="button" class="quick-pick-chip" data-perfume="${p.name}">
-        ${p.icon} ${p.name}
-      </button>
-    `).join("");
-
-    quickPicksContainer.querySelectorAll(".quick-pick-chip").forEach(btn => {
-      btn.addEventListener("click", () => {
-        const pName = btn.getAttribute("data-perfume");
-        if (searchInput) searchInput.value = pName;
-        selectPerfumeAndStart(pName);
-      });
-    });
-  }
-
-  // ==========================================
-  // Classic Stepper Flow Implementation
+  // Step 1: Category Selection
   // ==========================================
   categoryChips.forEach(chip => {
     chip.addEventListener("click", () => {
-      const cat = chip.getAttribute("data-category") || "Унисекс";
-      updateCategoryDisplay(cat);
+      categoryChips.forEach(c => c.classList.remove("active"));
+      chip.classList.add("active");
+      selectedCategory = chip.getAttribute("data-cat") || "Унисекс";
+      
+      // If a search input exists with content, refresh suggestions
       if (searchInput && searchInput.value.trim().length >= 2) {
-        triggerSearch(searchInput.value.trim());
+        handleSearchInput(searchInput.value.trim());
       }
     });
   });
 
-  if (searchForm) {
-    searchForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      if (!searchInput) return;
-      const q = searchInput.value.trim();
-      if (q) selectPerfumeAndStart(q);
-    });
-  }
+  // ==========================================
+  // Step 1: Live Autocomplete Search
+  // ==========================================
+  let searchDebounceTimer = null;
 
   if (searchInput) {
-    let debounceTimer = null;
-    searchInput.addEventListener("input", () => {
-      clearTimeout(debounceTimer);
-      const q = searchInput.value.trim();
-      if (q.length < 2) {
+    searchInput.addEventListener("input", (e) => {
+      const query = e.target.value.trim();
+      clearTimeout(searchDebounceTimer);
+      if (query.length < 2) {
         if (autocompleteDropdown) autocompleteDropdown.style.display = "none";
         return;
       }
-      debounceTimer = setTimeout(() => triggerSearch(q), 250);
+      searchDebounceTimer = setTimeout(() => {
+        handleSearchInput(query);
+      }, 250);
+    });
+
+    searchInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        const query = searchInput.value.trim();
+        if (query.length >= 2) {
+          if (autocompleteDropdown) autocompleteDropdown.style.display = "none";
+          selectPerfumeAndStart(query);
+        }
+      }
     });
   }
 
-  async function triggerSearch(query) {
-    if (!autocompleteDropdown) return;
+  if (startSommelierBtn) {
+    startSommelierBtn.addEventListener("click", () => {
+      const query = searchInput ? searchInput.value.trim() : "";
+      if (query.length >= 2) {
+        if (autocompleteDropdown) autocompleteDropdown.style.display = "none";
+        selectPerfumeAndStart(query);
+      } else {
+        alert("Пожалуйста, введите название или бренд любимого парфюма.");
+      }
+    });
+  }
+
+  // Close dropdown on outside click
+  document.addEventListener("click", (e) => {
+    if (autocompleteDropdown && !autocompleteDropdown.contains(e.target) && e.target !== searchInput) {
+      autocompleteDropdown.style.display = "none";
+    }
+  });
+
+  async function handleSearchInput(query) {
     try {
       const catParam = encodeURIComponent(selectedCategory);
       const resp = await fetch(`/api/perfumes/search?q=${encodeURIComponent(query)}&limit=6&category=${catParam}`);
@@ -802,7 +192,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const data = await resp.json();
       renderAutocomplete(data.results || []);
     } catch (err) {
-      console.warn("Search error:", err);
+      console.warn("Search fetch error:", err);
     }
   }
 
@@ -816,7 +206,7 @@ document.addEventListener("DOMContentLoaded", () => {
     autocompleteDropdown.innerHTML = results.map(item => `
       <div class="autocomplete-item" data-perfume="${escapeHtml(item.perfume.brand + ' ' + item.perfume.name)}">
         <span class="item-name">${escapeHtml(item.perfume.brand)} — ${escapeHtml(item.perfume.name)}</span>
-        <span class="item-family">${escapeHtml(item.perfume.family)}</span>
+        <span class="item-family">${escapeHtml(item.perfume.family || 'Нишевая парфюмерия')}</span>
       </div>
     `).join("");
 
@@ -832,10 +222,21 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // Quick picks clicks
+  quickPicks.forEach(chip => {
+    chip.addEventListener("click", () => {
+      const pName = chip.getAttribute("data-perfume");
+      if (searchInput) searchInput.value = pName;
+      selectPerfumeAndStart(pName);
+    });
+  });
+
+  // ==========================================
+  // Core Sommelier Start: Fetch DNA & Questions
+  // ==========================================
   async function selectPerfumeAndStart(perfumeName) {
     if (!perfumeName) return;
-    showLoading("ИИ-Сомелье анализирует формулу аромата...");
-    setAbooState("thinking", `Анализ ДНК «${perfumeName}»...`);
+    showLoading(`ИИ-Сомелье Aboo AI анализирует ДНК «${perfumeName}»...`);
 
     try {
       const resp = await fetch("/api/sommelier/start", {
@@ -847,34 +248,105 @@ document.addEventListener("DOMContentLoaded", () => {
         })
       });
 
-      if (!resp.ok) throw new Error("Ошибка сервера");
+      if (!resp.ok) throw new Error("Не удалось получить ольфакторный паспорт");
       const data = await resp.json();
 
       currentSessionId = data.session_id;
       currentPerfume = data.matched_perfume;
       currentQuestions = data.questions || [];
+      userAnswers = {};
 
-      // Render Classic Step 2
-      renderClassicQuestions(currentQuestions);
+      // Populate Passport Card
+      populatePassport(currentPerfume);
 
-      if (step1) step1.style.display = "none";
-      if (step2) step2.style.display = "block";
-      if (stepNav1) stepNav1.classList.remove("active");
-      if (stepNav2) stepNav2.classList.add("active");
+      // Render Questions for Step 2
+      renderQuestions(currentQuestions, data.analysis);
 
       hideLoading();
-      setAbooState("idle");
+
+      // Scroll to passport card smoothly
+      if (passportCard) {
+        passportCard.style.display = "block";
+        passportCard.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }
 
     } catch (err) {
       hideLoading();
-      setAbooState("idle");
-      alert("Не удалось загрузить данные парфюма: " + err.message);
+      alert("Ошибка при анализе аромата: " + err.message);
     }
   }
 
-  function renderClassicQuestions(questions) {
+  function populatePassport(perfume) {
+    if (!passportCard || !perfume) return;
+
+    if (passportBrand) passportBrand.textContent = perfume.brand || "Эксклюзив";
+    if (passportName) passportName.textContent = perfume.name || "Парфюм";
+    if (passportFamily) passportFamily.textContent = perfume.family || "Нишевая композиция";
+    if (passportCharacter) {
+      passportCharacter.textContent = perfume.character ? `«${perfume.character}»` : `«Оригинальная композиция бренда ${perfume.brand}»`;
+    }
+
+    function renderNotes(container, notes) {
+      if (!container) return;
+      if (!notes || notes.length === 0) {
+        container.innerHTML = '<span class="note-chip">Базовые ноты</span>';
+        return;
+      }
+      container.innerHTML = notes.map(n => `<span class="note-chip">${escapeHtml(n)}</span>`).join("");
+    }
+
+    renderNotes(passportTop, perfume.top_notes);
+    renderNotes(passportHeart, perfume.heart_notes);
+    renderNotes(passportBase, perfume.base_notes);
+
+    if (passportBottleImg) {
+      const imgUrl = perfume.image_url || `/api/perfumes/${perfume.id || 'custom'}/badge.svg`;
+      passportBottleImg.src = imgUrl;
+      passportBottleImg.onerror = () => {
+        passportBottleImg.src = "/static/images/pwa-icon.svg";
+      };
+    }
+
+    passportCard.style.display = "block";
+  }
+
+  // Continue to Step 2 Button Click
+  if (confirmPassportBtn) {
+    confirmPassportBtn.addEventListener("click", () => {
+      goToStep2();
+    });
+  }
+
+  function goToStep2() {
+    if (step1) step1.style.display = "none";
+    if (step2) {
+      step2.style.display = "block";
+      step2.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+    if (stepNav1) {
+      stepNav1.classList.remove("active");
+      stepNav1.classList.add("completed");
+    }
+    if (stepNav2) {
+      stepNav2.classList.add("active");
+    }
+  }
+
+  // ==========================================
+  // Step 2: Render 5 Questions & Radio Selection
+  // ==========================================
+  function renderQuestions(questions, analysis) {
+    if (sommelierIntroTitle && currentPerfume) {
+      sommelierIntroTitle.textContent = `Ольфакторный вердикт по «${currentPerfume.brand} ${currentPerfume.name}»`;
+    }
+    if (sommelierIntroText && analysis) {
+      sommelierIntroText.textContent = analysis;
+    }
+
     if (!questionsList) return;
+
     questionsList.innerHTML = questions.map((q, idx) => {
+      const aspectLabel = aspectTitles[q.aspect] || q.aspect || "Калибровка вкуса";
       const optionsHtml = (q.options || []).map(opt => `
         <button type="button" class="option-btn" data-qid="${q.id}" data-opt="${escapeHtml(opt)}">
           ${escapeHtml(opt)}
@@ -885,44 +357,58 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="question-card" data-qid="${q.id}">
           <div class="question-header">
             <span class="question-badge">ВОПРОС ${idx + 1} ИЗ 5</span>
-            <span class="question-aspect">${q.aspect}</span>
+            <span class="question-aspect-pill">${escapeHtml(aspectLabel)}</span>
           </div>
-          <h4 class="question-title">${q.question}</h4>
+          <h4 class="question-title">${escapeHtml(q.question)}</h4>
           <div class="options-grid">
             ${optionsHtml}
           </div>
-          <input type="text" class="custom-answer-input" placeholder="Или напишите свой ответ..." data-qid="${q.id}" />
+          <input 
+            type="text" 
+            class="custom-answer-input" 
+            placeholder="Или напишите свой вариант ответа..." 
+            data-qid="${q.id}" 
+          />
         </div>
       `;
     }).join("");
 
-    // Attach click events on classic options
+    // Wire up clicks on option buttons
     questionsList.querySelectorAll(".option-btn").forEach(btn => {
       btn.addEventListener("click", () => {
         const qid = btn.getAttribute("data-qid");
         const val = btn.getAttribute("data-opt");
         questionsList.querySelectorAll(`.option-btn[data-qid="${qid}"]`).forEach(b => b.classList.remove("selected"));
         btn.classList.add("selected");
+        
+        // Clear custom input if option chosen
+        const customInput = questionsList.querySelector(`.custom-answer-input[data-qid="${qid}"]`);
+        if (customInput) customInput.value = "";
+
         userAnswers[qid] = val;
-        updateClassicQuizProgress();
+        updateQuizProgress();
       });
     });
 
+    // Wire up typing in custom input
     questionsList.querySelectorAll(".custom-answer-input").forEach(inp => {
       inp.addEventListener("input", () => {
         const qid = inp.getAttribute("data-qid");
-        if (inp.value.trim().length > 0) {
+        const val = inp.value.trim();
+        if (val.length > 0) {
           questionsList.querySelectorAll(`.option-btn[data-qid="${qid}"]`).forEach(b => b.classList.remove("selected"));
-          userAnswers[qid] = inp.value.trim();
+          userAnswers[qid] = val;
+        } else {
+          delete userAnswers[qid];
         }
-        updateClassicQuizProgress();
+        updateQuizProgress();
       });
     });
 
-    updateClassicQuizProgress();
+    updateQuizProgress();
   }
 
-  function updateClassicQuizProgress() {
+  function updateQuizProgress() {
     const answeredCount = Object.keys(userAnswers).length;
     const total = 5;
     const pct = Math.round((answeredCount / total) * 100);
@@ -936,10 +422,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  // ==========================================
+  // Step 2 -> Step 3: Recommend Top-10
+  // ==========================================
   if (submitAnswersBtn) {
     submitAnswersBtn.addEventListener("click", async () => {
-      showLoading("Aboo AI формирует персональный ТОП-10 через Chain-of-Thought...");
-      setAbooState("thinking", "Анализируем формулы через Gemini и Scento...");
+      showLoading("Aboo AI активирует Chain-of-Thought и формирует персональный ТОП-10...");
 
       const answersPayload = Object.keys(userAnswers).map(qid => ({
         question_id: parseInt(qid, 10),
@@ -957,31 +445,46 @@ document.addEventListener("DOMContentLoaded", () => {
           })
         });
 
-        if (!resp.ok) throw new Error("Ошибка формирования ТОП-10");
+        if (!resp.ok) throw new Error("Не удалось сформировать ТОП-10");
         const data = await resp.json();
 
-        syncClassicViewWithResults(data);
+        currentRecommendations = data.recommendations || [];
+        currentChainOfThought = data.chain_of_thought || "";
 
+        // Render Step 3
+        renderStep3(data);
+
+        // Transition from Step 2 to Step 3
         if (step2) step2.style.display = "none";
-        if (step3) step3.style.display = "block";
-        if (stepNav2) stepNav2.classList.remove("active");
-        if (stepNav3) stepNav3.classList.add("active");
+        if (step3) {
+          step3.style.display = "block";
+          step3.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+        if (stepNav2) {
+          stepNav2.classList.remove("active");
+          stepNav2.classList.add("completed");
+        }
+        if (stepNav3) {
+          stepNav3.classList.add("active");
+        }
 
         hideLoading();
-        setAbooState("idle");
+
+        // ACTIVATE STEP 3 FLOATING ABOO AI CHAT IN BOTTOM-LEFT CORNER!
+        activateFloatingAbooWidget();
 
       } catch (err) {
         hideLoading();
-        setAbooState("idle");
-        alert("Ошибка: " + err.message);
+        alert("Ошибка при формировании рекомендаций: " + err.message);
       }
     });
   }
 
-  function syncClassicViewWithResults(data) {
-    currentRecommendations = data.recommendations || [];
-
-    // Render Chain of Thought
+  // ==========================================
+  // Step 3: Render Top-10 Cards & Chain of Thought
+  // ==========================================
+  function renderStep3(data) {
+    // 1. Render Chain of Thought
     if (cotBody && data.chain_of_thought) {
       const steps = data.chain_of_thought.split("✦").filter(s => s.trim().length > 0);
       cotBody.innerHTML = steps.map(s => {
@@ -999,16 +502,28 @@ document.addEventListener("DOMContentLoaded", () => {
       }).join("");
     }
 
+    // 2. Sommelier Note
     if (sommelierNoteEl) {
-      sommelierNoteEl.textContent = data.sommelier_note || "";
+      sommelierNoteEl.textContent = data.sommelier_note || "Опираясь на твой вкус, я составил выверенную подборку.";
     }
 
-    renderClassicRecommendationsGrid(currentRecommendations);
+    // 3. Render 10 Cards Grid
+    renderCards(currentRecommendations);
   }
 
-  function renderClassicRecommendationsGrid(recs) {
+  function renderCards(items) {
     if (!recommendationsGrid) return;
-    recommendationsGrid.innerHTML = recs.map(item => {
+
+    if (!items || items.length === 0) {
+      recommendationsGrid.innerHTML = `
+        <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--text-silver);">
+          В данной категории ароматы не найдены.
+        </div>
+      `;
+      return;
+    }
+
+    recommendationsGrid.innerHTML = items.map(item => {
       let badgeClass = "niche";
       let badgeLabel = "СМЕЛАЯ НИША (8-10)";
       if (item.rank <= 3) {
@@ -1019,13 +534,13 @@ document.addEventListener("DOMContentLoaded", () => {
         badgeLabel = "ВАРИАЦИЯ (4-7)";
       }
 
-      const img = item.image_url || `/api/perfumes/${item.id || "flacon"}/badge.svg`;
-      const notes = Array.isArray(item.notes) ? item.notes.join(", ") : item.notes;
+      const img = item.image_url || `/api/perfumes/${item.id || 'flacon'}/badge.svg`;
+      const notes = Array.isArray(item.notes) ? item.notes.join(", ") : (item.notes || "Нишевые аккорды");
 
       return `
         <div class="rec-card" data-rank="${item.rank}">
           <div class="rec-card-bottle">
-            <img src="${img}" alt="${item.brand} ${item.name}" onerror="this.src='/static/images/pwa-icon.svg'" />
+            <img src="${img}" alt="${escapeHtml(item.brand)} ${escapeHtml(item.name)}" onerror="this.src='/static/images/pwa-icon.svg'" />
           </div>
           <div class="rec-card-info">
             <div class="rec-rank-row">
@@ -1033,89 +548,281 @@ document.addEventListener("DOMContentLoaded", () => {
               <span class="rec-badge ${badgeClass}">${badgeLabel}</span>
             </div>
             <div class="rec-name">${escapeHtml(item.name)}</div>
-            <div class="rec-brand">${escapeHtml(item.brand)} • ${escapeHtml(item.family)}</div>
+            <div class="rec-brand">${escapeHtml(item.brand)} • ${escapeHtml(item.family || 'Ниша')}</div>
             <div class="rec-notes">Ноты: ${escapeHtml(notes)}</div>
-            <div class="rec-reason">${escapeHtml(item.reason)}</div>
+            <div class="rec-reason">«${escapeHtml(item.reason)}»</div>
           </div>
         </div>
       `;
     }).join("");
   }
 
-  // Filter Tabs in Classic View
+  // Filter Tabs
   filterTabs.forEach(tab => {
     tab.addEventListener("click", () => {
       filterTabs.forEach(t => t.classList.remove("active"));
       tab.classList.add("active");
       const f = tab.getAttribute("data-filter");
-      filterClassicCards(f);
+
+      if (f === "hits") {
+        renderCards(currentRecommendations.filter(r => r.rank >= 1 && r.rank <= 3));
+      } else if (f === "variations") {
+        renderCards(currentRecommendations.filter(r => r.rank >= 4 && r.rank <= 7));
+      } else if (f === "bold") {
+        renderCards(currentRecommendations.filter(r => r.rank >= 8 && r.rank <= 10));
+      } else {
+        renderCards(currentRecommendations);
+      }
     });
   });
 
-  function filterClassicCards(filter) {
-    const cards = document.querySelectorAll(".rec-card");
-    cards.forEach(card => {
-      const r = parseInt(card.getAttribute("data-rank"), 10);
-      if (filter === "hits") {
-        card.style.display = (r <= 3) ? "flex" : "none";
-      } else if (filter === "variations") {
-        card.style.display = (r >= 4 && r <= 7) ? "flex" : "none";
-      } else if (filter === "bold") {
-        card.style.display = (r >= 8) ? "flex" : "none";
-      } else {
-        card.style.display = "flex";
-      }
-    });
-  }
-
+  // Copy List Button
   if (copyBtn) {
     copyBtn.addEventListener("click", () => {
-      if (currentRecommendations.length === 0) return;
-      const text = currentRecommendations.map(r => `#${r.rank} ${r.brand} - ${r.name} (${r.family})\nОбоснование: ${r.reason}\n`).join("\n");
-      navigator.clipboard.writeText(text).then(() => {
+      if (!currentRecommendations || currentRecommendations.length === 0) return;
+      const lines = [
+        `✦ ТОП-10 ПАРФЮМОВ ОТ ABOO AI (Фаворит: ${currentPerfume ? currentPerfume.brand + ' ' + currentPerfume.name : 'ABOO Selection'}) ✦\n`
+      ];
+      currentRecommendations.forEach(r => {
+        lines.push(`#${r.rank}. ${r.brand} — ${r.name}`);
+        lines.push(`   Семейство: ${r.family}`);
+        lines.push(`   Обоснование: ${r.reason}\n`);
+      });
+      navigator.clipboard.writeText(lines.join("\n")).then(() => {
         copyBtn.textContent = "✓ Скопировано!";
-        setTimeout(() => copyBtn.textContent = "📋 Скопировать список", 2000);
+        setTimeout(() => {
+          copyBtn.textContent = "📋 Скопировать список";
+        }, 2200);
       });
     });
   }
 
+  // Restart Button
   if (restartBtn) {
     restartBtn.addEventListener("click", () => {
-      if (step3) step3.style.display = "none";
-      if (step2) step2.style.display = "none";
-      if (step1) step1.style.display = "block";
-      if (stepNav3) stepNav3.classList.remove("active");
-      if (stepNav2) stepNav2.classList.remove("active");
-      if (stepNav1) stepNav1.classList.add("active");
-      if (searchInput) searchInput.value = "";
-      initAbooChat(true);
+      resetToStep1();
     });
   }
 
-  function showLoading(subtext = null) {
-    if (loadingOverlay) {
-      if (loadingSubtext && subtext) loadingSubtext.textContent = subtext;
-      loadingOverlay.classList.add("active");
+  function resetToStep1() {
+    currentSessionId = null;
+    currentPerfume = null;
+    currentQuestions = [];
+    userAnswers = {};
+    currentRecommendations = [];
+    chatInitialized = false;
+
+    // Reset Steps
+    if (step3) step3.style.display = "none";
+    if (step2) step2.style.display = "none";
+    if (step1) step1.style.display = "block";
+
+    // Reset Stepper Nav
+    if (stepNav1) {
+      stepNav1.className = "step-item active";
+    }
+    if (stepNav2) {
+      stepNav2.className = "step-item";
+    }
+    if (stepNav3) {
+      stepNav3.className = "step-item";
+    }
+
+    // Hide Floating Aboo Widget
+    if (floatingAbooContainer) {
+      floatingAbooContainer.style.display = "none";
+    }
+    if (floatingChatWindow) {
+      floatingChatWindow.style.display = "none";
+    }
+    isChatOpen = false;
+
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  // =========================================================================
+  // STEP 3 FLOATING ABOO AI WIDGET & CHAT DRAWER (BOTTOM-LEFT CORNER)
+  // =========================================================================
+  function activateFloatingAbooWidget() {
+    if (!floatingAbooContainer) return;
+    floatingAbooContainer.style.display = "flex";
+
+    // Auto-initialize chat welcome if not done yet
+    if (!chatInitialized) {
+      initFloatingChatGreeting();
+      chatInitialized = true;
     }
   }
 
-  function hideLoading() {
-    if (loadingOverlay) loadingOverlay.classList.remove("active");
+  if (floatingAbooTrigger) {
+    floatingAbooTrigger.addEventListener("click", () => {
+      toggleFloatingChat();
+    });
   }
 
-  function escapeHtml(str) {
-    if (!str) return "";
-    return String(str)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
+  if (floatingChatCloseBtn) {
+    floatingChatCloseBtn.addEventListener("click", () => {
+      toggleFloatingChat(false);
+    });
+  }
+
+  function toggleFloatingChat(forceState = null) {
+    if (!floatingChatWindow) return;
+    if (forceState !== null) {
+      isChatOpen = forceState;
+    } else {
+      isChatOpen = !isChatOpen;
+    }
+
+    if (isChatOpen) {
+      floatingChatWindow.style.display = "flex";
+      if (floatingChatInput) floatingChatInput.focus();
+      scrollChatToBottom();
+    } else {
+      floatingChatWindow.style.display = "none";
+    }
+  }
+
+  function initFloatingChatGreeting() {
+    if (!floatingChatMessages) return;
+
+    const pName = currentPerfume ? `${currentPerfume.brand} ${currentPerfume.name}` : "твоего выбора";
+    const topPick = currentRecommendations[0] ? `${currentRecommendations[0].brand} ${currentRecommendations[0].name}` : "номер 1";
+
+    floatingChatMessages.innerHTML = `
+      <div class="floating-msg bot">
+        <div class="floating-msg-avatar">
+          <img src="/static/images/aboo-avatar.png" alt="Aboo AI" />
+        </div>
+        <div class="floating-msg-bubble">
+          <strong>Приветствую! Я — Aboo AI</strong>, главный парфюмерный сомелье бренда ABOO PERFUMES.<br><br>
+          Я сопоставил ДНК твоего любимого парфюма <em>${escapeHtml(pName)}</em> с твоими 5 ответами и сформировал этот эксклюзивный ТОП-10 (на вершине — <strong>${escapeHtml(topPick)}</strong>).<br><br>
+          Нажми на быструю подсказку ниже или задай любой вопрос: стойкость, шлейф, вечерний повод или сравнение любых двух флаконов! ✦
+        </div>
+      </div>
+    `;
+  }
+
+  function appendChatMessage(role, htmlContent) {
+    if (!floatingChatMessages) return;
+
+    const msgEl = document.createElement("div");
+    msgEl.className = `floating-msg ${role}`;
+
+    if (role === "bot") {
+      msgEl.innerHTML = `
+        <div class="floating-msg-avatar">
+          <img src="/static/images/aboo-avatar.png" alt="Aboo AI" />
+        </div>
+        <div class="floating-msg-bubble">${htmlContent}</div>
+      `;
+    } else {
+      msgEl.innerHTML = `
+        <div class="floating-msg-bubble">${htmlContent}</div>
+      `;
+    }
+
+    floatingChatMessages.appendChild(msgEl);
+    scrollChatToBottom();
+    return msgEl;
+  }
+
+  function scrollChatToBottom() {
+    if (floatingChatMessages) {
+      floatingChatMessages.scrollTop = floatingChatMessages.scrollHeight;
+    }
+  }
+
+  // Quick Chips in Floating Chat
+  floatingQuickChips.forEach(chip => {
+    chip.addEventListener("click", () => {
+      const prompt = chip.getAttribute("data-prompt");
+      if (prompt) {
+        handleUserChatMessage(prompt);
+      }
+    });
+  });
+
+  // Chat Form Submission
+  if (floatingChatForm && floatingChatInput) {
+    floatingChatForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const text = floatingChatInput.value.trim();
+      if (text.length > 0) {
+        floatingChatInput.value = "";
+        handleUserChatMessage(text);
+      }
+    });
+  }
+
+  async function handleUserChatMessage(userText) {
+    if (isChatAiBusy) return;
+    isChatAiBusy = true;
+
+    // Append user message
+    appendChatMessage("user", escapeHtml(userText));
+
+    // Append thinking placeholder
+    const thinkingEl = appendChatMessage("bot", `
+      <span style="opacity: 0.8; font-style: italic;">
+        ✦ Aboo AI анализирует формулы рекомендаций...
+      </span>
+    `);
+
+    try {
+      const resp = await fetch("/api/sommelier/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          message: userText,
+          session_id: currentSessionId,
+          perfume_name: currentPerfume ? `${currentPerfume.brand} ${currentPerfume.name}` : null,
+          recommendations: currentRecommendations,
+          category: selectedCategory
+        })
+      });
+
+      if (!resp.ok) throw new Error("Ошибка связи с сомелье");
+      const data = await resp.json();
+
+      const replyHtml = formatMarkdown(data.reply);
+      if (thinkingEl) {
+        const bubble = thinkingEl.querySelector(".floating-msg-bubble");
+        if (bubble) bubble.innerHTML = replyHtml;
+      }
+      scrollChatToBottom();
+
+    } catch (err) {
+      if (thinkingEl) {
+        const bubble = thinkingEl.querySelector(".floating-msg-bubble");
+        if (bubble) bubble.innerHTML = "Извините, произошла небольшая заминка при связи с базой. Попробуйте еще раз.";
+      }
+    } finally {
+      isChatAiBusy = false;
+    }
   }
 
   // ==========================================
-  // Initialization
+  // Character Showcase Modal
   // ==========================================
-  updateQuickPicksForCategory(selectedCategory);
-  initAbooChat();
+  if (openCharModalBtn && characterModal) {
+    openCharModalBtn.addEventListener("click", () => {
+      characterModal.classList.add("active");
+    });
+  }
+
+  if (closeCharModalBtn && characterModal) {
+    closeCharModalBtn.addEventListener("click", () => {
+      characterModal.classList.remove("active");
+    });
+  }
+
+  if (characterModal) {
+    characterModal.addEventListener("click", (e) => {
+      if (e.target === characterModal) {
+        characterModal.classList.remove("active");
+      }
+    });
+  }
 });

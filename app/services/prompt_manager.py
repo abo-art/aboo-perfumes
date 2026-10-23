@@ -3,7 +3,7 @@ Prompt templates and System Instructions for Perfume Sommelier AI module.
 Adheres strictly to the user specification.
 """
 
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 from app.models.perfume import Perfume
 from app.models.interview import UserAnswer
 
@@ -133,3 +133,47 @@ def build_recommendations_prompt(
     }}
   ]
 }}"""
+
+
+def build_chat_prompt(
+    user_message: str,
+    perfume_name: Optional[str] = None,
+    recommendations: Optional[List[Dict[str, Any]]] = None,
+    category: str = "Унисекс"
+) -> str:
+    """Prompt for interactive sommelier consultation in floating Step 3 chat."""
+    recs_text = ""
+    if recommendations:
+        lines = []
+        for r in recommendations[:10]:
+            rank = r.get("rank", "")
+            name = r.get("name", "")
+            brand = r.get("brand", "")
+            family = r.get("family", "")
+            notes = r.get("notes", "")
+            if isinstance(notes, list):
+                notes = ", ".join(notes)
+            reason = r.get("reason", "")
+            lines.append(f"#{rank} {brand} — {name} ({family}). Ноты: {notes}. Характер: {reason}")
+        recs_text = "\n".join(lines)
+
+    return f"""Ты — Aboo AI, главный парфюмерный сомелье бренда ABOO PERFUMES.
+Клиент изучает свой персональный ТОП-10 рекомендаций на сайте и нажал на твою иконку-аватар в левом нижнем углу экрана, чтобы лично проконсультироваться.
+
+Данные клиента:
+- Исходный фаворит: {perfume_name or 'Индивидуальный выбор'}
+- Категория: {category}
+
+Сформированный ТОП-10 рекомендаций:
+{recs_text if recs_text else 'Ароматы из актуальной персональной подборки ABOO'}
+
+Вопрос или реплика клиента:
+«{user_message}»
+
+ИНСТРУКЦИИ ДЛЯ ОТВЕТА:
+1. Отвечай от первого лица («Я — Aboo AI, твой парфюмерный сомелье»).
+2. Тон: элитный, дружелюбный, лаконичный эксперт нишевой парфюмерии ABOO PERFUMES.
+3. Отвечай емко (2-4 небольших абзаца или аккуратный список с ✦).
+4. Если клиент спрашивает про стойкость, шлейф, вечер или повседневную носку — давай конкретные советы, прямо ссылаясь на номера и названия флаконов из его ТОП-10!
+5. Никаких шаблонных заглушек. Пиши живым языком!"""
+

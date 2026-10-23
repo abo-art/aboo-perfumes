@@ -5,7 +5,8 @@ Implements the 3-step User Flow, anti-hallucination validation, and OpenAPI docu
 
 import logging
 from pathlib import Path
-from typing import Optional, List
+from typing import Optional, List, Dict, Any
+from pydantic import BaseModel
 from fastapi import FastAPI, HTTPException, Header, Query
 
 logger = logging.getLogger(__name__)
@@ -272,3 +273,52 @@ async def get_session_info(session_id: str):
         "answers": session.answers,
         "has_recommendations": session.recommendations is not None
     }
+
+
+class SommelierChatRequest(BaseModel):
+    message: str
+    session_id: Optional[str] = None
+    perfume_name: Optional[str] = None
+    recommendations: Optional[List[Dict[str, Any]]] = None
+    category: Optional[str] = "Унисекс"
+
+
+class SommelierChatResponse(BaseModel):
+    reply: str
+    status: str = "success"
+
+
+@app.post("/api/sommelier/chat", response_model=SommelierChatResponse, tags=["Sommelier Flow"])
+async def sommelier_chat_endpoint(
+    request: SommelierChatRequest,
+    x_api_key: Optional[str] = Header(None, description="Optional custom API key override")
+):
+    """Interactive sommelier consultation in Step 3 via Aboo AI."""
+    from app.services.llm_service import llm_service
+
+    p_name = request.perfume_name
+    recs = request.recommendations
+    category = request.category or "Унисекс"
+
+    if request.session_id:
+        session = sommelier_service.sessions.get(request.session_id)
+        if session:
+            if not p_name and session.perfume:
+                p_name = f"{session.perfume.brand} {session.perfume.name}"
+            if not recs and session.recommendations:
+                recs = [r.dict() if hasattr(r, "dict") else dict(r) for r in session.recommendations]
+            category = session.category or category
+
+    reply = await llm_service.generate_chat_reply(
+        message=request.message,
+        perfume_name=p_name,
+        recommendations=recs,
+        category=category,
+        custom_key=x_api_key
+    )
+
+    return SommelierChatResponse(
+        reply=reply,
+        status="success"
+    )
+
