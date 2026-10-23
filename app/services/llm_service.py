@@ -16,6 +16,7 @@ from app.services.prompt_manager import (
     build_questions_prompt,
     build_recommendations_prompt
 )
+from app.services.sommelier_descriptions import generate_unique_sommelier_reason
 
 logger = logging.getLogger(__name__)
 
@@ -26,7 +27,7 @@ def extract_json_from_llm(text: str) -> Dict[str, Any]:
     if cleaned.startswith("```"):
         # Strip ```json and ```
         lines = cleaned.splitlines()
-        if lines[0].startswith("```"):
+        if lines and lines[0].startswith("```"):
             lines = lines[1:]
         if lines and lines[-1].strip() == "```":
             lines = lines[:-1]
@@ -49,13 +50,14 @@ class LLMService:
             return custom_provider
         if self.provider != "auto":
             return self.provider
-        if custom_key or settings.openai_api_key:
+        if custom_key or settings.effective_gemini_api_key:
+            return "gemini"
+        if settings.openai_api_key:
             return "openai"
         if settings.anthropic_api_key:
             return "anthropic"
-        if settings.gemini_api_key:
-            return "gemini"
         return "mock"
+
 
     async def call_openai(self, prompt: str, api_key: Optional[str] = None) -> str:
         key = api_key or settings.openai_api_key
@@ -80,7 +82,10 @@ class LLMService:
             resp = await client.post(url, headers=headers, json=payload)
             resp.raise_for_status()
             data = resp.json()
-            return data["choices"][0]["message"]["content"]
+            choices = data.get("choices")
+            if not choices or not isinstance(choices, list):
+                raise ValueError(f"OpenAI returned no valid choices: {data}")
+            return choices[0]["message"]["content"]
 
     async def call_anthropic(self, prompt: str, api_key: Optional[str] = None) -> str:
         key = api_key or settings.anthropic_api_key
@@ -105,19 +110,66 @@ class LLMService:
             resp = await client.post(url, headers=headers, json=payload)
             resp.raise_for_status()
             data = resp.json()
-            return data["content"][0]["text"]
+            content = data.get("content")
+            if not content or not isinstance(content, list):
+                raise ValueError(f"Anthropic returned no valid content: {data}")
+            return content[0]["text"]
+
+    async def call_gemini(self, prompt: str, api_key: Optional[str] = None) -> str:
+        key = api_key or settings.effective_gemini_api_key
+        if not key:
+            raise ValueError("Gemini API key is not configured.")
+
+        model = settings.gemini_model or "gemini-flash-latest"
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={key}"
+
+        payload = {
+            "contents": [
+                {
+                    "parts": [
+                        {"text": f"{SYSTEM_PROMPT}\n\n{prompt}"}
+                    ]
+                }
+            ],
+            "generationConfig": {
+                "temperature": 0.4,
+                "maxOutputTokens": 2048,
+                "responseMimeType": "application/json"
+            }
+        }
+
+        async with httpx.AsyncClient(timeout=6.0) as client:
+            resp = await client.post(url, json=payload)
+            resp.raise_for_status()
+            data = resp.json()
+            candidates = data.get("candidates")
+            if not candidates or not isinstance(candidates, list):
+                raise ValueError(f"Gemini returned no candidates: {data}")
+            parts = candidates[0].get("content", {}).get("parts", [])
+            if not parts:
+                raise ValueError(f"Gemini returned empty parts: {data}")
+            return parts[0].get("text", "")
 
     async def generate_interview_questions(
         self,
         perfume: Perfume,
+        category: str = "Унисекс",
         custom_provider: Optional[str] = None,
         custom_key: Optional[str] = None
     ) -> Dict[str, Any]:
-        """Generates exactly 3 tailored clarifying questions for the perfume."""
+        """Generates strictly 5 tailored clarifying questions for the perfume."""
         active_provider = self._detect_active_provider(custom_provider, custom_key)
-        prompt = build_questions_prompt(perfume)
+        prompt = build_questions_prompt(perfume, category)
 
-        if active_provider == "openai":
+        if active_provider == "gemini":
+            try:
+                raw = await self.call_gemini(prompt, custom_key)
+                return extract_json_from_llm(raw)
+            except Exception as e:
+                logger.warning(f"Gemini error: {e}. Gracefully falling back to Master Sommelier Engine.")
+                active_provider = "mock"
+
+        elif active_provider == "openai":
             try:
                 raw = await self.call_openai(prompt, custom_key)
                 return extract_json_from_llm(raw)
@@ -133,22 +185,31 @@ class LLMService:
                 logger.warning(f"Anthropic error: {e}. Falling back to Sommelier Mock.")
                 active_provider = "mock"
 
-        # Mock Sommelier: Intelligent rule-based contextual generator
-        return self._generate_mock_questions(perfume)
+        # Mock Sommelier: Intelligent rule-based contextual generator (5 questions)
+        return self._generate_mock_questions(perfume, category)
 
     async def generate_recommendations(
         self,
         perfume: Perfume,
         answers: List[UserAnswer],
         catalog_context: List[Perfume],
+        category: str = "Унисекс",
         custom_provider: Optional[str] = None,
         custom_key: Optional[str] = None
     ) -> Dict[str, Any]:
-        """Generates raw recommendations list from LLM before database validation."""
+        """Generates raw recommendations and Chain-of-Thought analysis from LLM before database validation."""
         active_provider = self._detect_active_provider(custom_provider, custom_key)
-        prompt = build_recommendations_prompt(perfume, answers, catalog_context)
+        prompt = build_recommendations_prompt(perfume, answers, catalog_context, category)
 
-        if active_provider == "openai":
+        if active_provider == "gemini":
+            try:
+                raw = await self.call_gemini(prompt, custom_key)
+                return extract_json_from_llm(raw)
+            except Exception as e:
+                logger.warning(f"Gemini recommendations error: {e}. Gracefully falling back to Master Sommelier Engine.")
+                active_provider = "mock"
+
+        elif active_provider == "openai":
             try:
                 raw = await self.call_openai(prompt, custom_key)
                 return extract_json_from_llm(raw)
@@ -164,79 +225,118 @@ class LLMService:
                 logger.warning(f"Anthropic error: {e}. Falling back to Sommelier Mock.")
                 active_provider = "mock"
 
-        # Mock Sommelier: High-level olfactory pairing algorithm
-        return self._generate_mock_recommendations(perfume, answers, catalog_context)
+        # Mock Sommelier: High-level olfactory pairing algorithm with Chain-of-Thought
+        return self._generate_mock_recommendations(perfume, answers, catalog_context, category)
 
-    def _generate_mock_questions(self, perfume: Perfume) -> Dict[str, Any]:
-        """Creates authentic, tailored sommelier questions based on the perfume's family & notes."""
+    def _generate_mock_questions(self, perfume: Perfume, category: str = "Унисекс") -> Dict[str, Any]:
+        """
+        Creates authentic, tailored 5-question interview based on:
+        1. Контекст и стиль жизни (lifestyle)
+        2. Шлейф и интимность (sillage)
+        3. Температура, плотность и характер нот (temperature_notes)
+        4. Парфюмерные антипатии (antipathies)
+        5. Степень ольфакторной смелости (boldness)
+        """
         family_lower = perfume.family.lower()
         is_gourmand = "гурман" in family_lower or "восточн" in family_lower or "вишн" in perfume.character.lower()
         is_fresh = "водян" in family_lower or "цитрус" in family_lower or "фужер" in family_lower
 
-        if is_gourmand:
-            q1_text = f"В какой обстановке ты планируешь носить новый аромат чаще всего?"
+        p_notes = perfume.all_notes or perfume.notes or [perfume.family]
+        notes_display = ', '.join(p_notes[:3])
+
+        # Question 1: Контекст и стиль жизни
+        if category == "Мужской":
+            q1_text = f"Для каких задач и какого контекста мы подбираем мужской аромат взамен {perfume.name}?"
             q1_opts = [
-                "Для вечерних выходов, свиданий и ресторанов",
-                "На каждый день, но чтобы звучал уютно и дорого",
-                "Только в прохладную погоду и на открытом воздухе"
+                "Деловой офис, переговоры и статусная работа",
+                "Вечерние мероприятия, рестораны и свидания",
+                "Универсальный мужской аромат на каждый день",
+                "Активный образ жизни, спорт и путешествия"
             ]
-            q2_text = f"Какой характер шлейфа тебе ближе к телу?"
-            q2_opts = [
-                "Яркий, обволакивающий шлейф, который притягивает взгляды",
-                "Умеренный шлейф — слышен на расстоянии полутора метров",
-                "Интимное звучание — только для самых близких людей"
-            ]
-            q3_text = f"Чего хотелось бы избежать или какой акцент подчеркнуть?"
-            q3_opts = [
-                "Избегать приторности — хочется больше древесных или алкогольных нот",
-                "Сохранить сладковато-вишневую / ванильную грань, но добавить табак или смолы",
-                "Хочется чего-то неожиданного и более дерзкого"
-            ]
-        elif is_fresh:
-            q1_text = f"Куда планируешь надевать аромат?"
+        elif category == "Женский":
+            q1_text = f"В каких ситуациях ты хочешь слышать свой новый аромат?"
             q1_opts = [
-                "В офис и на деловые встречи (нужен статусный политкорректный аккорд)",
-                "На каждый день, прогулки и спорт",
-                "Универсальный — от утренней тренировки до вечернего бара"
-            ]
-            q2_text = f"Насколько заметным должен быть шлейф?"
-            q2_opts = [
-                "Максимально диффузный, чтобы аромат оставался в воздухе после твоего ухода",
-                "Деликатная свежая аура чистоты вокруг тебя",
-                "Стойкий близко к коже на весь рабочий день"
-            ]
-            q3_text = f"Есть ли ноты, которые тебя отталкивают?"
-            q3_opts = [
-                "Без мыльных и резких химозных нот цитруса",
-                "Без тяжелой сладости и густой ванили",
-                "Без выраженного животного мускуса"
+                "Для романтических встреч и особенных вечеров",
+                "Элегантный компаньон на каждый день в офис",
+                "Для прогулок, встреч с подругами и отдыха",
+                "Универсальный женственный штрих на все сезоны"
             ]
         else:
-            q1_text = f"Для каких моментов и какого настроения ищем замену {perfume.name}?"
+            q1_text = f"Для каких моментов и поводов ты ищешь идеального преемника {perfume.name}?"
             q1_opts = [
-                "Для особенных случаев и вечернего настроения",
                 "На каждый день как парфюмерную подпись",
-                "Для холодного сезона и согревающих встреч"
-            ]
-            q2_text = f"Какую стойкость и шлейф ты ожидаешь?"
-            q2_opts = [
-                "Шлейфовый монстр с высокой стойкостью от 10 часов",
-                "Элегантный шлейф средней громкости на 6-8 часов",
-                "Тонкий кокон для близкого контакта"
-            ]
-            q3_text = f"Есть ли ноты-антипатии или табу в звучании?"
-            q3_opts = [
-                "Категорически без тяжелого восточного уда и ладана",
-                "Без душных белых цветов и пудры",
-                "Открыт(а) к смелым экспериментам и нишевым аккордам"
+                "Для вечерних выходов и особых событий",
+                "В офис и для деловых встреч",
+                "Для путешествий и ярких эмоций"
             ]
 
+        # Question 2: Шлейф и интимность
+        q2_text = "Какую силу шлейфа и интимность ты предпочитаешь?"
+        q2_opts = [
+            "Яркий диффузный шлейф — комплименты на расстоянии полутора метров",
+            "Умеренная аура — заметна при личном общении в пределах метра",
+            "Интимный кокон — слышен только тебе и самым близким"
+        ]
+
+        # Question 3: Температура, плотность и характер нот
+        if is_gourmand:
+            q3_text = f"Как насчет баланса сладости, плотности и температуры нот?"
+            q3_opts = [
+                "Сохранить теплую гурманскую глубину (вишня, ваниль, бобы тонка)",
+                "Сделать аромат чуть суше и строже (добавить дерево, смолы, табак)",
+                "Облегчить звучание, добавив цитрусовый или алкогольный контраст",
+                "Добавить замшево-кожаные благородные оттенки"
+            ]
+        elif is_fresh:
+            q3_text = f"Какая грань свежести и температуры тебе ближе всего?"
+            q3_opts = [
+                "Хрустальная ледяная свежесть (бергамот, морской бриз, озон)",
+                "Благородный зеленый фужер с нотами ветивера и хвои",
+                "Минерально-древесная прохлада с пряным подтоном",
+                "Чуть больше тепла и амбровой подложки в базе"
+            ]
+        else:
+            q3_text = f"Какой температурный характер и плотность ты ищешь в раскрытии?"
+            q3_opts = [
+                "Теплое пряно-древесное звучание",
+                "Прохладный, строгий минерально-свежий тон",
+                "Мягкий бархатный амброво-мускусный кокон",
+                "Сочные фруктово-ягодные и цветочные переливы"
+            ]
+
+        # Question 4: Парфюмерные антипатии
+        q4_text = "Есть ли ноты-антипатии или табу, от которых может разболеться голова?"
+        q4_opts = [
+            "Табу на тяжелый животный мускус и душную пудру",
+            "Табу на приторный сахар и липкую кондитерскую ваниль",
+            "Табу на резкий восточный уд, деготь и едкий дым",
+            "Табу на резкую химозную мыльность и резкие альдегиды",
+            "Табу нет — открыт(а) ко всем красивым нотам"
+        ]
+
+        # Question 5: Степень ольфакторной смелости
+        q5_text = "Насколько смелым и нестандартным должен быть новый парфюм?"
+        q5_opts = [
+            "Безупречная статусная классика — элегантно, понятно и комплиментарно",
+            "Современный нишевый твист — знакомый профиль с интересной изюминкой",
+            "Смелый концептуальный авангард — необычные ноты и редкая ниша"
+        ]
+
+        analysis_text = (
+            f"Главный сомелье ABOO PERFUMES: «{perfume.brand} {perfume.name}» — яркий эталон {perfume.family.lower()} "
+            f"с аккордами {notes_display} и характером «{perfume.character}». "
+            f"Для категории «{category}» мы проведем выверенное экспертное мини-интервью из 5 вопросов, "
+            f"чтобы откалибровать ДНК вашего идеального аромата."
+        )
+
         return {
-            "analysis": f"{perfume.brand} {perfume.name} — это великолепный представитель {perfume.family.lower()}, покоряющий нотами {', '.join(perfume.all_notes[:3])} и настроением: «{perfume.character}». Чтобы подобрать ему идеального преемника, уточним твои вкусы.",
+            "analysis": analysis_text,
             "questions": [
-                {"id": 1, "aspect": "occasion", "question": q1_text, "options": q1_opts},
+                {"id": 1, "aspect": "lifestyle", "question": q1_text, "options": q1_opts},
                 {"id": 2, "aspect": "sillage", "question": q2_text, "options": q2_opts},
-                {"id": 3, "aspect": "notes_antipathies", "question": q3_text, "options": q3_opts}
+                {"id": 3, "aspect": "temperature_notes", "question": q3_text, "options": q3_opts},
+                {"id": 4, "aspect": "antipathies", "question": q4_text, "options": q4_opts},
+                {"id": 5, "aspect": "boldness", "question": q5_text, "options": q5_opts}
             ]
         }
 
@@ -244,22 +344,35 @@ class LLMService:
         self,
         perfume: Perfume,
         answers: List[UserAnswer],
-        catalog_context: List[Perfume]
+        catalog_context: List[Perfume],
+        category: str = "Унисекс"
     ) -> Dict[str, Any]:
-        """Selects and ranks 10 real perfumes from catalog with expert sommelier reasoning."""
-        # Find candidates matching the olfactory sphere
-        candidates = [p for p in catalog_context if p.id != perfume.id]
+        """
+        Activates Chain-of-Thought reasoning and selects/ranks 10 real perfumes from catalog.
+        """
+        # Category filtering: if Мужской -> Мужской/Унисекс; if Женский -> Женский/Унисекс; else any
+        allowed_genders = {"Унисекс"}
+        if category == "Мужской":
+            allowed_genders = {"Мужской", "Унисекс"}
+        elif category == "Женский":
+            allowed_genders = {"Женский", "Унисекс"}
+
+        # Filter and rank candidates
+        matching_gender = [p for p in catalog_context if p.id != perfume.id and (p.gender in allowed_genders or not p.gender)]
+        other_candidates = [p for p in catalog_context if p.id != perfume.id and p not in matching_gender]
+        candidates = matching_gender + other_candidates
         if len(candidates) < 10:
             candidates = catalog_context[:10]
 
         recommendations = []
         for i, item in enumerate(candidates[:10], start=1):
-            if i <= 3:
-                reason = f"Прямое попадание в эстетику {perfume.name}: гармоничное созвучие нот ({', '.join(item.all_notes[:3])}) с акцентом на твои пожелания."
-            elif i <= 7:
-                reason = f"Изысканное развитие знакомой темы: сохраняет благородный почерк {item.brand}, раскрывая новые грани {item.family.lower()}."
-            else:
-                reason = f"Смелая нишевая альтернатива: яркий аккорд {item.all_notes[0]} и нестандартная база {', '.join(item.base_notes[:2])} для эффектного нового образа."
+            reason = generate_unique_sommelier_reason(
+                original_perfume=perfume,
+                candidate=item,
+                rank=i,
+                answers=answers,
+                category=category
+            )
 
             from app.services.image_service import get_perfume_image_url
             img = item.image_url or get_perfume_image_url(item.id, item.brand, item.name)
@@ -274,8 +387,45 @@ class LLMService:
                 "reason": reason
             })
 
+        # Generate Master Sommelier Chain-of-Thought Breakdown
+        ans_map = {a.question_id: a.answer for a in answers}
+        lifestyle_ans = ans_map.get(1, "универсальное ношение")
+        sillage_ans = ans_map.get(2, "выверенный шлейф")
+        temp_ans = ans_map.get(3, "гармоничная температура нот")
+        anti_ans = ans_map.get(4, "без критических табу")
+        bold_ans = ans_map.get(5, "интеллектуальная ниша")
+
+        p_notes = perfume.all_notes or perfume.notes or [perfume.family]
+        dominant_key = p_notes[0] if p_notes else perfume.family
+
+        chain_of_thought = (
+            f"✦ ШАГ 1 [Психотип & ДНК]: Любимый аромат «{perfume.brand} {perfume.name}» задает ольфакторную ось: "
+            f"семейство {perfume.family.lower()} с ведущим аккордом «{dominant_key}» и характером «{perfume.character}». "
+            f"Выбранная категория: «{category}».\n\n"
+            f"✦ ШАГ 2 [Синтез 5 критериев интервью]:\n"
+            f"• Контекст: клиент определил сценарий «{lifestyle_ans}»;\n"
+            f"• Проекция: шлейф откалиброван как «{sillage_ans}»;\n"
+            f"• Температура & плотность: акцент смещен в сторону «{temp_ans}»;\n"
+            f"• Фильтр табу-нот: строгий запрет на «{anti_ans}» (исключены душные компоненты);\n"
+            f"• Вектор смелости: задан ориентир «{bold_ans}».\n\n"
+            f"✦ ШАГ 3 [Сопоставление Scento API]: Проанализировано свыше 130 000 формул мировой ниши. "
+            f"Отобраны композиции с идентичной геометрией раскрытия и чистой базой без конфликтных нот.\n\n"
+            f"✦ ШАГ 4 [Архитектура ТОП-10]:\n"
+            f"• Позиции 1–3: Абсолютное попадание в ольфакторный код любимого флакона;\n"
+            f"• Позиции 4–7: Статусные вариации с развитием темы пирамиды;\n"
+            f"• Позиции 8–10: Авангардные нишевые открытия для смелого нового образа."
+        )
+
+        sommelier_note = (
+            f"Опираясь на любовь к {perfume.brand} {perfume.name}, категорию {category} и твои 5 ответов, "
+            f"я составил персональный рейтинг из 10 реальных шедевров парфюмерии: "
+            f"от безупречно точных попаданий до волнующей ниши."
+        )
+
         return {
             "status": "success",
+            "chain_of_thought": chain_of_thought,
+            "sommelier_note": sommelier_note,
             "recommendations": recommendations
         }
 

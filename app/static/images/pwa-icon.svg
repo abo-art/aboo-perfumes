@@ -1,0 +1,63 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Deep Cosmic Starlight Glow -->
+    <radialGradient id="celestialGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.3" />
+      <stop offset="35%" stop-color="#ffffff" stop-opacity="0.08" />
+      <stop offset="70%" stop-color="#ffffff" stop-opacity="0.02" />
+      <stop offset="100%" stop-color="#000000" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- Star Core Shimmer Gradient -->
+    <linearGradient id="facetWhite" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="100%" stop-color="#e2e2e2" />
+    </linearGradient>
+
+    <linearGradient id="facetSilver" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#d0d0d0" />
+      <stop offset="100%" stop-color="#909090" />
+    </linearGradient>
+
+    <linearGradient id="orbitGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0" />
+      <stop offset="30%" stop-color="#ffffff" stop-opacity="0.4" />
+      <stop offset="50%" stop-color="#ffffff" stop-opacity="0.9" />
+      <stop offset="70%" stop-color="#ffffff" stop-opacity="0.4" />
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+    </linearGradient>
+  </defs>
+
+  <!-- Deep Pure Black Background #000000 -->
+  <rect width="512" height="512" fill="#000000" rx="100" />
+
+  <!-- Ambient Celestial Aura -->
+  <circle cx="256" cy="256" r="230" fill="url(#celestialGlow)" />
+
+  <!-- Elegant Cosmic Orbit Ring -->
+  <ellipse cx="256" cy="256" rx="205" ry="58" fill="none" stroke="url(#orbitGlow)" stroke-width="2.5" transform="rotate(-26 256 256)" />
+
+  <!-- Four-Pointed Star Silhouette (Astroid Curves) -->
+  <path d="M 256 70 Q 256 230 442 256 Q 256 282 256 442 Q 256 282 70 256 Q 256 230 256 70 Z" fill="#ffffff" filter="drop-shadow(0 0 16px rgba(255,255,255,0.4))" />
+
+  <!-- Faceted 3D Diamond Star Shading -->
+  <!-- Top Right Ray -->
+  <polygon points="256,70 256,256 278,234" fill="url(#facetWhite)" />
+  <polygon points="442,256 256,256 278,234" fill="#f0f0f0" />
+
+  <!-- Bottom Right Ray -->
+  <polygon points="442,256 256,256 278,278" fill="url(#facetSilver)" />
+  <polygon points="256,442 256,256 278,278" fill="#a8a8a8" />
+
+  <!-- Bottom Left Ray -->
+  <polygon points="256,442 256,256 234,278" fill="#888888" />
+  <polygon points="70,256 256,256 234,278" fill="#c0c0c0" />
+
+  <!-- Top Left Ray -->
+  <polygon points="70,256 256,256 234,234" fill="#e8e8e8" />
+  <polygon points="256,70 256,256 234,234" fill="#ffffff" />
+
+  <!-- Center Diamond Sparkle -->
+  <polygon points="256,236 276,256 256,276 236,256" fill="#ffffff" />
+  <circle cx="256" cy="256" r="3.5" fill="#ffffff" filter="drop-shadow(0 0 4px #ffffff)" />
+</svg>

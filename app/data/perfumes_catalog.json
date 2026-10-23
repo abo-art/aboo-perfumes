@@ -140,7 +140,7 @@
     "longevity": "Очень высокая (10+ часов)",
     "year": 2007,
     "price_category": "Люкс / Ниша",
-    "image_url": "https://images.unsplash.com/photo-1523293182086-7651a899d37f?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/tom-ford-tobacco-vanille/badge.svg",
     "description": "Теплый, аристократичный аромат английского джентльменского клуба с богатым табачным листом и сливочной ванилью",
     "notes": [
       "Лист табака",
@@ -286,7 +286,7 @@
     "longevity": "Высокая (8 часов)",
     "year": 2020,
     "price_category": "Люкс / Ниша",
-    "image_url": "https://images.unsplash.com/photo-1588405748880-12d1d2a59f75?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/tom-ford-bitter-peach/badge.svg",
     "description": "Спелый, нектарный персик с алкогольной горчинкой рома и тягучей пряной базой",
     "notes": [
       "Персик",
@@ -356,7 +356,7 @@
     "longevity": "Средняя (6-7 часов)",
     "year": 2016,
     "price_category": "Люкс / Ниша",
-    "image_url": "https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/tom-ford-soleil-blanc/badge.svg",
     "description": "Роскошный курортный аромат: кремовый кокос, согретые солнцем белые цветы и теплая амбра",
     "notes": [
       "Фисташки",
@@ -437,7 +437,7 @@
     "longevity": "Очень высокая (10+ часов)",
     "year": 2006,
     "price_category": "Люкс",
-    "image_url": "https://images.unsplash.com/photo-1587017539504-67cfbddac569?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/tom-ford-black-orchid/badge.svg",
     "description": "Драматичный, гипнотический, темный союз черного трюфеля, горького шоколада и редких орхидей",
     "notes": [
       "Трюфель",
@@ -616,7 +616,7 @@
     "longevity": "Очень высокая (10+ часов)",
     "year": 2016,
     "price_category": "Ниша",
-    "image_url": "https://images.unsplash.com/photo-1615397349754-cfa2066a298e?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/mfk-grand-soir/badge.svg",
     "description": "Золотистый парижский вечер: согревающая амбра, благородные смолы и глубокая ваниль",
     "notes": [
       "Испанский лабданум",
@@ -677,7 +677,7 @@
     "longevity": "Высокая (8 часов)",
     "year": 2019,
     "price_category": "Ниша",
-    "image_url": "https://images.unsplash.com/photo-1595425970377-c9703cf48b6d?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/mfk-gentle-fluidity-silver/badge.svg",
     "description": "Хрустально-чистый, ледяной джин с тоником, можжевельником и воздушным мускусным шлейфом",
     "notes": [
       "Ягоды можжевельника",
@@ -736,7 +736,7 @@
     "longevity": "Вечная (12+ часов)",
     "year": 2015,
     "price_category": "Ниша",
-    "image_url": "https://images.unsplash.com/photo-1563178406-4cdc2923acbc?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/mfk-oud-satin-mood/badge.svg",
     "description": "Струящийся как тяжелый шелк союз бархатной пудровой розы, темного уда и теплой ванили",
     "notes": [
       "Болгарская роза",
@@ -864,7 +864,7 @@
     "longevity": "Очень высокая (9-10 часов)",
     "year": 2017,
     "price_category": "Ниша",
-    "image_url": "https://images.unsplash.com/photo-1547887537-6158d64c35b3?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/kilian-black-phantom/badge.svg",
     "description": "Пиратский пир: крепкий ямайский ром, обжаренные зерна кофе, горький шоколад и соленый миндаль",
     "notes": [
       "Ром",
@@ -926,7 +926,7 @@
     "longevity": "Высокая (7-8 часов)",
     "year": 2012,
     "price_category": "Ниша",
-    "image_url": "https://images.unsplash.com/photo-1583445013765-46c20c4a6772?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/kilian-good-girl-gone-bad/badge.svg",
     "description": "Невинность переходящая в соблазн: абрикосовые нюансы османтуса и дурманящая сливочная тубероза",
     "notes": [
       "Османтус",
@@ -996,7 +996,7 @@
     "longevity": "Высокая (8-9 часов)",
     "year": 2007,
     "price_category": "Ниша",
-    "image_url": "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/kilian-love-dont-be-shy/badge.svg",
     "description": "Лакомый зефирный десерт с лепестками флердоранжа и карамельно-ванильной сахарной пудрой",
     "notes": [
       "Нероли",
@@ -1189,7 +1189,7 @@
     "longevity": "Высокая (7-8 часов)",
     "year": 1985,
     "price_category": "Ниша",
-    "image_url": "https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/creed-green-irish-tweed/badge.svg",
     "description": "Безупречная ирландская классика: утренняя роса на изумрудной траве, пудровый лист фиалки и амбра",
     "notes": [
       "Лимонная вербена",
@@ -1330,7 +1330,7 @@
     "longevity": "Средняя (5-6 часов)",
     "year": 2008,
     "price_category": "Ниша",
-    "image_url": "https://images.unsplash.com/photo-1595425970377-c9703cf48b6d?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/byredo-gypsy-water/badge.svg",
     "description": "Свобода цыганского костра в сосновом лесу: сухая древесина, можжевеловые ягоды и тонкая ванильная дымка",
     "notes": [
       "Можжевельник",
@@ -1393,7 +1393,7 @@
     "longevity": "Высокая (7-8 часов)",
     "year": 2014,
     "price_category": "Ниша",
-    "image_url": "https://images.unsplash.com/photo-1616949755610-8c9bbc08f138?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/byredo-mojave-ghost/badge.svg",
     "description": "Эфемерный цветок посреди пустыни: акварельная сладковатая саподилла, магнолия и теплый сандаловый кокон",
     "notes": [
       "Саподилла",
@@ -1459,7 +1459,7 @@
     "longevity": "Средняя (6 часов)",
     "year": 2009,
     "price_category": "Ниша",
-    "image_url": "https://images.unsplash.com/photo-1583445013765-46c20c4a6772?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/byredo-blanche/badge.svg",
     "description": "Абсолютная чистота: белые накрахмаленные льняные простыни, свежесть альдегидов и хрустальный мускус",
     "notes": [
       "Альдегиды",
@@ -1588,7 +1588,7 @@
     "longevity": "Очень высокая (9-10 часов)",
     "year": 2015,
     "price_category": "Ниша",
-    "image_url": "https://images.unsplash.com/photo-1547887537-6158d64c35b3?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/le-labo-the-noir-29/badge.svg",
     "description": "Глубокая ода черному чаю: терпкие сухие листья чая, молочный инжир, пряный лавр и табачная глубина",
     "notes": [
       "Инжир",
@@ -1651,7 +1651,7 @@
     "longevity": "Очень высокая (10+ часов)",
     "year": 2010,
     "price_category": "Ниша",
-    "image_url": "https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/le-labo-another-13/badge.svg",
     "description": "Гипнотический молекулярный аромат второй кожи: сочная груша, глянцевые страницы журналов и бархатный амброксан",
     "notes": [
       "Груша",
@@ -1724,7 +1724,7 @@
     "longevity": "Очень высокая (10+ часов)",
     "year": 2016,
     "price_category": "Ниша",
-    "image_url": "https://images.unsplash.com/photo-1523293182086-7651a899d37f?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/pdm-layton/badge.svg",
     "description": "Королевское благородство: хрустящее карамелизированное яблоко, лаванда, кардамон и согревающая кремовая ваниль",
     "notes": [
       "Яблоко",
@@ -1796,7 +1796,7 @@
     "longevity": "Очень высокая (10+ часов)",
     "year": 2017,
     "price_category": "Ниша",
-    "image_url": "https://images.unsplash.com/photo-1583445013765-46c20c4a6772?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/pdm-delina/badge.svg",
     "description": "Ультраженственный, шлейфовый букет: хрусткий кисло-сладкий ревень, экзотическое личи и бархатная роза",
     "notes": [
       "Ревень",
@@ -1865,7 +1865,7 @@
     "longevity": "Высокая (8-9 часов)",
     "year": 2012,
     "price_category": "Ниша",
-    "image_url": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/pdm-herod/badge.svg",
     "description": "Густой, дымный трубочный табак с коричной стружкой, ладаном и стручковой ванилью",
     "notes": [
       "Корица",
@@ -1928,7 +1928,7 @@
     "longevity": "Вечная (12+ часов)",
     "year": 2017,
     "price_category": "Ниша",
-    "image_url": "https://images.unsplash.com/photo-1616949755610-8c9bbc08f138?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/nishane-hacivat/badge.svg",
     "description": "Мощный, натуралистичный взрыв спелого ананаса, грейпфрутовой цедры и влажного дубового мха экстра-концентрации",
     "notes": [
       "Ананас",
@@ -2002,7 +2002,7 @@
     "longevity": "Вечная (12+ часов)",
     "year": 2019,
     "price_category": "Ниша",
-    "image_url": "https://images.unsplash.com/photo-1588405748880-12d1d2a59f75?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/nishane-ani/badge.svg",
     "description": "Шедевр современной гурманики: терпкий свежий имбирь, сочные ягоды смородины и плотная благородная ваниль",
     "notes": [
       "Имбирь",
@@ -2072,7 +2072,7 @@
     "longevity": "Вечная (12+ часов)",
     "year": 2015,
     "price_category": "Ниша",
-    "image_url": "https://images.unsplash.com/photo-1615397349754-cfa2066a298e?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/xerjoff-naxos/badge.svg",
     "description": "Солнечная Сицилия: золотой густой мед, сигарный табачный лист, лавандовая прохлада и цитрусовый бриз",
     "notes": [
       "Лаванда",
@@ -2134,7 +2134,7 @@
     "longevity": "Вечная (14+ часов)",
     "year": 2019,
     "price_category": "Ниша",
-    "image_url": "https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/xerjoff-erba-pura/badge.svg",
     "description": "Фруктовое цунами: сочная корзина средиземноморских фруктов на мощнейшей мускусно-ванильной подушке",
     "notes": [
       "Апельсин",
@@ -2196,7 +2196,7 @@
     "longevity": "Очень высокая (10+ часов)",
     "year": 2021,
     "price_category": "Ниша",
-    "image_url": "https://images.unsplash.com/photo-1588405748880-12d1d2a59f75?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/xerjoff-italica/badge.svg",
     "description": "Уютная итальянская кондитерская: теплое миндальное печенье, сливочные ириски и парное молоко со специями",
     "notes": [
       "Миндаль",
@@ -2259,7 +2259,7 @@
     "longevity": "Очень высокая (10+ часов)",
     "year": 2016,
     "price_category": "Ниша",
-    "image_url": "https://images.unsplash.com/photo-1588405748880-12d1d2a59f75?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/initio-side-effect/badge.svg",
     "description": "Афродизиак без компромиссов: пьянящий темный ром, терпкий лист табака, коричный жар и сливочная ваниль",
     "notes": [
       "Ром",
@@ -2320,7 +2320,7 @@
     "longevity": "Вечная (12+ часов)",
     "year": 2018,
     "price_category": "Ниша",
-    "image_url": "https://images.unsplash.com/photo-1547887537-6158d64c35b3?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/initio-oud-for-greatness/badge.svg",
     "description": "Магнетический, темный, гипнотический шедевр: драгоценный натуральный уд в ореоле шафрана и лаванды",
     "notes": [
       "Шафран",
@@ -2381,7 +2381,7 @@
     "longevity": "Высокая (8-9 часов)",
     "year": 2021,
     "price_category": "Ниша",
-    "image_url": "https://images.unsplash.com/photo-1583445013765-46c20c4a6772?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/initio-musk-therapy/badge.svg",
     "description": "Ольфакторный релаксант: сливочно-кремовый белый сандал, нежнейший мускус и капли смородинового сока",
     "notes": [
       "Бергамот",
@@ -2441,7 +2441,7 @@
     "longevity": "Средняя (6 часов)",
     "year": 1996,
     "price_category": "Ниша",
-    "image_url": "https://images.unsplash.com/photo-1616949755610-8c9bbc08f138?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/diptyque-philosykos/badge.svg",
     "description": "Абсолютный эталон инжира: горьковатый растертый зеленый лист, спелый сочный плод и прогретая солнцем древесная кора",
     "notes": [
       "Лист инжира",
@@ -2506,7 +2506,7 @@
     "longevity": "Средняя (6-7 часов)",
     "year": 2003,
     "price_category": "Ниша",
-    "image_url": "https://images.unsplash.com/photo-1595425970377-c9703cf48b6d?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/diptyque-tam-dao/badge.svg",
     "description": "Медитативный храм в азиатских джунглях: медитативный сливочный сандал, смолистый кипарис и сухой кедр",
     "notes": [
       "Кипарис",
@@ -2572,7 +2572,7 @@
     "longevity": "Высокая (8-9 часов)",
     "year": 2018,
     "price_category": "Ниша",
-    "image_url": "https://images.unsplash.com/photo-1583445013765-46c20c4a6772?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/diptyque-fleur-de-peau/badge.svg",
     "description": "Миф о любви Психеи и Эрота: хлопковый чистый мускус, бархатный пудровый ирис и тепло обнаженной кожи",
     "notes": [
       "Альдегиды",
@@ -2640,7 +2640,7 @@
     "longevity": "Высокая (8-9 часов)",
     "year": 2014,
     "price_category": "Ниша",
-    "image_url": "https://images.unsplash.com/photo-1583445013765-46c20c4a6772?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/ex-nihilo-fleur-narcotique/badge.svg",
     "description": "Наркотический цветок: пронзительно-свежий пион, ледяное личи, персиковый флер и воздушный шлейф",
     "notes": [
       "Личи",
@@ -2703,7 +2703,7 @@
     "longevity": "Очень высокая (10+ часов)",
     "year": 2023,
     "price_category": "Ниша",
-    "image_url": "https://images.unsplash.com/photo-1587017539504-67cfbddac569?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/ex-nihilo-blue-talisman/badge.svg",
     "description": "Футуристический драгоценный талисман: хрустящая груша, искрящийся имбирь и пульсирующий минеральный акигалавуд",
     "notes": [
       "Бергамот",
@@ -2764,7 +2764,7 @@
     "longevity": "Высокая (7-8 часов)",
     "year": 2015,
     "price_category": "Ниша",
-    "image_url": "https://images.unsplash.com/photo-1547887537-6158d64c35b3?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/vilhelm-dear-polly/badge.svg",
     "description": "Любовное письмо в чашке чая: утренний дымный черный чай Эрл Грей с долькой яблока и теплой амброй",
     "notes": [
       "Бергамот",
@@ -2828,7 +2828,7 @@
     "longevity": "Высокая (8 часов)",
     "year": 2018,
     "price_category": "Ниша",
-    "image_url": "https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/vilhelm-mango-skin/badge.svg",
     "description": "Экзотический праздник: сочнейшее спелое манго, терпкая кожица плода, красное вино и тропические цветы",
     "notes": [
       "Манго",
@@ -2960,7 +2960,7 @@
     "longevity": "Высокая (8 часов)",
     "year": 2015,
     "price_category": "Люкс / Ниша",
-    "image_url": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/replica-by-the-fireplace/badge.svg",
     "description": "Шамони, 1971: треск поленьев в камине, жареные каштаны и согревающая сладкая ванильная дымка в морозный день",
     "notes": [
       "Гвоздика",
@@ -3016,7 +3016,7 @@
     "longevity": "Умеренная (4-5 часов)",
     "year": 2014,
     "price_category": "Люкс / Ниша",
-    "image_url": "https://images.unsplash.com/photo-1616949755610-8c9bbc08f138?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/jo-malone-wood-sage-sea-salt/badge.svg",
     "description": "Ветреное побережье Британии: соленые морские брызги, минеральные скалы и дикорастущий шалфей",
     "notes": [
       "Семена амбретты",
@@ -3073,7 +3073,7 @@
     "longevity": "Высокая (8-9 часов)",
     "year": 2016,
     "price_category": "Ниша",
-    "image_url": "https://images.unsplash.com/photo-1615397349754-cfa2066a298e?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/jo-malone-myrrh-tonka/badge.svg",
     "description": "Золотые пески Намибии: драгоценная мирра, сливочно-ореховые бобы тонка и благородный лавандовый акцент",
     "notes": [
       "Лаванда",
@@ -3143,7 +3143,7 @@
     "longevity": "Вечная (12+ часов)",
     "year": 2010,
     "price_category": "Высокая ниша",
-    "image_url": "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/frederic-malle-portrait-of-a-lady/badge.svg",
     "description": "Монументальный оперный шедевр: 400 турецких роз во флаконе, мистический ладан и глубокие темные пачули",
     "notes": [
       "Роза",
@@ -3213,7 +3213,7 @@
     "longevity": "Очень высокая (10+ часов)",
     "year": 2000,
     "price_category": "Высокая ниша",
-    "image_url": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/frederic-malle-musc-ravageur/badge.svg",
     "description": "Чувственный хищный соблазн: горячая пряная корица, сладостная ваниль и волнующий анималистический мускус",
     "notes": [
       "Лаванда",
@@ -3282,7 +3282,7 @@
     "longevity": "Вечная (14+ часов)",
     "year": 2012,
     "price_category": "Высокая ниша",
-    "image_url": "https://images.unsplash.com/photo-1547887537-6158d64c35b3?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/amouage-interlude-man/badge.svg",
     "description": "«Синий зверь»: взрыв пряных трав, священный оманский ладан, копченая смола и первобытная кожа",
     "notes": [
       "Орегано",
@@ -3351,7 +3351,7 @@
     "longevity": "Высокая (9-10 часов)",
     "year": 2007,
     "price_category": "Высокая ниша",
-    "image_url": "https://images.unsplash.com/photo-1595425970377-c9703cf48b6d?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/amouage-reflection-man/badge.svg",
     "description": "Аристократичный денди: шелковистые белые цветы, тонкая пудра корня ириса и благородные породы дерева",
     "notes": [
       "Розмарин",
@@ -3421,7 +3421,7 @@
     "longevity": "Вечная (14+ часов)",
     "year": 2023,
     "price_category": "Высокая ниша",
-    "image_url": "https://images.unsplash.com/photo-1583445013765-46c20c4a6772?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/amouage-guidance/badge.svg",
     "description": "Феномен современной парфюмерии: хрустящая груша в сливочной ореховой пасте, мистический ладан и шлейф на километры",
     "notes": [
       "Груша",
@@ -3493,7 +3493,7 @@
     "longevity": "Высокая (8 часов)",
     "year": 2010,
     "price_category": "Люкс",
-    "image_url": "https://images.unsplash.com/photo-1523293182086-7651a899d37f?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/chanel-bleu-de-chanel/badge.svg",
     "description": "Эталон мужской элегантности: морозный грейпфрут, искристый имбирь и ладанно-кедровая база",
     "notes": [
       "Грейпфрут",
@@ -3564,7 +3564,7 @@
     "longevity": "Очень высокая (9-10 часов)",
     "year": 2001,
     "price_category": "Люкс",
-    "image_url": "https://images.unsplash.com/photo-1583445013765-46c20c4a6772?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/chanel-coco-mademoiselle/badge.svg",
     "description": "Золотой стандарт женственности: искристый цитрусовый старт, сердце из хрустальных роз и элегантные пачули",
     "notes": [
       "Апельсин",
@@ -3633,7 +3633,7 @@
     "longevity": "Очень высокая (9-11 часов)",
     "year": 2015,
     "price_category": "Люкс",
-    "image_url": "https://images.unsplash.com/photo-1523293182086-7651a899d37f?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/dior-sauvage/badge.svg",
     "description": "Безудержная энергия пустыни на закате: сочный калабрийский бергамот, сычуаньский перец и магнетический амброксан",
     "notes": [
       "Бергамот",
@@ -3694,7 +3694,7 @@
     "longevity": "Очень высокая (9-10 часов)",
     "year": 2011,
     "price_category": "Люкс",
-    "image_url": "https://images.unsplash.com/photo-1547887537-6158d64c35b3?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/dior-homme-intense/badge.svg",
     "description": "Безупречный смокинг: роскошный бархатный ирис, ликерная груша, амбретта и древесная база",
     "notes": [
       "Лаванда",
@@ -3760,7 +3760,7 @@
     "longevity": "Высокая (8-9 часов)",
     "year": 2017,
     "price_category": "Приватная коллекция",
-    "image_url": "https://images.unsplash.com/photo-1595425970377-c9703cf48b6d?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/dior-gris-dior/badge.svg",
     "description": "Фирменный серый цвет кутюрного дома: прохладная роза, аристократичный дубовый мох и влажные пачули",
     "notes": [
       "Бергамот",
@@ -3829,7 +3829,7 @@
     "longevity": "Высокая (8 часов)",
     "year": 2014,
     "price_category": "Люкс",
-    "image_url": "https://images.unsplash.com/photo-1588405748880-12d1d2a59f75?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/ysl-black-opium/badge.svg",
     "description": "Рок-н-ролльная энергия ночи: бодрящий шот черного кофе, сочная груша и согревающая сладкая ваниль",
     "notes": [
       "Груша",
@@ -3896,7 +3896,7 @@
     "longevity": "Очень высокая (9-10 часов)",
     "year": 2019,
     "price_category": "Люкс",
-    "image_url": "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/ysl-libre/badge.svg",
     "description": "Манифест свободы: дерзкая прохладная французская лаванда в союзе с чувственным марокканским флердоранжем",
     "notes": [
       "Лаванда",
@@ -3962,7 +3962,7 @@
     "longevity": "Очень высокая (9-11 часов)",
     "year": 2015,
     "price_category": "Приватная коллекция",
-    "image_url": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/ysl-tuxedo/badge.svg",
     "description": "Шедевр вечернего стиля: дымные матовые пачули, прохладный лист фиалки и серая амбра высочайшего класса",
     "notes": [
       "Лист фиалки",
@@ -4028,7 +4028,7 @@
     "longevity": "Высокая (8 часов)",
     "year": 2006,
     "price_category": "Люкс",
-    "image_url": "https://images.unsplash.com/photo-1523293182086-7651a899d37f?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/hermes-terre-d-hermes/badge.svg",
     "description": "Связь земли и неба: горький грейпфрут, раскаленный минеральный кремень и благородный сухой ветивер",
     "notes": [
       "Апельсин",
@@ -4092,7 +4092,7 @@
     "longevity": "Очень высокая (9-10 часов)",
     "year": 2005,
     "price_category": "Ниша",
-    "image_url": "https://images.unsplash.com/photo-1615397349754-cfa2066a298e?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/serge-lutens-chergui/badge.svg",
     "description": "Горячий ветер марокканской пустыни: сладкий янтарный мед, высушенные травы, благородный табак и ладан",
     "notes": [
       "Лист табака",
@@ -4161,7 +4161,7 @@
     "longevity": "Очень высокая (10 часов)",
     "year": 2000,
     "price_category": "Ниша",
-    "image_url": "https://images.unsplash.com/photo-1547887537-6158d64c35b3?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/serge-lutens-ambre-sultan/badge.svg",
     "description": "Эталон восточной амбры: сухое разнотравье базара в Марракеше, горячие смолы и бальзамическая сладость",
     "notes": [
       "Кориандр",
@@ -4233,7 +4233,7 @@
     "longevity": "Высокая (8-9 часов)",
     "year": 2016,
     "price_category": "Люкс",
-    "image_url": "https://images.unsplash.com/photo-1588405748880-12d1d2a59f75?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/guerlain-lhomme-ideal-edp/badge.svg",
     "description": "Идеальный обольститель: пьянящая копченая вишня, горький миндаль, тонкая кожа и мягкий ладан",
     "notes": [
       "Миндаль",
@@ -4299,7 +4299,7 @@
     "longevity": "Вечная (12+ часов)",
     "year": 2023,
     "price_category": "Высокая ниша",
-    "image_url": "https://images.unsplash.com/photo-1615397349754-cfa2066a298e?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/guerlain-tobacco-honey/badge.svg",
     "description": "Роскошный десерт для эстетов: янтарный тягучий мед, драгоценный лист табака и золотистая ваниль",
     "notes": [
       "Мед",
@@ -4368,7 +4368,7 @@
     "longevity": "Очень высокая (9-10 часов)",
     "year": 2011,
     "price_category": "Ниша",
-    "image_url": "https://images.unsplash.com/photo-1616949755610-8c9bbc08f138?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/mancera-cedrat-boise/badge.svg",
     "description": "Универсальный цитрусово-древесный бестселлер: сочные цитрусы, смородина, мягкая замшевая кожа и кедр",
     "notes": [
       "Лимон",
@@ -4443,7 +4443,7 @@
     "longevity": "Вечная (14+ часов)",
     "year": 2017,
     "price_category": "Ниша",
-    "image_url": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/mancera-red-tobacco/badge.svg",
     "description": "Огненный шторм: жгучая корица, сухой плотный табак, ладан, уд и мощная ванильно-амбровая база",
     "notes": [
       "Корица",
@@ -4503,7 +4503,7 @@
     "longevity": "Очень высокая (10+ часов)",
     "year": 2013,
     "price_category": "Ниша",
-    "image_url": "https://images.unsplash.com/photo-1588405748880-12d1d2a59f75?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/montale-intense-cafe/badge.svg",
     "description": "Утренний Париж: свежезаваренный кофе с пенкой, бархатная алая роза и сладкая ванильная дымка",
     "notes": [
       "Цветочные ноты",
@@ -4558,7 +4558,7 @@
     "longevity": "Очень высокая (9-10 часов)",
     "year": 2016,
     "price_category": "Высокий люкс",
-    "image_url": "https://images.unsplash.com/photo-1523293182086-7651a899d37f?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/bvlgari-tygar/badge.svg",
     "description": "Взрывной, сверкающий грейпфрут высочайшей концентрации на чистейшей древесно-амброксановой подушке",
     "notes": [
       "Грейпфрут",
@@ -4623,7 +4623,7 @@
     "longevity": "Высокая (8 часов)",
     "year": 2014,
     "price_category": "Люкс",
-    "image_url": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/bvlgari-man-in-black/badge.svg",
     "description": "Рожденный из огня: согревающий пряный ром, дорогая кожа, табачный дым и пудровый ирис",
     "notes": [
       "Специи",
@@ -4689,7 +4689,7 @@
     "longevity": "Средняя (5-6 часов)",
     "year": 2006,
     "price_category": "Ниша / Люкс",
-    "image_url": "https://images.unsplash.com/photo-1616949755610-8c9bbc08f138?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/acqua-di-parma-fico-di-amalfi/badge.svg",
     "description": "Побережье Амальфи: искрящиеся цитрусы, сладкий сок фиги и прохладная тень инжирного сада",
     "notes": [
       "Грейпфрут",
@@ -4740,7 +4740,7 @@
     "longevity": "Высокая (7-8 часов)",
     "year": 2010,
     "price_category": "Ниша",
-    "image_url": "https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/juliette-not-a-perfume/badge.svg",
     "description": "Чистый молекулярный минимализм: индивидуальное раскрытие аромата собственной кожи, амбровый шлейф без аллергенов",
     "notes": [
       "Цетралокс",
@@ -4805,7 +4805,7 @@
     "longevity": "Высокая (8 часов)",
     "year": 2016,
     "price_category": "Люкс",
-    "image_url": "https://images.unsplash.com/photo-1595425970377-c9703cf48b6d?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/prada-l-homme/badge.svg",
     "description": "Идеальная белая рубашка: шелковистый пудровый ирис, чистые нероли и выверенная древесно-амбровая база",
     "notes": [
       "Нероли",
@@ -4871,7 +4871,7 @@
     "longevity": "Очень высокая (9-10 часов)",
     "year": 2022,
     "price_category": "Люкс",
-    "image_url": "https://images.unsplash.com/photo-1583445013765-46c20c4a6772?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/prada-paradoxe/badge.svg",
     "description": "Цветочно-амбровый парадокс: сочная карамельная груша, букет белых цветов и согревающая амбровая база",
     "notes": [
       "Груша",
@@ -4922,7 +4922,7 @@
     "longevity": "Высокая (8 часов)",
     "year": 2019,
     "price_category": "Люкс",
-    "image_url": "https://images.unsplash.com/photo-1583445013765-46c20c4a6772?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/narciso-pure-musc/badge.svg",
     "description": "Ода чистому мускусу: шелковистый, чистый, телесный и интимный аромат с лепестками белых цветов",
     "notes": [
       "Мускус",
@@ -4982,7 +4982,7 @@
     "longevity": "Высокая (8 часов)",
     "year": 2022,
     "price_category": "Люкс",
-    "image_url": "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/narciso-musc-noir-rose/badge.svg",
     "description": "Бархатная темная слива, нежная пудровая роза, фирменный телесный мускус и манящая ваниль",
     "notes": [
       "Слива",
@@ -5051,7 +5051,7 @@
     "longevity": "Высокая (7-8 часов)",
     "year": 2020,
     "price_category": "Люкс",
-    "image_url": "https://images.unsplash.com/photo-1616949755610-8c9bbc08f138?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/armani-acqua-di-gio-profondo/badge.svg",
     "description": "Погружение в глубины океана: соленый морской бриз, акватическая свежесть, ароматические травы и минеральная глубина",
     "notes": [
       "Морские ноты",
@@ -5118,7 +5118,7 @@
     "longevity": "Очень высокая (10+ часов)",
     "year": 2016,
     "price_category": "Приватная коллекция",
-    "image_url": "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/armani-prive-rouge-malachite/badge.svg",
     "description": "Страстная пылающая тубероза: сливочно-хищные белые цветы с пряным шалфеем и амбровым теплом",
     "notes": [
       "Тубероза",
@@ -5242,7 +5242,7 @@
     "longevity": "Очень высокая (10+ часов)",
     "year": 2020,
     "price_category": "Доступная ниша",
-    "image_url": "https://images.unsplash.com/photo-1523293182086-7651a899d37f?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/essential-parfums-bois-imperial/badge.svg",
     "description": "Главный древесный хит десятилетия от Квентина Биша: пряный тайский базилик, чистый перец и вибрирующий древесный акигалавуд",
     "notes": [
       "Базилик",
@@ -5373,7 +5373,7 @@
     "longevity": "Высокая (8 часов)",
     "year": 2018,
     "price_category": "Ниша",
-    "image_url": "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/bdk-rouge-smoking/badge.svg",
     "description": "Шелковый алый смокинг: сочная пудровая вишня с газировкой Dr Pepper, миндальный гелиотроп и мадагаскарская ваниль",
     "notes": [
       "Вишня",
@@ -5441,7 +5441,7 @@
     "longevity": "Очень высокая (10+ часов)",
     "year": 2015,
     "price_category": "Ниша",
-    "image_url": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/memo-african-leather/badge.svg",
     "description": "Сафари на закате: раскаленный пряный кардамон, драгоценный шафран и теплая натуральная кожа",
     "notes": [
       "Бергамот",
@@ -5505,7 +5505,7 @@
     "longevity": "Высокая (8-9 часов)",
     "year": 2016,
     "price_category": "Ниша",
-    "image_url": "https://images.unsplash.com/photo-1583445013765-46c20c4a6772?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/memo-marfa/badge.svg",
     "description": "Звездное небо Техаса: сладкая сливочная тубероза, зеленый сок голубой агавы и медитативный белый сандал",
     "notes": [
       "Цветок апельсина",
@@ -5567,7 +5567,7 @@
     "longevity": "Бессмертная (24+ часа)",
     "year": 2019,
     "price_category": "Ниша",
-    "image_url": "https://images.unsplash.com/photo-1563178406-4cdc2923acbc?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/orto-parisi-megamare/badge.svg",
     "description": "Шторм в открытом океане: ледяная соленая пучина, водоросли, йод и несмываемая серая амбра",
     "notes": [
       "Бергамот",
@@ -5631,7 +5631,7 @@
     "longevity": "Вечная (14+ часов)",
     "year": 2009,
     "price_category": "Ниша",
-    "image_url": "https://images.unsplash.com/photo-1547887537-6158d64c35b3?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/nasomatto-black-afgano/badge.svg",
     "description": "Трансцендентный гипноз: густой дым конопли, темные смолы, крепкий эспрессо и жгучий лаосский уд",
     "notes": [
       "Конопля",
@@ -5690,7 +5690,7 @@
     "longevity": "Очень высокая (10+ часов)",
     "year": 2016,
     "price_category": "Ниша",
-    "image_url": "https://images.unsplash.com/photo-1615397349754-cfa2066a298e?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/nasomatto-baraonda/badge.svg",
     "description": "Услада для ценителей скотча: золотой односолодовый виски в дубовом бочонке, сушеная роза и медовая сладость",
     "notes": [
       "Виски",
@@ -5755,7 +5755,7 @@
     "longevity": "Вечная (14+ часов)",
     "year": 2021,
     "price_category": "Высокая ниша",
-    "image_url": "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/maison-crivelli-hibiscus-mahajad/badge.svg",
     "description": "Экстракт чувств от Квентина Биша: рубиновый чай каркаде, гранатовый сок, густая роза, корица и теплая кожа",
     "notes": [
       "Гибискус",
@@ -5823,7 +5823,7 @@
     "longevity": "Вечная (14+ часов)",
     "year": 2023,
     "price_category": "Высокая ниша",
-    "image_url": "https://images.unsplash.com/photo-1588405748880-12d1d2a59f75?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/maison-crivelli-oud-maracuja/badge.svg",
     "description": "Шокирующе прекрасный контраст: яркая взрывная кисло-сладкая маракуйя на глубоком копченом фоне темного уда и кожи",
     "notes": [
       "Маракуйя",
@@ -5902,7 +5902,7 @@
     "longevity": "Высокая (8 часов)",
     "year": 2017,
     "price_category": "Высокая ниша",
-    "image_url": "https://images.unsplash.com/photo-1523293182086-7651a899d37f?auto=format&fit=crop&w=700&q=80",
+    "image_url": "/api/perfumes/roja-elysium/badge.svg",
     "description": "Райский сад для победителя: искрящийся цитрусовый аккорд, лесной ветивер, хрустящее яблоко и серая амбра",
     "notes": [
       "Грейпфрут",

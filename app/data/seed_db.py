@@ -31,8 +31,8 @@ def seed_database():
         brand = item["brand"]
         name = item["name"]
 
-        # Ensure valid image_url
-        image_url = item.get("image_url") or get_perfume_image_url(p_id, brand, name)
+        # Ensure valid, unique image_url for each perfume
+        image_url = get_perfume_image_url(p_id, brand, name, item.get("family", ""))
         item["image_url"] = image_url
 
         # Ensure description/mood

@@ -33,9 +33,13 @@ class Top10Response(BaseModel):
     recommendations: List[RecommendationItem] = Field(..., min_length=10, max_length=10, description="Ranked TOP-10 real perfumes")
     original_perfume: Optional[Perfume] = None
     sommelier_note: Optional[str] = None
+    chain_of_thought: Optional[str] = Field(default=None, description="Глубокая ольфакторная цепочка рассуждений сомелье (Chain-of-Thought)")
+    category: Optional[str] = Field(default="Унисекс", description="Категория аромата")
 
 
 class RecommendationRequest(BaseModel):
     session_id: Optional[str] = None
     perfume_name: Optional[str] = None
-    answers: List[UserAnswer] = Field(..., min_length=1, max_length=3, description="User answers to the 3 interview questions")
+    category: Optional[str] = Field(default="Унисекс", description="Категория: 'Мужской', 'Женский', 'Унисекс'")
+    gender: Optional[str] = Field(default=None, description="Optional alias for category")
+    answers: List[UserAnswer] = Field(..., min_length=1, max_length=5, description="User answers to the 5 interview questions")

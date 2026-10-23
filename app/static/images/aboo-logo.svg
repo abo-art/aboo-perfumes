@@ -1,0 +1,48 @@
+<svg width="280" height="92" viewBox="0 0 280 92" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Facet Gradients for Star -->
+    <linearGradient id="facetWhite" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="100%" stop-color="#d4d4d4" />
+    </linearGradient>
+    <linearGradient id="facetSilver" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#cccccc" />
+      <stop offset="100%" stop-color="#8a8a8a" />
+    </linearGradient>
+    <linearGradient id="orbitGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0" />
+      <stop offset="35%" stop-color="#ffffff" stop-opacity="0.3" />
+      <stop offset="50%" stop-color="#ffffff" stop-opacity="0.85" />
+      <stop offset="65%" stop-color="#ffffff" stop-opacity="0.3" />
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+    </linearGradient>
+  </defs>
+
+  <!-- Group: Star with Cosmic Orbit -->
+  <g transform="translate(140, 24)">
+    <!-- Orbit Ellipse -->
+    <ellipse cx="0" cy="0" rx="42" ry="12" fill="none" stroke="url(#orbitGlow)" stroke-width="1.2" transform="rotate(-22)" />
+    
+    <!-- 4-pointed Star (Center 0,0, radius 18, inner 3.2) -->
+    <!-- Top-Right -->
+    <polygon points="0,-20 0,0 3.2,-3.2" fill="url(#facetWhite)" />
+    <polygon points="20,0 0,0 3.2,-3.2" fill="#ebebeb" />
+    <!-- Bottom-Right -->
+    <polygon points="20,0 0,0 3.2,3.2" fill="url(#facetSilver)" />
+    <polygon points="0,20 0,0 3.2,3.2" fill="#a0a0a0" />
+    <!-- Bottom-Left -->
+    <polygon points="0,20 0,0 -3.2,3.2" fill="#888888" />
+    <polygon points="-20,0 0,0 -3.2,3.2" fill="#b0b0b0" />
+    <!-- Top-Left -->
+    <polygon points="-20,0 0,0 -3.2,-3.2" fill="#d8d8d8" />
+    <polygon points="0,-20 0,0 -3.2,-3.2" fill="#ffffff" />
+    <!-- Center Diamond Sparkle -->
+    <polygon points="0,-2.5 2.5,0 0,2.5 -2.5,0" fill="#ffffff" />
+  </g>
+
+  <!-- Typography: ABOO -->
+  <text x="140" y="66" text-anchor="middle" font-family="'Syncopate', 'Montserrat', -apple-system, sans-serif" font-weight="800" font-size="23" letter-spacing="7" fill="#ffffff">ABOO</text>
+
+  <!-- Typography: PERFUMES -->
+  <text x="140" y="82" text-anchor="middle" font-family="'Montserrat', -apple-system, sans-serif" font-weight="500" font-size="7.5" letter-spacing="4.5" fill="#A0A0A0">PERFUMES</text>
+</svg>

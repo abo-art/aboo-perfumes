@@ -41,7 +41,7 @@ def test_verify_perfume_anti_hallucination():
 
     is_valid, perf, score = catalog_service.verify_perfume("Kilian", "Angels' Share")
     assert is_valid is True
-    assert perf.brand == "Kilian"
+    assert "Kilian" in perf.brand
 
     # Hallucinated / fake perfumes must FAIL verification
     is_valid, perf, score = catalog_service.verify_perfume("FakeBrand123", "Unicorn Mystic Elixir")

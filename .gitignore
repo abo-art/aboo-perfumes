@@ -1,6 +1,15 @@
 venv/
+.venv/
+env/
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
 .pytest_cache/
+.coverage
+htmlcov/
 .env
-perfumes.db
+perfumes.db*
+*.db-shm
+*.db-wal
+.DS_Store
+*.log

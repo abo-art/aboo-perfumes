@@ -80,6 +80,23 @@ def deserialize_json(val: Any) -> List[Any]:
 
 def upsert_perfume(p: Dict[str, Any]) -> None:
     """Inserts or updates a perfume in the SQLite database."""
+    # Check if perfume already exists to merge aliases and preserve rich notes
+    existing = get_perfume_by_id(p["id"])
+    if existing:
+        old_aliases = existing.get("aliases") or []
+        new_aliases = p.get("aliases") or []
+        p["aliases"] = list(dict.fromkeys(old_aliases + new_aliases))
+        if not p.get("notes") and existing.get("notes"):
+            p["notes"] = existing["notes"]
+        if not p.get("top_notes") and existing.get("top_notes"):
+            p["top_notes"] = existing["top_notes"]
+        if not p.get("heart_notes") and existing.get("heart_notes"):
+            p["heart_notes"] = existing["heart_notes"]
+        if not p.get("base_notes") and existing.get("base_notes"):
+            p["base_notes"] = existing["base_notes"]
+        if not p.get("all_notes") and existing.get("all_notes"):
+            p["all_notes"] = existing["all_notes"]
+
     # Ensure notes is a combined list of key notes
     notes = p.get("notes") or p.get("all_notes") or (p.get("top_notes", []) + p.get("heart_notes", []))
     description = p.get("description") or p.get("character") or ""

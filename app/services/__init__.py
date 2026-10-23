@@ -3,7 +3,7 @@ from app.services.llm_service import llm_service, LLMService
 from app.services.validator import validator, RecommendationValidator
 from app.services.prompt_manager import SYSTEM_PROMPT, build_questions_prompt, build_recommendations_prompt
 from app.services.sommelier_service import sommelier_service, SommelierService
-from app.services.external_api import scento_client, ScentoApiClient
+from app.services.external_api import scento_client, ScentoApiClient, scentrev_client, ScentrevApiClient
 
 __all__ = [
     "catalog_service",
@@ -16,7 +16,10 @@ __all__ = [
     "SommelierService",
     "scento_client",
     "ScentoApiClient",
+    "scentrev_client",
+    "ScentrevApiClient",
     "SYSTEM_PROMPT",
     "build_questions_prompt",
     "build_recommendations_prompt"
 ]
+

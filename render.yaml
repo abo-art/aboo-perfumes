@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: aboo-perfumes-ai
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: SCENTREV_API_KEY
+        value: frag_live_yilaPq4df4eapO4kNXZ1WNv87vUCeHHa
