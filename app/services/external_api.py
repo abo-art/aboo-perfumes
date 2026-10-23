@@ -56,6 +56,170 @@ CYRILLIC_PERFUME_MAP = {
     "шерги": "Serge Lutens Chergui",
 }
 
+ACCORD_TRANSLATIONS = {
+    "woody": "древесные",
+    "warm-spicy": "теплые пряные",
+    "warm spicy": "теплые пряные",
+    "sweet": "сладкие",
+    "vanilla": "ванильные",
+    "amber": "амбровые",
+    "fruity": "фруктовые",
+    "cinnamon": "коричные",
+    "leather": "кожаные",
+    "powdery": "пудровые",
+    "fresh-spicy": "свежие пряные",
+    "fresh spicy": "свежие пряные",
+    "aromatic": "ароматические",
+    "citrus": "цитрусовые",
+    "white-floral": "белоцветочные",
+    "white floral": "белоцветочные",
+    "floral": "цветочные",
+    "musky": "мускусные",
+    "animalic": "анималистические",
+    "balsamic": "бальзамические",
+    "smoky": "дымные",
+    "almond": "миндальные",
+    "caramel": "карамельные",
+    "patchouli": "пачули",
+    "earthy": "землистые",
+    "tobacco": "табачные",
+    "cherry": "вишневые",
+    "aquatic": "акватические",
+    "marine": "морские",
+    "green": "зеленые",
+    "rose": "розовые",
+    "oud": "удовые",
+    "mineral": "минеральные",
+    "metallic": "металлические",
+    "lactonic": "молочно-кремовые",
+    "coffee": "кофейные",
+    "rum": "ромовые",
+    "boozy": "ликёрные",
+    "conifer": "хвойные",
+    "herbal": "травяные",
+    "ozonic": "озоновые",
+    "aldehydic": "альдегидные",
+    "mossy": "мшистые",
+    "soapy": "чистые мыльные",
+    "gourmand": "гурманские",
+    "whiskey": "виски",
+    "honey": "медовые",
+    "chocolate": "шоколадные",
+    "cacao": "какао",
+    "nutty": "ореховые",
+    "woody-spicy": "древесно-пряные",
+}
+
+NOTE_TRANSLATIONS = {
+    "cognac": "Коньяк",
+    "cinnamon": "Корица",
+    "tonka bean": "Бобы тонка",
+    "oak": "Дуб",
+    "hedione": "Гедион",
+    "candied almond": "Засахаренный миндаль",
+    "bitter almond": "Горький миндаль",
+    "almond": "Миндаль",
+    "vanilla": "Ваниль",
+    "praline": "Пралине",
+    "sandalwood": "Сандал",
+    "bergamot": "Бергамот",
+    "lemon": "Лимон",
+    "orange": "Апельсин",
+    "mandarin": "Мандарин",
+    "mandarin orange": "Мандарин",
+    "grapefruit": "Грейпфрут",
+    "lime": "Лайм",
+    "orange blossom": "Флердоранж",
+    "neroli": "Нероли",
+    "jasmine": "Жасмин",
+    "jasmine sambac": "Жасмин самбак",
+    "rose": "Роза",
+    "turkish rose": "Турецкая роза",
+    "damask rose": "Дамасская роза",
+    "lavender": "Лаванда",
+    "cardamom": "Кардамон",
+    "pink pepper": "Розовый перец",
+    "black pepper": "Черный перец",
+    "pepper": "Перец",
+    "nutmeg": "Мускатный орех",
+    "cloves": "Гвоздика",
+    "star anise": "Звездчатый анис",
+    "anise": "Анис",
+    "coriander": "Кориандр",
+    "ginger": "Имбирь",
+    "mint": "Мята",
+    "cedar": "Белый кедр",
+    "cedarwood": "Кедр",
+    "vetiver": "Ветивер",
+    "musk": "Мускус",
+    "white musk": "Белый мускус",
+    "amber": "Амбра",
+    "ambergris": "Серая амбра",
+    "ambroxan": "Амброксан",
+    "iso e super": "Изо Е Супер",
+    "akigalawood": "Акигалавуд",
+    "cashmeran": "Кашмеран",
+    "patchouli": "Пачули",
+    "iris": "Ирис",
+    "orris": "Корень ириса",
+    "tobacco": "Табак",
+    "leather": "Кожа",
+    "suede": "Замша",
+    "oud": "Уд",
+    "agarwood": "Агаровое дерево",
+    "saffron": "Шафран",
+    "incense": "Ладан",
+    "myrrh": "Мирра",
+    "labdanum": "Лабданум",
+    "benzoin": "Бензоин",
+    "olibanum": "Олибанум",
+    "elemi": "Элеми",
+    "guaiac wood": "Гваяк",
+    "coffee": "Кофе",
+    "chocolate": "Шоколад",
+    "dark chocolate": "Темный шоколад",
+    "honey": "Мёд",
+    "caramel": "Карамель",
+    "peach": "Персик",
+    "cherry": "Вишня",
+    "black cherry": "Черная вишня",
+    "sour cherry": "Вишня",
+    "plum": "Слива",
+    "apple": "Яблоко",
+    "pear": "Груша",
+    "black currant": "Черная смородина",
+    "raspberry": "Малина",
+    "blackberry": "Ежевика",
+    "fig": "Инжир",
+    "coconut": "Кокос",
+    "rhubarb": "Ревень",
+    "sea salt": "Морская соль",
+    "sea notes": "Морские ноты",
+    "mineral notes": "Минеральные ноты",
+    "rum": "Ром",
+    "whiskey": "Виски",
+    "liquor": "Ликёр",
+    "cacao": "Какао",
+    "violet": "Фиалка",
+    "violet leaf": "Лист фиалки",
+    "tuberose": "Тубероза",
+    "ylang-ylang": "Иланг-иланг",
+    "osmanthus": "Османтус",
+    "lily of the valley": "Ландыш",
+    "peony": "Пион",
+    "freesia": "Фрезия",
+    "magnolia": "Магнолия",
+    "cypress": "Кипарис",
+    "pine": "Сосна",
+    "fir": "Пихта",
+    "birch": "Береза",
+    "smoke": "Дым",
+    "civet": "Цивет",
+    "castoreum": "Кастореум",
+    "moss": "Мох",
+    "oakmoss": "Дубовый мох",
+}
+
 
 def infer_family(raw_family: Optional[str], accords: List[str], notes: List[str]) -> Tuple[str, Optional[str]]:
     """Infers Russian perfume family and subfamily from accords and notes."""
@@ -107,28 +271,46 @@ class ScentrevApiClient:
     def is_configured(self) -> bool:
         return bool(self.api_key and self.api_key.startswith("frag_"))
 
+    def _translate_note(self, note: str) -> str:
+        clean = note.strip().lower()
+        if clean in NOTE_TRANSLATIONS:
+            return NOTE_TRANSLATIONS[clean]
+        return note.strip()
+
+    def _translate_accord(self, accord: str) -> str:
+        clean = accord.strip().lower()
+        if clean in ACCORD_TRANSLATIONS:
+            return ACCORD_TRANSLATIONS[clean]
+        return accord.strip()
+
     def _map_raw_to_perfume(self, item: Dict[str, Any]) -> Perfume:
         """Transforms a ScentRev / Scento raw JSON item into our standard Perfume model."""
         brand = (item.get("brand_name") or item.get("brand") or "Niche").strip()
         name = (item.get("name") or "Fragrance").strip()
         perfume_id = slugify(f"{brand}-{name}")
 
-        top_notes = item.get("notes_top") or []
-        heart_notes = item.get("notes_middle") or []
-        base_notes = item.get("notes_base") or []
-        accords = item.get("main_accords") or []
+        raw_top_notes = item.get("notes_top") or []
+        raw_heart_notes = item.get("notes_middle") or []
+        raw_base_notes = item.get("notes_base") or []
+        raw_accords = item.get("main_accords") or []
 
         # Ensure notes are never empty (infer from accords or standard olfactory pyramid)
-        if not top_notes and not heart_notes and not base_notes:
-            if accords:
-                inferred = [a.replace("-", " ").title() for a in accords if len(a) > 2]
-                top_notes = inferred[:2] if len(inferred) >= 2 else ["Бергамот", "Цитрусы"]
-                heart_notes = inferred[2:4] if len(inferred) >= 4 else ["Цветочные аккорды"]
-                base_notes = inferred[4:6] if len(inferred) >= 6 else ["Амбра", "Мускус"]
+        if not raw_top_notes and not raw_heart_notes and not raw_base_notes:
+            if raw_accords:
+                inferred = [a.replace("-", " ").title() for a in raw_accords if len(a) > 2]
+                raw_top_notes = inferred[:2] if len(inferred) >= 2 else ["Бергамот", "Цитрусы"]
+                raw_heart_notes = inferred[2:4] if len(inferred) >= 4 else ["Цветочные аккорды"]
+                raw_base_notes = inferred[4:6] if len(inferred) >= 6 else ["Амбра", "Мускус"]
             else:
-                top_notes = ["Бергамот", "Пряности"]
-                heart_notes = ["Цветочные ноты"]
-                base_notes = ["Древесные ноты", "Мускус"]
+                raw_top_notes = ["Бергамот", "Пряности"]
+                raw_heart_notes = ["Цветочные ноты"]
+                raw_base_notes = ["Древесные ноты", "Мускус"]
+
+        # Translate all notes and accords to Russian
+        top_notes = [self._translate_note(n) for n in raw_top_notes]
+        heart_notes = [self._translate_note(n) for n in raw_heart_notes]
+        base_notes = [self._translate_note(n) for n in raw_base_notes]
+        accords = [self._translate_accord(a) for a in raw_accords]
 
         all_notes = top_notes + heart_notes + base_notes
         summary_notes = (top_notes + heart_notes)[:6] or all_notes[:6]
@@ -142,14 +324,14 @@ class ScentrevApiClient:
         else:
             gender = "Унисекс"
 
-        family, subfamily = infer_family(item.get("scent_family"), accords, all_notes)
+        family, subfamily = infer_family(item.get("scent_family"), raw_accords, all_notes)
 
         character_parts = []
         if accords:
             character_parts.append(f"Выразительные аккорды: {', '.join(accords[:4])}")
         if top_notes:
             character_parts.append(f"В старте: {', '.join(top_notes[:3])}")
-        character = ". ".join(character_parts) or f"Благородный нишевый парфюм от {brand}"
+        character = ". ".join(character_parts) or f"Благородная нишевая композиция бренда {brand}"
 
         season = []
         acc_lower = [a.lower() for a in accords]

@@ -87,6 +87,145 @@ document.addEventListener("DOMContentLoaded", () => {
     boldness: "Ольфакторная смелость"
   };
 
+  // Client-side Note & Accord Translations for Flawless Russian Presentation
+  const NOTE_RU_MAP = {
+    "cognac": "Коньяк",
+    "cinnamon": "Корица",
+    "tonka bean": "Бобы тонка",
+    "oak": "Дуб",
+    "hedione": "Гедион",
+    "candied almond": "Засахаренный миндаль",
+    "bitter almond": "Горький миндаль",
+    "almond": "Миндаль",
+    "vanilla": "Ваниль",
+    "praline": "Пралине",
+    "sandalwood": "Сандал",
+    "bergamot": "Бергамот",
+    "lemon": "Лимон",
+    "orange": "Апельсин",
+    "mandarin": "Мандарин",
+    "mandarin orange": "Мандарин",
+    "grapefruit": "Грейпфрут",
+    "lime": "Лайм",
+    "orange blossom": "Флердоранж",
+    "neroli": "Нероли",
+    "jasmine": "Жасмин",
+    "jasmine sambac": "Жасмин самбак",
+    "rose": "Роза",
+    "turkish rose": "Турецкая роза",
+    "damask rose": "Дамасская роза",
+    "lavender": "Лаванда",
+    "cardamom": "Кардамон",
+    "pink pepper": "Розовый перец",
+    "black pepper": "Черный перец",
+    "pepper": "Перец",
+    "nutmeg": "Мускатный орех",
+    "cloves": "Гвоздика",
+    "star anise": "Анис",
+    "anise": "Анис",
+    "coriander": "Кориандр",
+    "ginger": "Имбирь",
+    "mint": "Мята",
+    "cedar": "Кедр",
+    "cedarwood": "Кедр",
+    "vetiver": "Ветивер",
+    "musk": "Мускус",
+    "white musk": "Белый мускус",
+    "amber": "Амбра",
+    "ambergris": "Серая амбра",
+    "ambroxan": "Амброксан",
+    "iso e super": "Изо Е Супер",
+    "akigalawood": "Акигалавуд",
+    "cashmeran": "Кашмеран",
+    "patchouli": "Пачули",
+    "iris": "Ирис",
+    "orris": "Корень ириса",
+    "tobacco": "Табак",
+    "leather": "Кожа",
+    "suede": "Замша",
+    "oud": "Уд",
+    "agarwood": "Агаровое дерево",
+    "saffron": "Шафран",
+    "incense": "Ладан",
+    "myrrh": "Мирра",
+    "labdanum": "Лабданум",
+    "benzoin": "Бензоин",
+    "olibanum": "Олибанум",
+    "elemi": "Элеми",
+    "guaiac wood": "Гваяк",
+    "coffee": "Кофе",
+    "chocolate": "Шоколад",
+    "honey": "Мёд",
+    "caramel": "Карамель",
+    "peach": "Персик",
+    "cherry": "Вишня",
+    "black cherry": "Черная вишня",
+    "plum": "Слива",
+    "apple": "Яблоко",
+    "pear": "Груша",
+    "black currant": "Черная смородина",
+    "raspberry": "Малина",
+    "blackberry": "Ежевика",
+    "fig": "Инжир",
+    "coconut": "Кокос",
+    "sea salt": "Морская соль",
+    "sea notes": "Морские ноты",
+    "mineral notes": "Минеральные ноты",
+    "rum": "Ром",
+    "whiskey": "Виски",
+    "liquor": "Ликёр",
+    "cacao": "Какао",
+    "violet": "Фиалка",
+    "tuberose": "Тубероза",
+    "ylang-ylang": "Иланг-иланг",
+    "cypress": "Кипарис",
+    "pine": "Сосна",
+    "fir": "Пихта",
+    "birch": "Береза",
+    "smoke": "Дым",
+    "moss": "Мох",
+    "oakmoss": "Дубовый мох"
+  };
+
+  function translateNote(n) {
+    if (!n) return "";
+    const key = String(n).trim().toLowerCase();
+    return NOTE_RU_MAP[key] || n;
+  }
+
+  function formatCharacterRu(text) {
+    if (!text) return "";
+    let clean = text;
+    const replacements = {
+      "woody": "древесные",
+      "warm-spicy": "теплые пряные",
+      "warm spicy": "теплые пряные",
+      "sweet": "сладкие",
+      "vanilla": "ванильные",
+      "amber": "амбровые",
+      "fruity": "фруктовые",
+      "cinnamon": "коричные",
+      "leather": "кожаные",
+      "powdery": "пудровые",
+      "fresh-spicy": "свежие пряные",
+      "aromatic": "ароматические",
+      "citrus": "цитрусовые",
+      "floral": "цветочные",
+      "musky": "мускусные",
+      "cognac": "коньяк",
+      "tonka bean": "бобы тонка",
+      "oak": "дуб",
+      "candied almond": "засахаренный миндаль",
+      "praline": "пралине",
+      "sandalwood": "сандал"
+    };
+    for (const [k, v] of Object.entries(replacements)) {
+      const reg = new RegExp(`\\b${k}\\b`, "gi");
+      clean = clean.replace(reg, v);
+    }
+    return clean;
+  }
+
   // ==========================================
   // Helper Functions
   // ==========================================
@@ -283,7 +422,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (passportName) passportName.textContent = perfume.name || "Парфюм";
     if (passportFamily) passportFamily.textContent = perfume.family || "Нишевая композиция";
     if (passportCharacter) {
-      passportCharacter.textContent = perfume.character ? `«${perfume.character}»` : `«Оригинальная композиция бренда ${perfume.brand}»`;
+      const charStr = perfume.character || `Оригинальная композиция бренда ${perfume.brand}`;
+      passportCharacter.textContent = `«${formatCharacterRu(charStr)}»`;
     }
 
     function renderNotes(container, notes) {
@@ -292,7 +432,7 @@ document.addEventListener("DOMContentLoaded", () => {
         container.innerHTML = '<span class="note-chip">Базовые ноты</span>';
         return;
       }
-      container.innerHTML = notes.map(n => `<span class="note-chip">${escapeHtml(n)}</span>`).join("");
+      container.innerHTML = notes.map(n => `<span class="note-chip">${escapeHtml(translateNote(n))}</span>`).join("");
     }
 
     renderNotes(passportTop, perfume.top_notes);
@@ -535,7 +675,8 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       const img = item.image_url || `/api/perfumes/${item.id || 'flacon'}/badge.svg`;
-      const notes = Array.isArray(item.notes) ? item.notes.join(", ") : (item.notes || "Нишевые аккорды");
+      const rawNotes = Array.isArray(item.notes) ? item.notes : (item.notes ? item.notes.split(",") : ["Нишевые аккорды"]);
+      const notes = rawNotes.map(n => translateNote(String(n).trim())).join(", ");
 
       return `
         <div class="rec-card" data-rank="${item.rank}">

@@ -44,6 +44,16 @@ class CatalogService:
         self.brands.clear()
         self.families.clear()
 
+        from app.services.external_api import NOTE_TRANSLATIONS, ACCORD_TRANSLATIONS
+
+        def _translate_n(n: str) -> str:
+            clean = str(n).strip().lower()
+            return NOTE_TRANSLATIONS.get(clean, str(n).strip())
+
+        def _translate_a(a: str) -> str:
+            clean = str(a).strip().lower()
+            return ACCORD_TRANSLATIONS.get(clean, str(a).strip())
+
         for item in db_perfumes:
             if not item.get("image_url") or item.get("image_url", "").startswith("/api/"):
                 img_resolved = get_perfume_image_url(item["id"], item.get("brand", ""), item.get("name", ""))
@@ -60,6 +70,14 @@ class CatalogService:
                 item["base_notes"] = item.get("all_notes", [])[-2:] or [fam]
             if not item.get("description"):
                 item["description"] = item.get("character", "")
+
+            # Translate all notes and accords to Russian
+            item["top_notes"] = [_translate_n(n) for n in item.get("top_notes", [])]
+            item["heart_notes"] = [_translate_n(n) for n in item.get("heart_notes", [])]
+            item["base_notes"] = [_translate_n(n) for n in item.get("base_notes", [])]
+            item["all_notes"] = [_translate_n(n) for n in item.get("all_notes", [])]
+            item["notes"] = [_translate_n(n) for n in item.get("notes", [])]
+            item["accords"] = [_translate_a(a) for a in item.get("accords", [])]
 
             perfume = Perfume(**item)
             self.perfumes[perfume.id] = perfume
@@ -222,20 +240,38 @@ class CatalogService:
     async def async_find_best_match(self, perfume_name: str) -> Tuple[Optional[Perfume], float]:
         """
         Finds the best matched perfume using live ScentRev / Scento API first,
-        falling back to local database.
+        falling back to local database. Merges authentic bottle images with rich curated descriptions.
         """
+        local_perf, local_score = self.find_best_match(perfume_name)
+
         try:
             from app.services.external_api import scentrev_client
             if scentrev_client.is_configured:
                 ext_matches = await scentrev_client.search_fragrances(perfume_name, limit=3)
                 if ext_matches:
                     best_ext = ext_matches[0]
+                    # If high confidence local match exists, enrich with curated Russian metadata
+                    if local_perf and local_score >= 80.0:
+                        if not best_ext.image_url and local_perf.image_url:
+                            best_ext.image_url = local_perf.image_url
+                        if local_perf.character and len(local_perf.character) > len(best_ext.character or ""):
+                            best_ext.character = local_perf.character
+                        if local_perf.family:
+                            best_ext.family = local_perf.family
+                        if local_perf.subfamily:
+                            best_ext.subfamily = local_perf.subfamily
+                        if local_perf.top_notes:
+                            best_ext.top_notes = local_perf.top_notes
+                        if local_perf.heart_notes:
+                            best_ext.heart_notes = local_perf.heart_notes
+                        if local_perf.base_notes:
+                            best_ext.base_notes = local_perf.base_notes
                     self._register_perfume(best_ext)
                     return best_ext, 100.0
         except Exception as e:
-            pass
+            logger.warning(f"Error during async_find_best_match for '{perfume_name}': {e}")
 
-        return self.find_best_match(perfume_name)
+        return local_perf, local_score
 
     def verify_perfume(self, brand: str, name: str) -> Tuple[bool, Optional[Perfume], float]:
         """
